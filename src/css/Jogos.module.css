@@ -1,0 +1,64 @@
+
+
+.loading{
+  display: flex;
+  font-size: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 450px;
+}
+
+.loading p{
+  font-size: 20px;
+}
+
+
+.dotsFlow:before {
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: center;
+  -webkit-animation: dotsFlow .85s infinite ease;
+  animation: dotsFlow .85s infinite ease;
+  border-radius: 100%;
+  content: '';
+  height: 16px;
+  position: absolute;
+  scale: 0.8;
+  /* top: 50%;
+  left: 50%; */
+  -webkit-transform: translate(-50%, -40px);
+          transform: translate(-50%, -40px);
+  width: 16px; }
+
+@-webkit-keyframes dotsFlow {
+  0%, 100% {
+    -webkit-box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 0 white;
+            box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 0 white; }
+  35% {
+    -webkit-box-shadow: -26px 32px 0 4px chartreuse, 0px 32px 0 0 white, 26px 32px 0 0 white;
+            box-shadow: -26px 32px 0 4px chartreuse, 0px 32px 0 0 white, 26px 32px 0 0 white; }
+  50% {
+    -webkit-box-shadow: -26px 32px 0 0 white, 0px 32px 0 4px chartreuse, 26px 32px 0 0 white;
+            box-shadow: -26px 32px 0 0 white, 0px 32px 0 4px chartreuse, 26px 32px 0 0 white; }
+  65% {
+    -webkit-box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 4px chartreuse;
+            box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 4px chartreuse; } }
+
+
+
+
+@keyframes dotsFlow {
+  0%, 100% {
+    -webkit-box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 0 white;
+            box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 0 white; }
+  35% {
+    -webkit-box-shadow: -26px 32px 0 4px chartreuse, 0px 32px 0 0 white, 26px 32px 0 0 white;
+            box-shadow: -26px 32px 0 4px chartreuse, 0px 32px 0 0 white, 26px 32px 0 0 white; }
+  50% {
+    -webkit-box-shadow: -26px 32px 0 0 white, 0px 32px 0 4px chartreuse, 26px 32px 0 0 white;
+            box-shadow: -26px 32px 0 0 white, 0px 32px 0 4px chartreuse, 26px 32px 0 0 white; }
+  65% {
+    -webkit-box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 4px chartreuse;
+            box-shadow: -26px 32px 0px 0 white, 0px 32px 0 0 white, 26px 32px 0 4px chartreuse; } }

@@ -1,0 +1,54 @@
+.container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: var(--alturaContainer);
+
+}
+
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: yellow;
+}
+
+
+
+
+
+
+.table p {
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+}
+.table{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+    margin: auto;
+}
+.table tr{
+    display: flex;
+    width: 100%;
+}
+.table th, .table td{
+    width: 50%;
+    border:none;
+}
+
+.borda{
+    border-right: 1px solid var(--navbarBackground) !important;
+}
+
+.table .tabelaFooter{
+    width: 100%;
+}

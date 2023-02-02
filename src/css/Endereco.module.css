@@ -1,0 +1,146 @@
+.fieldset{
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 99%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+legend{
+    margin-left: 10px;
+    padding: 0 2px 0 2px ;
+}
+
+.linha1{
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.linha1 label:nth-child(1){
+    display:flex;
+    margin-right: 8px;
+    flex: 1;
+
+}
+.linha1 label:nth-child(n+2):nth-child(-n+4){
+    display:flex;
+    margin-right: 8px;
+    flex: .55;
+    justify-content: center;
+
+}
+.linha2{
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.linha2 label:nth-child(1){
+    display: flex;
+    flex: 1;
+
+}
+.linha2 label:nth-child(n+2):nth-child(-n+4){
+    display:flex;
+    flex: .55;
+   
+    
+}
+
+.menu option{
+
+  max-height: 5px;
+    }
+select{
+    cursor: pointer;
+}
+select:disabled{
+    cursor: unset;
+}
+
+.localidade input{
+    width: 220px;
+    padding-left: 5px;
+    
+}
+.cep input{
+    width: 90px;
+    padding-left: 5px;
+}
+input{
+    margin: 0px 5px 5px 5px;
+}
+
+
+.pais input{
+    width: 140px;
+    padding-left: 5px;
+}
+.rua input{
+    width: 320px;
+    padding-left: 5px;
+}
+.numero input{
+    width: 70px;
+    padding-left: 5px;
+}
+.complemento input{
+    width: 100px;
+    padding-left: 5px;
+}
+
+
+.enderecoSpan{
+    color: red;
+}
+fieldset{
+    display: flex;
+    flex-wrap: wrap;
+
+
+}
+.obrigatorio{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: 100%;
+    margin-left: 10px;
+    font-size: 14px;
+    
+}
+
+.invalido{
+    color: red;
+    font-size: 13px;
+}
+.valido{
+    
+    visibility: hidden;
+}
+ .cadastroLight{
+  border: 1px solid #535151 !important ;
+}
+.cadastro{
+    display: flex;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    flex-direction: column;
+    width: 95%;
+    border: 1px solid #FFFAFA;
+}
+.cadastro h1{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 20px;
+    font-size: 40px;
+    
+}

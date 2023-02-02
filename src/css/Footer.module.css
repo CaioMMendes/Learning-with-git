@@ -1,0 +1,45 @@
+footer{
+    display: flex;
+    background-color:var(--navbarBackground) ;
+    bottom: 0;
+    width: 100%;
+    height: var(--alturaFooter);
+    border-top: 1px solid #333333;
+    filter: brightness(.9);
+    position: static;
+    
+   
+    background-image: none !important;
+}
+
+
+.contato{
+    color: var(--verde);
+    width: 120px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.contato p{
+    margin-left: 15px;
+}
+.media{
+    display: flex;
+   
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    padding-left: 20px;
+    width: 100%;
+}
+
+.media svg{
+    color: var(--colorMenu);
+    font-size: 20px;
+
+}
+
+.media svg:hover {
+   color: var(--verde);
+}

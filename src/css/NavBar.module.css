@@ -1,0 +1,360 @@
+
+
+
+button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+  color: var(--colorMenu);
+  font-size: 20px;
+  height: 40px;
+}
+
+
+
+:is(.navbar, .burger, .dropdowns) {
+  position: block;
+  top: 0%;
+  width: 100%;
+ 
+}
+
+.navbar {
+  z-index: 99;
+  left: 0;
+  display: flex;
+ height: var(--alturaNavbar);
+  top: 0;
+  align-items: stretch;
+  position: sticky;
+  margin-bottom: 15px;
+  /* height: clamp(20px,30%, var(--alturaNavbar)); */
+  background-color: #FFFAFA;
+  background-image: none;
+  filter: brightness(.9);
+  color: var(--colorMenuHover);
+  border-bottom: 1px solid #333333;
+  box-sizing: border-box;
+}
+
+.burger {
+
+  
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.burgerIcon{
+  color: var(--colorMenu);
+}
+.burgerIcon:hover{
+  color: var(--colorMenuHover);
+}
+
+body.open .burger {
+  background-image: url("../img/close.svg");
+}
+
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 24px;
+  height: 100%;
+  
+}
+
+.button > img {
+  display: none;
+}
+.menu > img {
+  display: none;
+}
+
+@media (width >= 500px) {
+  .button {
+    padding: 0 10px 0 24px;
+  }
+  
+
+  .button > img {
+    display: block;
+  }
+  .menu {
+    color: var(--colorMenu);
+    padding: 0 10px 0 24px;
+  }
+
+  .menu > img {
+    display: block;
+  }
+}
+
+@media (width >= 500px) {
+  .dropdown:hover .button {
+    opacity: 1;
+  }
+  .dropdown:hover .menu {
+    opacity: 1;
+  }
+}
+
+.dropdowns {
+  left: -9999px;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  transition-property: opacity, visibility;
+  transition-duration: 0.3s;
+}
+
+
+@media (width < 500px) {
+  body.open .dropdowns {
+    visibility: visible;
+    left: 0;
+  }
+
+  .burger{
+    margin-left: 70px;
+    
+  }
+  .navbar{
+    justify-content: space-between;
+  }
+
+}
+
+@media (width >= 500px) {
+  .dropdowns {
+    position: static;
+    flex-direction: row;
+    justify-content: flex-start;
+    background: transparent;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dropdownMenu {
+  display: grid;
+  margin-bottom: 28px;
+}
+
+@media (width >= 500px) {
+  .dropdown {
+    height: 100%;
+    flex-direction: row;
+  }
+
+  .dropdownMenu {
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    width: 180px;
+    padding:  0px 10px;
+    margin-bottom: 0;
+    place-items: start;
+    background: var(--navbarBackground);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 24px;
+    transition: 0.3s;
+  }
+
+  .dropdown:hover .dropdownMenu {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    box-shadow: 4px 4px 4px  rgba(0, 0, 0, 0.2);
+  }
+
+}
+
+.dropdown:hover .button{
+  color: var(--colorMenuHover);
+}
+
+@media (width >= 500px) {
+
+    button {
+    font-size: 16px;
+  }
+
+
+    .burger {
+    display: none;
+  }
+}
+
+.dropdownMenu > .menuDrop:hover {
+  color: var(--colorMenuHover);
+}
+
+
+
+.switchStyle{
+  display: grid;
+  align-items:center;
+  justify-content: right;
+  margin-top: 0.5em;
+  margin-bottom: -1em;
+  margin-right: 2em;
+  
+}
+
+
+.themeText{
+ color: #808080;
+cursor: pointer;
+}
+
+
+.arrow{
+    transform: rotate(-90deg);
+    color: var(--verde);
+}
+.menu{
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+  color: var(--colorMenu);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 24px;
+  height: 100%;
+
+  text-decoration: none;
+}
+.menu:hover{
+  color: var(--colorMenuHover);
+}
+
+.menuDrop{
+  width: 100%;
+  display: grid;
+  justify-content: left;
+  color: var(--colorMenuHover);
+   text-decoration: none;
+}
+.menuDrop button{
+ 
+  color: var(--colorMenu);
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+  
+}
+
+.menuDrop:hover button{
+ color: var(--colorMenuHover);
+
+}
+
+
+.settings{
+  display: flex;
+  width: 3rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  margin-right: 20px;
+  color: var(--colorMenu);
+  transition: .5s;
+  cursor: pointer;
+}
+
+.settings:hover{
+  color: var(--colorMenuHover);
+  transform: translateY(-0.12em);
+
+}
+
+  @keyframes rotacao{
+    100%{transform:rotate(180deg); transition: transform 5s infinite;}
+}
+
+.menuSettings{
+  position: relative;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+  .dropSettings {
+    position: absolute;
+    top: 3rem;
+    left: -60px;
+    width: 180px;
+    padding:  0px 10px;
+    margin-bottom: 0;
+    place-items: start;
+    background: var(--navbarBackground);
+    opacity: 0; 
+    visibility: hidden;
+    translate: 0 24px;
+    transition: 0.3s;
+    
+  }
+
+  .settings:hover .dropSettings {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    box-shadow: 4px 4px 4px  rgba(0, 0, 0, 0.2);
+  }
+  
+
+.label{
+  color: var(--colorMenu);
+}
+  .label:hover{
+    opacity: 1;
+    color: var(--colorMenuHover);
+  }
+
+.dropSettings label{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  height: 40px ;
+}
+  .menuSettings input{
+    display: none;
+
+
+  }
+
+
+  #dropControl:checked + div{
+
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    box-shadow: 4px 4px 4px  rgba(0, 0, 0, 0.2);
+
+  }
