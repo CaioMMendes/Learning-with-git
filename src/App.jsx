@@ -17,6 +17,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Endereco from "./pages/Endereco";
 import Cookies from "js-cookie";
 import PageNotFound from "./pages/PageNotFound";
+import Sobre from "./pages/Sobre";
 
 function App() {
   const [livros, setLivros] = useState([
@@ -150,7 +151,7 @@ function App() {
         <NavBar mudarTema={mudarTema} isDark={isDark} />
 
         <Routes>
-          <Route path="/" exact element={<Home />}></Route>
+          <Route path="/" exact element={<Home isDark={isDark} />}></Route>
           <Route
             path="/Tabela"
             exact
@@ -183,6 +184,7 @@ function App() {
           ></Route>
           <Route path="/exercicioUm" exact element={<ExercicioUm />}></Route>
           <Route path="/jogos" exact element={<Jogos />}></Route>
+          <Route path="/sobre" element={<Sobre />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
         <ScrollToTop />

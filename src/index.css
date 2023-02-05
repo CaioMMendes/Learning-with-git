@@ -33,6 +33,7 @@ body {
 :root{
   --bg-color:#808080;
   --verde:  #7fff00;
+  --verdeRgba:  rgb(127, 255, 0,0.5);
   --font-size:16px;
   --colorMenuHover:#f9f9f9;
   --colorMenu:#808080;

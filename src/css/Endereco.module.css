@@ -125,6 +125,7 @@ fieldset{
 }
  .cadastroLight{
   border: 1px solid #535151 !important ;
+  background-color: #FFFAFA !important;
 }
 .cadastro{
     display: flex;
@@ -135,6 +136,7 @@ fieldset{
     flex-direction: column;
     width: 95%;
     border: 1px solid #FFFAFA;
+    background-color: var(--navbarBackground);
 }
 .cadastro h1{
     display: flex;
@@ -144,3 +146,47 @@ fieldset{
     font-size: 40px;
     
 }
+
+.loading{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.testandoApi{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    height: 800px;
+}
+
+.testandoApiMap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+.button{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+
+
+}
+
+.button Button{
+    width: 6rem;
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+
+}
+
+

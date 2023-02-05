@@ -11,6 +11,8 @@ import Loading from "../components/Loading";
 const ExercicioUm = () => {
   const [itens, setItens] = useState([]);
   const [valor, setValor] = useState("");
+  const [json, setJson] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const handleKeyUp = (e) => {
     //it triggers by pressing the enter key
@@ -34,8 +36,6 @@ const ExercicioUm = () => {
   };
 
   //------------------------------importando json
-  const [json, setJson] = useState([]);
-  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     axios

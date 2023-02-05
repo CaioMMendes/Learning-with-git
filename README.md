@@ -1,8 +1,3 @@
-<h1 align='center'>
-
-<img scr=''>
-</h1>
-
 ## 📌 Sobre
 
 O projeto **Learning** foi criado para aprendizado pessoal. 🙂

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../css/Footer.module.css";
 import { BsGithub, BsFacebook, BsInstagram } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Footer = ({ isDark }) => {
   return (
@@ -18,6 +19,11 @@ const Footer = ({ isDark }) => {
             <BsInstagram />
           </a>
         </div>
+      </div>
+      <div className={styles.sobre}>
+        <Link to="/sobre" className={styles.linkSobre}>
+          Sobre
+        </Link>
       </div>
     </footer>
   );

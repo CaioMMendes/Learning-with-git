@@ -1,0 +1,10 @@
+.conteudo{
+    background-color: var(--navbarBackground);
+    margin: 0 10px 0 10px ;
+    border: 1px solid var(--verdeRgba);
+    padding: 5px;
+    text-indent: 50px;
+}
+
+
+

@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styles from "../css/Endereco.module.css";
 import axios from "axios";
+import Loading from "../components/Loading";
 import validator from "validator";
+import Button from "../components/Button";
 
 const Endereco = ({ isDark }) => {
+  const [json, setJson] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [location, setLocation] = useState({
     latitude: "",
@@ -33,6 +37,38 @@ const Endereco = ({ isDark }) => {
     bairro: false,
   });
 
+  useEffect(() => {
+    setLoading(true);
+
+    const usersJson = async () => {
+      await axios
+        .get("http://localhost:3003/products2")
+        .then((response) => {
+          setLoading(false);
+          setJson(response.data);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    };
+    usersJson();
+  }, []);
+
+  const inserirDadosBanco = async () => {
+    await axios
+      .post("http://localhost:3003/products2", {
+        nome: "fone",
+        preco: 249.11,
+        estoque: 10,
+        minEstoque: 4,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   function askForPermission() {
     // if (window.confirm("Would you like to share your location?")) {
     //   getLocation();
@@ -225,6 +261,11 @@ const Endereco = ({ isDark }) => {
   function onSubmit(data) {
     console.log(data);
   }
+
+  const enviarDadosCadastro = () => {
+    alert("em construção");
+  };
+
   //todo -----------------------------------------------------------------------------
   const teste = () => {
     axios
@@ -491,9 +532,46 @@ const Endereco = ({ isDark }) => {
 
           {/* {errors.email && <p>{errors.email.message}</p>} */}
         </fieldset>
+        <div className={styles.button}>
+          <Button onClick={enviarDadosCadastro}>Enviar</Button>
+        </div>
       </div>
 
       {/* //todo ---------------------------------------------------------- */}
+
+      <div className={styles.loading}>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className={styles.testandoApi}>
+            {json &&
+              json.map((item) => {
+                {
+                  console.log("entrou no map");
+                  console.log(item);
+                }
+                item.map((numero) => {
+                  return (
+                    <div className={styles.testandoApiMap} key={numero.id}>
+                      <h1>asdasd</h1>
+                      {console.log("entrou no map 2")}
+                      aaaaaaaaas
+                      {console.log(numero.id)}
+                      {console.log(numero.nome)}
+                      {console.log(numero.preco)}
+                      <p> {numero.id}</p>
+                      <p> {numero.nome}</p>
+                      <p> {numero.preco}</p>
+                      <p> {numero.estoque}</p>
+                      <p> {numero.minEstoque}</p>
+                    </div>
+                  );
+                });
+              })}
+          </div>
+        )}
+      </div>
+      <button onClick={inserirDadosBanco}>inserir dados</button>
     </div>
   );
 };
