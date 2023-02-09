@@ -160,17 +160,11 @@ fieldset{
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 500px;
-    height: 800px;
+    margin-top: 15px;
+    width: 80%;
 }
 
-.testandoApiMap{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
+
 
 
 .button{
@@ -187,6 +181,14 @@ fieldset{
     align-items: center;    
     justify-content: center;
 
+}
+
+
+.falhaCarregamento{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0 15px 0;
 }
 
 

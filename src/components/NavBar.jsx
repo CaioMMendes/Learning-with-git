@@ -94,6 +94,9 @@ const NavBar = ({ mudarTema, isDark }) => {
             <Link to="/exercicioUm" className={styles.menuDrop}>
               <button>Exercicio 1</button>
             </Link>
+            <Link to="/news" className={styles.menuDrop}>
+              <button>Notícias</button>
+            </Link>
           </div>
         </div>
         <div className={styles.dropdown}>

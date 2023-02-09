@@ -18,6 +18,8 @@ import Endereco from "./pages/Endereco";
 import Cookies from "js-cookie";
 import PageNotFound from "./pages/PageNotFound";
 import Sobre from "./pages/Sobre";
+import News from "./pages/News";
+import NewsList from "./pages/NewsList";
 
 function App() {
   const [livros, setLivros] = useState([
@@ -144,7 +146,11 @@ function App() {
   };
 
   // Passando ref para outro componente
-
+  const newsData = [
+    { id: 1, title: "Notícia 1", content: "Conteúdo da notícia 1" },
+    { id: 2, title: "Notícia 2", content: "Conteúdo da notícia 2" },
+    { id: 3, title: "Notícia 3", content: "Conteúdo da notícia 3" },
+  ];
   return (
     <div className={`${styles.container} ${isDark ? "dark" : "light"} `}>
       <Router>
@@ -186,6 +192,16 @@ function App() {
           <Route path="/jogos" exact element={<Jogos />}></Route>
           <Route path="/sobre" element={<Sobre />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
+          <Route
+            path="/news/:id"
+            exact
+            element={<News newsData={newsData} />}
+          ></Route>
+          <Route
+            path="/news"
+            exact
+            element={<NewsList newsData={newsData} />}
+          ></Route>
         </Routes>
         <ScrollToTop />
         <Footer isDark={isDark} />

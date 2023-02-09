@@ -4,6 +4,7 @@ import axios from "axios";
 import Loading from "../components/Loading";
 import validator from "validator";
 import Button from "../components/Button";
+import { createLogger } from "vite";
 
 const Endereco = ({ isDark }) => {
   const [json, setJson] = useState([]);
@@ -21,6 +22,7 @@ const Endereco = ({ isDark }) => {
     uf: "",
     complemento: "",
     bairro: "",
+    pais: "",
   });
   const [dados, setDados] = useState({
     nome: "",
@@ -36,39 +38,55 @@ const Endereco = ({ isDark }) => {
     complemento: false,
     bairro: false,
   });
-
-  useEffect(() => {
-    setLoading(true);
-
-    const usersJson = async () => {
-      await axios
-        .get("http://localhost:3003/products2")
-        .then((response) => {
-          setLoading(false);
-          setJson(response.data);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-    };
-    usersJson();
-  }, []);
+  const [dummy, setDummy] = useState("");
+  const usersJson = async () => {
+    await axios
+      .get("http://localhost:3003/produtos")
+      .then((response) => {
+        setLoading(false);
+        setJson(response.data);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   const inserirDadosBanco = async () => {
     await axios
-      .post("http://localhost:3003/products2", {
-        nome: "fone",
+      .post("http://localhost:3003/produtos", {
+        nome: "cadeira",
         preco: 249.11,
         estoque: 10,
         minEstoque: 4,
       })
       .then((response) => {
         console.log(response);
+        setDummy((d) => d + "a");
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const mataCadeira = async () => {
+    await axios
+      .post("http://localhost:3003/fornecedor", {
+        nome: "caio",
+        telefone: 987654321,
+      })
+      .then((response) => {
+        console.log(response);
+        setDummy((d) => d + "a");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    setLoading(true);
+    usersJson();
+  }, [dummy]);
+
   function askForPermission() {
     // if (window.confirm("Would you like to share your location?")) {
     //   getLocation();
@@ -262,8 +280,27 @@ const Endereco = ({ isDark }) => {
     console.log(data);
   }
 
-  const enviarDadosCadastro = () => {
-    alert("em construção");
+  const enviarDadosCadastro = async () => {
+    await axios
+      .post("http://localhost:3003/cadastrar", {
+        nome: dados.nome,
+        telefone: dados.telefone,
+        email: dados.email,
+        sexo: dados.sexo,
+        localidade: endereco.localidade,
+        cep: endereco.cep,
+        logradouro: endereco.logradouro,
+        uf: endereco.uf,
+        complemento: endereco.complemento,
+        bairro: endereco.bairro,
+        pais: endereco.pais,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   //todo -----------------------------------------------------------------------------
@@ -307,238 +344,244 @@ const Endereco = ({ isDark }) => {
       )}
 
       {/* //todo----------------------------Dados------------------------------------------- */}
-      <div className={`${styles.cadastro} ${!isDark && styles.cadastroLight} `}>
-        <h1>Cadastro</h1>
-        <fieldset className={styles.fieldset}>
-          <legend>Dados</legend>
-          <div className={styles.linha1}>
-            <label className={styles.localidade}>
-              {" "}
-              Nome: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="text"
-                value={dados.nome}
-                placeholder="João da Silva"
-                onChange={onchangeNome}
-                onBlur={onBlurnome}
-              />
-            </label>
-          </div>
-          <div className={styles.linha2}>
-            <label className={styles.localidade}>
-              {" "}
-              E-mail: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="email"
-                name="email"
-                placeholder="Joao@gmail.com"
-                onChange={onchangeEmail}
-                value={dados.email}
-                // ref={register}
-              />
-              <div className={isValid ? styles.valido : styles.invalido}>
-                E-mail inválido
-              </div>
-            </label>
-            <label className={styles.localidade}>
-              {" "}
-              Telefone: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="tel"
-                onChange={onchangeTelefone}
-                placeholder="(99) 99999-9999"
-                value={dados.telefone}
-              />
-            </label>
-            <label className={styles.localidade}>
-              {" "}
-              sexo: <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span>
-              <select
-                name="sexo"
-                id="sexo"
-                defaultValue=" "
-                onChange={onchangeSexo}
-              >
-                <option value=" " hidden></option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-                <option value="outros">Outros</option>
-              </select>
-            </label>
-          </div>
-          <p className={styles.obrigatorio}>
-            Campos marcados com
-            <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span> são
-            obrigatórios!
-          </p>
-          {/* //todo-----------------------endereço-------------------------------------- */}
-        </fieldset>
+      <form method="post">
+        <div
+          className={`${styles.cadastro} ${!isDark && styles.cadastroLight} `}
+        >
+          <h1>Cadastro</h1>
+          <fieldset className={styles.fieldset}>
+            <legend>Dados</legend>
+            <div className={styles.linha1}>
+              <label className={styles.localidade}>
+                {" "}
+                Nome: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="text"
+                  value={dados.nome}
+                  placeholder="João da Silva"
+                  onChange={onchangeNome}
+                  onBlur={onBlurnome}
+                />
+              </label>
+            </div>
+            <div className={styles.linha2}>
+              <label className={styles.localidade}>
+                {" "}
+                E-mail: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Joao@gmail.com"
+                  onChange={onchangeEmail}
+                  value={dados.email}
+                  // ref={register}
+                />
+                <div className={isValid ? styles.valido : styles.invalido}>
+                  E-mail inválido
+                </div>
+              </label>
+              <label className={styles.localidade}>
+                {" "}
+                Telefone: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="tel"
+                  onChange={onchangeTelefone}
+                  placeholder="(99) 99999-9999"
+                  value={dados.telefone}
+                />
+              </label>
+              <label className={styles.localidade}>
+                {" "}
+                sexo: <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span>
+                <select
+                  name="sexo"
+                  id="sexo"
+                  defaultValue=" "
+                  onChange={onchangeSexo}
+                >
+                  <option value=" " hidden></option>
+                  <option value="masculino">Masculino</option>
+                  <option value="feminino">Feminino</option>
+                  <option value="outros">Outros</option>
+                </select>
+              </label>
+            </div>
+            <p className={styles.obrigatorio}>
+              Campos marcados com
+              <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span> são
+              obrigatórios!
+            </p>
+            {/* //todo-----------------------endereço-------------------------------------- */}
+          </fieldset>
 
-        <fieldset className={styles.fieldset}>
-          <legend>Endereço</legend>
-          <div className={styles.linha1}>
-            <label className={styles.cep}>
-              {" "}
-              CEP: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="text"
-                htmlFor="cep"
-                id="cep"
-                required="required"
-                placeholder="99999-999"
-                value={endereco.cep}
-                onChange={onchangeCep}
-              />
-            </label>
+          <fieldset className={styles.fieldset}>
+            <legend>Endereço</legend>
+            <div className={styles.linha1}>
+              <label className={styles.cep}>
+                {" "}
+                CEP: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="text"
+                  htmlFor="cep"
+                  id="cep"
+                  required="required"
+                  placeholder="99999-999"
+                  value={endereco.cep}
+                  onChange={onchangeCep}
+                />
+              </label>
 
-            <label htmlFor="uf" className={styles.uf}>
-              {" "}
-              UF: <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span>
-              <select
-                name="uf"
-                id="uf"
-                htmlFor="uf"
-                className={styles.menu}
-                required
-                onChange={onchangeUF}
-                disabled={isDisabled.uf}
-                value={endereco.uf}
-              >
-                {[
-                  "",
-                  "AC",
-                  "AL",
-                  "AP",
-                  "AM",
-                  "BA",
-                  "CE",
-                  "DF",
-                  "ES",
-                  "GO",
-                  "MA",
-                  "MT",
-                  "MS",
-                  "MG",
-                  "PA",
-                  "PB",
-                  "PR",
-                  "PE",
-                  "PI",
-                  "RJ",
-                  "RN",
-                  "RS",
-                  "RO",
-                  "RR",
-                  "SC",
-                  "SP",
-                  "SE",
-                  "TO",
-                ].map((estado, index) => {
-                  return (
-                    <option
-                      hidden={!estado ? true : false}
-                      key={index}
-                      value={estado}
-                    >
-                      {estado}
-                    </option>
-                  );
-                })}
-              </select>
-            </label>
-            <label className={styles.localidade}>
-              {" "}
-              Cidade: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="text"
-                id="localidade"
-                value={endereco.localidade}
-                disabled={isDisabled.localidade}
-                onChange={onchangeLocalidade}
-                placeholder="Belo Horizonte"
-                onBlur={onBlurLocalidade}
-              />
-            </label>
-            <label className={styles.pais}>
-              {" "}
-              País: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="text"
-                id="pais"
-                value={endereco.pais}
-                placeholder="Brasil"
-                onChange={onchangePais}
-                onBlur={onBlurPais}
-              />
-            </label>
-          </div>
-          <div className={styles.linha2}>
-            <label className={styles.rua}>
-              {" "}
-              Rua: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="text"
-                id="logradouro"
-                value={endereco.logradouro}
-                disabled={isDisabled.logradouro}
-                placeholder="avenida Otacílio Negrão de Lima"
-                onChange={onchangeLogradouro}
-                onBlur={onBlurLogradouro}
-              />
-            </label>
-            <label className={styles.localidade}>
-              {" "}
-              Bairro: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="text"
-                id="bairro"
-                value={endereco.bairro}
-                disabled={isDisabled.bairro}
-                placeholder="centro"
-                onChange={onchangeBairro}
-                onBlur={onBlurbairro}
-              />
-            </label>
-            <label className={styles.numero}>
-              {" "}
-              Número: <span className={styles.enderecoSpan}> * </span>
-              <input
-                type="text"
-                id="numero"
-                onChange={onchangeNumero}
-                value={endereco.numero}
-                placeholder="999"
-                onBlur={onBlurNumero}
-              />
-            </label>
-            <label className={styles.complemento}>
-              {" "}
-              Complemento:{" "}
-              <input
-                type="text"
-                id="complemento"
-                value={endereco.complemento}
-                disabled={isDisabled.complemento}
-                onChange={onchangeComplemento}
-                onBlur={onBlurComplemento}
-              />
-            </label>
-          </div>
-          <p className={styles.obrigatorio}>
-            Campos marcados com
-            <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span>são
-            obrigatórios!
-          </p>
+              <label htmlFor="uf" className={styles.uf}>
+                {" "}
+                UF: <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span>
+                <select
+                  name="uf"
+                  id="uf"
+                  htmlFor="uf"
+                  className={styles.menu}
+                  required
+                  onChange={onchangeUF}
+                  disabled={isDisabled.uf}
+                  value={endereco.uf}
+                >
+                  {[
+                    "",
+                    "AC",
+                    "AL",
+                    "AP",
+                    "AM",
+                    "BA",
+                    "CE",
+                    "DF",
+                    "ES",
+                    "GO",
+                    "MA",
+                    "MT",
+                    "MS",
+                    "MG",
+                    "PA",
+                    "PB",
+                    "PR",
+                    "PE",
+                    "PI",
+                    "RJ",
+                    "RN",
+                    "RS",
+                    "RO",
+                    "RR",
+                    "SC",
+                    "SP",
+                    "SE",
+                    "TO",
+                  ].map((estado, index) => {
+                    return (
+                      <option
+                        hidden={!estado ? true : false}
+                        key={index}
+                        value={estado}
+                      >
+                        {estado}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+              <label className={styles.localidade}>
+                {" "}
+                Cidade: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="text"
+                  id="localidade"
+                  value={endereco.localidade}
+                  disabled={isDisabled.localidade}
+                  onChange={onchangeLocalidade}
+                  placeholder="Belo Horizonte"
+                  onBlur={onBlurLocalidade}
+                />
+              </label>
+              <label className={styles.pais}>
+                {" "}
+                País: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="text"
+                  id="pais"
+                  value={endereco.pais}
+                  placeholder="Brasil"
+                  onChange={onchangePais}
+                  onBlur={onBlurPais}
+                />
+              </label>
+            </div>
+            <div className={styles.linha2}>
+              <label className={styles.rua}>
+                {" "}
+                Rua: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="text"
+                  id="logradouro"
+                  value={endereco.logradouro}
+                  disabled={isDisabled.logradouro}
+                  placeholder="avenida Otacílio Negrão de Lima"
+                  onChange={onchangeLogradouro}
+                  onBlur={onBlurLogradouro}
+                />
+              </label>
+              <label className={styles.localidade}>
+                {" "}
+                Bairro: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="text"
+                  id="bairro"
+                  value={endereco.bairro}
+                  disabled={isDisabled.bairro}
+                  placeholder="centro"
+                  onChange={onchangeBairro}
+                  onBlur={onBlurbairro}
+                />
+              </label>
+              <label className={styles.numero}>
+                {" "}
+                Número: <span className={styles.enderecoSpan}> * </span>
+                <input
+                  type="text"
+                  id="numero"
+                  onChange={onchangeNumero}
+                  value={endereco.numero}
+                  placeholder="999"
+                  onBlur={onBlurNumero}
+                />
+              </label>
+              <label className={styles.complemento}>
+                {" "}
+                Complemento:{" "}
+                <input
+                  type="text"
+                  id="complemento"
+                  value={endereco.complemento}
+                  disabled={isDisabled.complemento}
+                  onChange={onchangeComplemento}
+                  onBlur={onBlurComplemento}
+                />
+              </label>
+            </div>
+            <p className={styles.obrigatorio}>
+              Campos marcados com
+              <span className={styles.enderecoSpan}>&nbsp;*&nbsp;</span>são
+              obrigatórios!
+            </p>
 
-          {/* {errors.email && <p>{errors.email.message}</p>} */}
-        </fieldset>
-        <div className={styles.button}>
-          <Button onClick={enviarDadosCadastro}>Enviar</Button>
+            {/* {errors.email && <p>{errors.email.message}</p>} */}
+          </fieldset>
+          <div className={styles.button}>
+            <Button type="submit" onClick={enviarDadosCadastro}>
+              Enviar
+            </Button>
+          </div>
         </div>
-      </div>
+      </form>
 
       {/* //todo ---------------------------------------------------------- */}
-
+      {/* 
       <div className={styles.loading}>
         {isLoading ? (
           <Loading />
@@ -570,8 +613,49 @@ const Endereco = ({ isDark }) => {
               })}
           </div>
         )}
+      </div> */}
+
+      <div className={styles.loading}>
+        {isLoading ? (
+          <Loading />
+        ) : json == "" ? (
+          <div className={styles.falhaCarregamento}>
+            Não foi possível carregar
+          </div>
+        ) : (
+          <div className={styles.testandoApi}>
+            <table>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>produto</th>
+                  <th>preço</th>
+                  <th>estoque</th>
+                  <th>estoque mínimo</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {json &&
+                  json.map((item) => {
+                    return (
+                      <tr key={item.id}>
+                        <td>{item.id}</td>
+                        <td>{item.nome}</td>
+                        <td>{item.preco}</td>
+                        <td>{item.estoque}</td>
+                        <td>{item.minEstoque}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
+
       <button onClick={inserirDadosBanco}>inserir dados</button>
+      <button onClick={mataCadeira}>Mata cadeiras</button>
     </div>
   );
 };
