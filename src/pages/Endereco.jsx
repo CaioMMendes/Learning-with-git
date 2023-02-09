@@ -4,32 +4,20 @@ import axios from "axios";
 import Loading from "../components/Loading";
 import validator from "validator";
 import Button from "../components/Button";
-import { createLogger } from "vite";
 
 const Endereco = ({ isDark }) => {
   const [json, setJson] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
+  const [isValidPhone, setIsValidPhone] = useState(false);
   const [location, setLocation] = useState({
     latitude: "",
     longitude: "",
     zipCode: "",
   });
-  const [endereco, setEndereco] = useState({
-    localidade: "",
-    cep: "",
-    logradouro: "",
-    uf: "",
-    complemento: "",
-    bairro: "",
-    pais: "",
-  });
-  const [dados, setDados] = useState({
-    nome: "",
-    telefone: "",
-    email: "",
-    sexo: "",
-  });
+
+  const [endereco, setEndereco] = useState({});
+  const [dados, setDados] = useState({ nome: "", telefone: "" });
   const [isDisabled, setIsDisabled] = useState({
     localidade: false,
     cep: false,
@@ -37,6 +25,8 @@ const Endereco = ({ isDark }) => {
     uf: false,
     complemento: false,
     bairro: false,
+    numero: false,
+    pais: false,
   });
   const [dummy, setDummy] = useState("");
   const usersJson = async () => {
@@ -87,15 +77,15 @@ const Endereco = ({ isDark }) => {
     usersJson();
   }, [dummy]);
 
-  function askForPermission() {
-    // if (window.confirm("Would you like to share your location?")) {
-    //   getLocation();
-    // } else {
-    // }
-    getLocation();
-  }
+  // function askForPermission() {
+  //   if (window.confirm("Would you like to share your location?")) {
+  //     getLocation();
+  //   } else {
+  //   }
+  //   getLocation();
+  // }
 
-  useEffect(askForPermission, []);
+  // useEffect(askForPermission, []);
 
   function getLocation() {
     if (navigator.geolocation) {
@@ -186,18 +176,18 @@ const Endereco = ({ isDark }) => {
   let myString = "my   string   with   multiple    spaces   ";
   myString = myString.trim().split(" ").filter(Boolean).join(" ");
 
-  //todo Onchange dados------------------------------------------------------------
+  // todo Onchange dados------------------------------------------------------------
 
   const onchangeNome = (e) => {
-    // let nome = e.target.value.trim().split(" ").filter(Boolean).join(" ");
-    //  let trimDados = dados.nome.trim().split(" ").filter(Boolean).join(" ");
-    // setDados({ ...dados, nome: trimDados });
+    let nome = e.target.value.trim().split(" ").filter(Boolean).join(" ");
+    let trimDados = dados.nome.trim().split(" ").filter(Boolean).join(" ");
+    setDados({ ...dados, nome: trimDados });
     setDados({ ...dados, nome: e.target.value });
   };
 
   const onchangeEmail = (e) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    // /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+    /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
     // if (e.target.value === "" || emailRegex.test(e.target.value)) {
     //   setIsValid(true);
     // } else {
@@ -214,6 +204,7 @@ const Endereco = ({ isDark }) => {
   const onchangeTelefone = (e) => {
     let telefone = e.target.value.replace(/\D/g, "").substring(0, 11);
     let novoTelefone = telefone;
+
     if (telefone.length == 11) {
       novoTelefone =
         "(" +
@@ -231,12 +222,19 @@ const Endereco = ({ isDark }) => {
     }
 
     setDados({ ...dados, telefone: novoTelefone });
+    if (telefone.length == 11) {
+      setIsValidPhone(true);
+      console.log(isValidPhone);
+    } else {
+      setIsValidPhone(false);
+    }
   };
+
   const onchangeSexo = (e) => {
     setDados({ ...dados, sexo: e.target.value });
   };
 
-  //todo Onchange endereço------------------------------------------------------------
+  // todo Onchange endereço------------------------------------------------------------
   const onchangeUF = (e) => {
     setEndereco({ ...endereco, uf: e.target.value });
   };
@@ -276,34 +274,42 @@ const Endereco = ({ isDark }) => {
   const onchangeBairro = (e) => {
     setEndereco({ ...endereco, bairro: e.target.value });
   };
-  function onSubmit(data) {
-    console.log(data);
-  }
+  const limparDados = () => {
+    setDados({ nome: "", telefone: "" });
+    setEndereco({});
+  };
+  const enviarDadosCadastro = async (event) => {
+    event.preventDefault();
 
-  const enviarDadosCadastro = async () => {
-    await axios
-      .post("http://localhost:3003/cadastrar", {
-        nome: dados.nome,
-        telefone: dados.telefone,
-        email: dados.email,
-        sexo: dados.sexo,
-        localidade: endereco.localidade,
-        cep: endereco.cep,
-        logradouro: endereco.logradouro,
-        uf: endereco.uf,
-        complemento: endereco.complemento,
-        bairro: endereco.bairro,
-        pais: endereco.pais,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    isValid && dados.nome != "" && dados.email.length > 0 && isValidPhone
+      ? await axios
+          .post("http://localhost:3003/cadastrar", {
+            nome: dados.nome,
+            telefone: dados.telefone,
+            email: dados.email,
+            sexo: dados.sexo,
+            localidade: endereco.localidade,
+            cep: endereco.cep,
+            logradouro: endereco.logradouro,
+            uf: endereco.uf,
+            numero: endereco.numero,
+            complemento: endereco.complemento,
+            bairro: endereco.bairro,
+            pais: endereco.pais,
+          })
+          .then((response) => {
+            console.log(response);
+            limparDados();
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      : !isValid && alert("Digite um email valido")
+      ? ""
+      : !isValidPhone && alert("Digite um número de telefone válido");
   };
 
-  //todo -----------------------------------------------------------------------------
+  // todo -----------------------------------------------------------------------------
   const teste = () => {
     axios
       .get(`https://viacep.com.br/ws/${endereco.cep}/json`)
@@ -344,7 +350,7 @@ const Endereco = ({ isDark }) => {
       )}
 
       {/* //todo----------------------------Dados------------------------------------------- */}
-      <form method="post">
+      <form method="post" onSubmit={enviarDadosCadastro}>
         <div
           className={`${styles.cadastro} ${!isDark && styles.cadastroLight} `}
         >
@@ -361,6 +367,7 @@ const Endereco = ({ isDark }) => {
                   placeholder="João da Silva"
                   onChange={onchangeNome}
                   onBlur={onBlurnome}
+                  required
                 />
               </label>
             </div>
@@ -374,7 +381,7 @@ const Endereco = ({ isDark }) => {
                   placeholder="Joao@gmail.com"
                   onChange={onchangeEmail}
                   value={dados.email}
-                  // ref={register}
+                  required
                 />
                 <div className={isValid ? styles.valido : styles.invalido}>
                   E-mail inválido
@@ -388,6 +395,7 @@ const Endereco = ({ isDark }) => {
                   onChange={onchangeTelefone}
                   placeholder="(99) 99999-9999"
                   value={dados.telefone}
+                  required
                 />
               </label>
               <label className={styles.localidade}>
@@ -396,10 +404,11 @@ const Endereco = ({ isDark }) => {
                 <select
                   name="sexo"
                   id="sexo"
-                  defaultValue=" "
+                  defaultValue={null}
                   onChange={onchangeSexo}
+                  required
                 >
-                  <option value=" " hidden></option>
+                  <option value={null} hidden></option>
                   <option value="masculino">Masculino</option>
                   <option value="feminino">Feminino</option>
                   <option value="outros">Outros</option>
@@ -424,7 +433,7 @@ const Endereco = ({ isDark }) => {
                   type="text"
                   htmlFor="cep"
                   id="cep"
-                  required="required"
+                  required
                   placeholder="99999-999"
                   value={endereco.cep}
                   onChange={onchangeCep}
@@ -443,9 +452,10 @@ const Endereco = ({ isDark }) => {
                   onChange={onchangeUF}
                   disabled={isDisabled.uf}
                   value={endereco.uf}
+                  defaultValue={null}
                 >
+                  <option value={null} hidden></option>
                   {[
-                    "",
                     "AC",
                     "AL",
                     "AP",
@@ -497,6 +507,7 @@ const Endereco = ({ isDark }) => {
                   onChange={onchangeLocalidade}
                   placeholder="Belo Horizonte"
                   onBlur={onBlurLocalidade}
+                  required
                 />
               </label>
               <label className={styles.pais}>
@@ -509,6 +520,7 @@ const Endereco = ({ isDark }) => {
                   placeholder="Brasil"
                   onChange={onchangePais}
                   onBlur={onBlurPais}
+                  required
                 />
               </label>
             </div>
@@ -524,6 +536,7 @@ const Endereco = ({ isDark }) => {
                   placeholder="avenida Otacílio Negrão de Lima"
                   onChange={onchangeLogradouro}
                   onBlur={onBlurLogradouro}
+                  required
                 />
               </label>
               <label className={styles.localidade}>
@@ -537,6 +550,7 @@ const Endereco = ({ isDark }) => {
                   placeholder="centro"
                   onChange={onchangeBairro}
                   onBlur={onBlurbairro}
+                  required
                 />
               </label>
               <label className={styles.numero}>
@@ -549,6 +563,7 @@ const Endereco = ({ isDark }) => {
                   value={endereco.numero}
                   placeholder="999"
                   onBlur={onBlurNumero}
+                  required
                 />
               </label>
               <label className={styles.complemento}>
@@ -572,48 +587,48 @@ const Endereco = ({ isDark }) => {
 
             {/* {errors.email && <p>{errors.email.message}</p>} */}
           </fieldset>
+          <div>{isValidPhone && <p>asdasd</p>}</div>
           <div className={styles.button}>
-            <Button type="submit" onClick={enviarDadosCadastro}>
-              Enviar
-            </Button>
+            <Button type="submit">Enviar</Button>
+            <Button onClick={console.log(dados, endereco)}>ver dados</Button>
           </div>
         </div>
       </form>
 
       {/* //todo ---------------------------------------------------------- */}
-      {/* 
-      <div className={styles.loading}>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div className={styles.testandoApi}>
-            {json &&
-              json.map((item) => {
-                {
-                  console.log("entrou no map");
-                  console.log(item);
-                }
-                item.map((numero) => {
-                  return (
-                    <div className={styles.testandoApiMap} key={numero.id}>
-                      <h1>asdasd</h1>
-                      {console.log("entrou no map 2")}
-                      aaaaaaaaas
-                      {console.log(numero.id)}
-                      {console.log(numero.nome)}
-                      {console.log(numero.preco)}
-                      <p> {numero.id}</p>
-                      <p> {numero.nome}</p>
-                      <p> {numero.preco}</p>
-                      <p> {numero.estoque}</p>
-                      <p> {numero.minEstoque}</p>
-                    </div>
-                  );
-                });
-              })}
-          </div>
-        )}
-      </div> */}
+      {/*
+          <div className={styles.loading}>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <div className={styles.testandoApi}>
+                {json &&
+                  json.map((item) => {
+                    {
+                      console.log("entrou no map");
+                      console.log(item);
+                    }
+                    item.map((numero) => {
+                      return (
+                        <div className={styles.testandoApiMap} key={numero.id}>
+                          <h1>asdasd</h1>
+                          {console.log("entrou no map 2")}
+                          aaaaaaaaas
+                          {console.log(numero.id)}
+                          {console.log(numero.nome)}
+                          {console.log(numero.preco)}
+                          <p> {numero.id}</p>
+                          <p> {numero.nome}</p>
+                          <p> {numero.preco}</p>
+                          <p> {numero.estoque}</p>
+                          <p> {numero.minEstoque}</p>
+                        </div>
+                      );
+                    });
+                  })}
+              </div>
+            )}
+          </div> */}
 
       <div className={styles.loading}>
         {isLoading ? (
