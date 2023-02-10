@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Button from "../components/Button";
-import { IoIosArrowBack } from "react-icons/io";
 
 const LoginUser = () => {
   const success = () => {
@@ -37,7 +36,7 @@ const LoginUser = () => {
 
           showConfirmButton: true,
           confirmButtonColor: "#333",
-          background: "#fff url(/images/trees.png)",
+
           backdrop: `
     url("https://gifs.eco.br/wp-content/uploads/2022/05/gifs-triste-para-whatsapp-2.gif")
     left top
@@ -108,65 +107,34 @@ const LoginUser = () => {
       {" "}
       <div id="cadastro" className={styles.cadastro}>
         <form>
-          <Link to="/Tabela">
-            <IoIosArrowBack
-              aria-label="Voltar"
-              title="Voltar"
-              className={styles.voltar}
+          <h1>Login</h1>
+
+          <label className={styles.label}>
+            E-mail
+            <input
+              className={styles.input}
+              required="required"
+              type="text"
+              onChange={inputChangeTitulo}
+              onKeyUp={handleKeypress}
+              value={inputDataTitulo}
+              placeholder="Aprendendo Material Design"
+              autoComplete="on"
             />
-          </Link>
+          </label>
 
-          <h1>Cadastro</h1>
-
-          <p className={styles.p}>
-            <label className={styles.label}>
-              ISBN
-              <input
-                className={styles.input}
-                required="required"
-                type="number"
-                onChange={inputChange}
-                onKeyUp={handleKeypress}
-                value={inputData}
-                placeholder="9788575225127"
-                onInput={(e) => (e.target.value = e.target.value.slice(0, 13))}
-                autoFocus
-                ref={focusRef}
-                autoComplete="off"
-              />
-            </label>
-          </p>
-
-          <p className={styles.p}>
-            <label className={styles.label}>
-              Título
-              <input
-                className={styles.input}
-                required="required"
-                type="text"
-                onChange={inputChangeTitulo}
-                onKeyUp={handleKeypress}
-                value={inputDataTitulo}
-                placeholder="Aprendendo Material Design"
-                autoComplete="on"
-              />
-            </label>
-          </p>
-
-          <p className={styles.p}>
-            <label className={styles.label}>
-              Autor
-              <input
-                className={styles.input}
-                required="required"
-                type="text"
-                placeholder="Kyle Mew"
-                onKeyUp={handleKeypress}
-                onChange={inputChangeAutor}
-                value={inputDataAutor}
-              />
-            </label>
-          </p>
+          <label className={styles.label}>
+            Senha
+            <input
+              className={styles.input}
+              required="required"
+              type="text"
+              placeholder="Kyle Mew"
+              onKeyUp={handleKeypress}
+              onChange={inputChangeAutor}
+              value={inputDataAutor}
+            />
+          </label>
         </form>
         <div className={styles.botao}>
           <Button>Cadastrar</Button>

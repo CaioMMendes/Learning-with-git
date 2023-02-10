@@ -17,8 +17,18 @@ const Endereco = ({ isDark }) => {
     zipCode: "",
   });
 
-  const [endereco, setEndereco] = useState({ cep: "" });
-  const [dados, setDados] = useState({ nome: "", telefone: "" });
+  const [endereco, setEndereco] = useState({
+    cep: "",
+    localidade: "",
+    logradouro: "",
+    rua: "",
+    numero: "",
+    bairro: "",
+    pais: "",
+    uf: "",
+    complemento: "",
+  });
+  const [dados, setDados] = useState({ nome: "", telefone: "", email: "" });
   const [isDisabled, setIsDisabled] = useState({
     localidade: false,
     cep: false,
@@ -62,15 +72,15 @@ const Endereco = ({ isDark }) => {
       });
   };
 
-  // function askForPermission() {
-  //   if (window.confirm("Would you like to share your location?")) {
-  //     getLocation();
-  //   } else {
-  //   }
-  //   getLocation();
-  // }
+  function askForPermission() {
+    // if (window.confirm("Would you like to share your location?")) {
+    //   getLocation();
+    // } else {
+    // }
+    getLocation();
+  }
 
-  // useEffect(askForPermission, []);
+  useEffect(askForPermission, []);
 
   function getLocation() {
     if (navigator.geolocation) {
@@ -209,7 +219,6 @@ const Endereco = ({ isDark }) => {
     setDados({ ...dados, telefone: novoTelefone });
     if (telefone.length == 11) {
       setIsValidPhone(true);
-      console.log(isValidPhone);
     } else {
       setIsValidPhone(false);
     }
@@ -316,8 +325,7 @@ const Endereco = ({ isDark }) => {
             sucesso();
           })
           .catch((error) => {
-            console.log(error);
-            emailJaCadastrado();
+            emailJaCadastrado(error);
           })
       : !isValid && alert("Digite um email valido")
       ? ""
@@ -325,11 +333,8 @@ const Endereco = ({ isDark }) => {
       ? ""
       : !isValidCep && alert("Digite um cep valido");
   };
-  const emailJaCadastrado = async () => {
-    await axios.get("http://localhost:3003/cadastrar").then((response) => {
-      console.log(response.data);
-      alert(response.data);
-    });
+  const emailJaCadastrado = (error) => {
+    alert(`O e-mail ${error.response.data.email} já está cadastrado`);
   };
   // todo -----------------------------------------------------------------------------
   const teste = () => {
@@ -426,12 +431,11 @@ const Endereco = ({ isDark }) => {
                 <select
                   name="sexo"
                   id="sexo"
-                  defaultValue={null}
                   value={dados.sexo}
                   onChange={onchangeSexo}
                   required
                 >
-                  <option value={null} hidden></option>
+                  <option value="" hidden></option>
                   <option value="masculino">Masculino</option>
                   <option value="feminino">Feminino</option>
                   <option value="outros">Outros</option>
@@ -484,9 +488,8 @@ const Endereco = ({ isDark }) => {
                   onChange={onchangeUF}
                   disabled={isDisabled.uf}
                   value={endereco.uf}
-                  defaultValue={null}
                 >
-                  <option value={null} hidden></option>
+                  <option value="" hidden></option>
                   {[
                     "AC",
                     "AL",

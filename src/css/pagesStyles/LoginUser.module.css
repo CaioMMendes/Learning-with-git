@@ -1,84 +1,7 @@
-*,
-*:before,
-*:after {
-  margin: 0;
-  padding: 0;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.voltar {
-  font-size: 40px;
-  color: chartreuse;
-  position: absolute;
-  z-index: 2;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  filter: drop-shadow(2px 2px 9px black);
-}
-
-.voltar:hover {
-  transform: translateY(-0.1em);
-  transition: 0.5s;
-}
-.tudo a {
-  text-decoration: none;
-}
-
 /* content que contem os formulários */
 .content {
   width: clamp(200px, 70%, 400px);
   margin: 6% auto;
-}
-
-@media screen and (width <= 500px) {
-  /* .content{
-    width: 88%;
-  } */
-  h1 {
-    font-size: 36px !important;
-  }
-}
-
-/* formatando o cabeçalho dos formulários */
-h1 {
-  font-size: 48px;
-  color: var(--bg-color);
-
-  padding: 10px 0;
-  font-family: Arial, sans-serif;
-  font-weight: bold;
-  text-align: center;
-  padding-bottom: 30px;
-  position: relative;
-}
-.h1:after {
-  display: block;
-  width: 100%;
-  height: 2px;
-  margin-top: 10px;
-  background: -webkit-linear-gradient(
-    left,
-    rgba(128, 255, 0, 0) 0%,
-    rgba(128, 255, 0, 0.8) 20%,
-    rgba(128, 255, 0, 1) 53%,
-    rgba(128, 255, 0, 0.8) 79%,
-    rgba(128, 255, 0, 0) 100%
-  );
-  background: linear-gradient(
-    left,
-    rgb(128, 255, 0) 0%,
-    rgba(128, 255, 0, 0.8) 20%,
-    rgba(128, 255, 0, 1) 53%,
-    rgba(128, 255, 0, 0.8) 79%,
-    rgba(128, 255, 0, 0) 100%
-  );
 }
 
 .tudo p:last-child {
@@ -94,8 +17,7 @@ h1 {
 }
 .label {
   color: var(--bg-color);
-
-  position: relative;
+  margin: 40px 0 0 0;
 }
 
 .input {
@@ -104,7 +26,7 @@ h1 {
 
 .input:not([type="checkbox"]) {
   width: 100%;
-  margin-top: 4px;
+  margin: 4px 0 0 0;
   padding: 10px;
   border: 1px solid var(--bg-color);
 
@@ -138,24 +60,6 @@ h1 {
   color: var(--bg-color);
 }
 
-/*marcando os links para mudar de um formulário para outro */
-.link {
-  position: absolute;
-  background: #e1eaeb;
-  color: #7f7c7c;
-  left: 0px;
-  height: 20px;
-  width: 440px;
-  padding: 17px 30px 20px 30px;
-  font-size: 16px;
-  text-align: right;
-  border-top: 1px solid #dbe5e8;
-
-  -webkit-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
-}
-
-/* estilos para para ambos os formulários */
 .cadastro {
   background-color: #232323;
   top: 0px;
