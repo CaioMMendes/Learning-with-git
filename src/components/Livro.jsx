@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/Livro.module.css";
+import styles from "../css/componentsStyles/Livro.module.css";
 import Button from "./Button";
 const Livro = ({ livro, excluirLivro }) => {
   return (

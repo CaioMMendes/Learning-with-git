@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/SiteFlexbox.module.css";
+import styles from "../css/pagesStyles/SiteFlexbox.module.css";
 import { BsArrowLeft } from "react-icons/bs";
 import logo from "../img/logoSite.svg";
 

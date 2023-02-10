@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/Jogos.module.css";
+import styles from "../css/pagesStyles/Jogos.module.css";
 
 const Jogos = () => {
   return (

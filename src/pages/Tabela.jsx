@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import styles from "../css/Tabela.module.css";
+import styles from "../css/pagesStyles/Tabela.module.css";
 import Button from "../components/Button";
 import themeContext from "../contexts/ThemeContext";
 

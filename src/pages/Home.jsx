@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import styles from "../css/Home.module.css";
-import "../css/Home.module.css";
+import styles from "../css/pagesStyles/Home.module.css";
+
 import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 const Home = ({ isDark }) => {

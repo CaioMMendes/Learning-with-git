@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/Footer.module.css";
+import styles from "../css/componentsStyles/Footer.module.css";
 import { BsGithub, BsFacebook, BsInstagram } from "react-icons/bs";
 import { Link } from "react-router-dom";
 

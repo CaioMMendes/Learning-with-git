@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import styles from "../css/NavBar.module.css";
+import styles from "../css/componentsStyles/NavBar.module.css";
 import { BsFillGearFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosArrowBack } from "react-icons/io";
 import SwitchComponent from "./SwitchComponent";
+import { FaUser } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
 
@@ -160,6 +161,11 @@ const NavBar = ({ mudarTema, isDark }) => {
               checkedSwitch={checkedSwitch}
             />
           </label>
+        </div>
+      </div>
+      <div className={styles.user}>
+        <div className={styles.userBackground}>
+          <FaUser className={styles.userIcon} />
         </div>
       </div>
     </nav>

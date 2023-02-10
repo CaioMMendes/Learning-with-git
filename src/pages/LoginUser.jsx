@@ -1,13 +1,12 @@
-import React, { useCallback } from "react";
-import { useState, useRef } from "react";
-import styles from "../css/pagesStyles/Cadastro.module.css";
-
+import React from "react";
+import styles from "../css/pagesStyles/LoginUser.module.css";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
 import Swal from "sweetalert2";
-
+import Button from "../components/Button";
 import { IoIosArrowBack } from "react-icons/io";
-const Cadastro = ({ cadastrarLivro }) => {
+
+const LoginUser = () => {
   const success = () => {
     inputData.length == 0
       ? Swal.fire("Preencha todas as informações", "", "error")
@@ -105,87 +104,76 @@ const Cadastro = ({ cadastrarLivro }) => {
   }, []);
 
   return (
-    <div className={styles.tudo}>
-      <div className={styles.content}>
-        <div id="cadastro" className={styles.cadastro}>
-          <form>
-            <Link to="/Tabela">
-              <IoIosArrowBack
-                aria-label="Voltar"
-                title="Voltar"
-                className={styles.voltar}
+    <div className="container">
+      {" "}
+      <div id="cadastro" className={styles.cadastro}>
+        <form>
+          <Link to="/Tabela">
+            <IoIosArrowBack
+              aria-label="Voltar"
+              title="Voltar"
+              className={styles.voltar}
+            />
+          </Link>
+
+          <h1>Cadastro</h1>
+
+          <p className={styles.p}>
+            <label className={styles.label}>
+              ISBN
+              <input
+                className={styles.input}
+                required="required"
+                type="number"
+                onChange={inputChange}
+                onKeyUp={handleKeypress}
+                value={inputData}
+                placeholder="9788575225127"
+                onInput={(e) => (e.target.value = e.target.value.slice(0, 13))}
+                autoFocus
+                ref={focusRef}
+                autoComplete="off"
               />
-            </Link>
+            </label>
+          </p>
 
-            <h1>Cadastro</h1>
+          <p className={styles.p}>
+            <label className={styles.label}>
+              Título
+              <input
+                className={styles.input}
+                required="required"
+                type="text"
+                onChange={inputChangeTitulo}
+                onKeyUp={handleKeypress}
+                value={inputDataTitulo}
+                placeholder="Aprendendo Material Design"
+                autoComplete="on"
+              />
+            </label>
+          </p>
 
-            <p className={styles.p}>
-              <label className={styles.label}>
-                ISBN
-                <input
-                  className={styles.input}
-                  required="required"
-                  type="number"
-                  onChange={inputChange}
-                  onKeyUp={handleKeypress}
-                  value={inputData}
-                  placeholder="9788575225127"
-                  onInput={(e) =>
-                    (e.target.value = e.target.value.slice(0, 13))
-                  }
-                  autoFocus
-                  ref={focusRef}
-                  autoComplete="off"
-                />
-              </label>
-            </p>
-
-            <p className={styles.p}>
-              <label className={styles.label}>
-                Título
-                <input
-                  className={styles.input}
-                  required="required"
-                  type="text"
-                  onChange={inputChangeTitulo}
-                  onKeyUp={handleKeypress}
-                  value={inputDataTitulo}
-                  placeholder="Aprendendo Material Design"
-                  autoComplete="on"
-                />
-              </label>
-            </p>
-
-            <p className={styles.p}>
-              <label className={styles.label}>
-                Autor
-                <input
-                  className={styles.input}
-                  required="required"
-                  type="text"
-                  placeholder="Kyle Mew"
-                  onKeyUp={handleKeypress}
-                  onChange={inputChangeAutor}
-                  value={inputDataAutor}
-                />
-              </label>
-            </p>
-          </form>
-          <div className={styles.botao}>
-            <Button
-              onClick={() => {
-                buttonAddLivro();
-                temporizador();
-                inputFocus();
-              }}
-            >
-              Cadastrar
-            </Button>
-          </div>
+          <p className={styles.p}>
+            <label className={styles.label}>
+              Autor
+              <input
+                className={styles.input}
+                required="required"
+                type="text"
+                placeholder="Kyle Mew"
+                onKeyUp={handleKeypress}
+                onChange={inputChangeAutor}
+                value={inputDataAutor}
+              />
+            </label>
+          </p>
+        </form>
+        <div className={styles.botao}>
+          <Button>Cadastrar</Button>
         </div>
-      </div>{" "}
+      </div>
     </div>
   );
 };
 
-export default Cadastro;
+export default LoginUser;

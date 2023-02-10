@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import styles from "../css/Endereco.module.css";
+import styles from "../css/pagesStyles/Endereco.module.css";
 import axios from "axios";
 import Loading from "../components/Loading";
 import validator from "validator";
 import Button from "../components/Button";
+import Swal from "sweetalert2";
+import TabelaProdutos from "../components/TabelaProdutos";
 
 const Endereco = ({ isDark }) => {
-  const [json, setJson] = useState([]);
-  const [isLoading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
+  const [isValidCep, setIsValidCep] = useState(false);
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [location, setLocation] = useState({
     latitude: "",
@@ -16,7 +17,7 @@ const Endereco = ({ isDark }) => {
     zipCode: "",
   });
 
-  const [endereco, setEndereco] = useState({});
+  const [endereco, setEndereco] = useState({ cep: "" });
   const [dados, setDados] = useState({ nome: "", telefone: "" });
   const [isDisabled, setIsDisabled] = useState({
     localidade: false,
@@ -28,18 +29,6 @@ const Endereco = ({ isDark }) => {
     numero: false,
     pais: false,
   });
-  const [dummy, setDummy] = useState("");
-  const usersJson = async () => {
-    await axios
-      .get("http://localhost:3003/produtos")
-      .then((response) => {
-        setLoading(false);
-        setJson(response.data);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
 
   const inserirDadosBanco = async () => {
     await axios
@@ -72,10 +61,6 @@ const Endereco = ({ isDark }) => {
         console.log(error);
       });
   };
-  useEffect(() => {
-    setLoading(true);
-    usersJson();
-  }, [dummy]);
 
   // function askForPermission() {
   //   if (window.confirm("Would you like to share your location?")) {
@@ -274,14 +259,42 @@ const Endereco = ({ isDark }) => {
   const onchangeBairro = (e) => {
     setEndereco({ ...endereco, bairro: e.target.value });
   };
+
+  const sucesso = () => {
+    Swal.fire({
+      customClass: `${styles.swal}`,
+      icon: "success",
+      title: "Cadastrado!",
+      width: 450,
+      text: "",
+      timer: 2000,
+      showCancelButton: false,
+      showConfirmButton: false,
+      background: "#fff url(/images/trees.png)",
+    });
+  };
+
   const limparDados = () => {
-    setDados({ nome: "", telefone: "" });
-    setEndereco({});
+    setDados({ nome: "", telefone: "", email: "", sexo: " " });
+    setEndereco({
+      cep: "",
+      uf: "",
+      localidade: "",
+      pais: "",
+      logradouro: "",
+      bairro: "",
+      numero: "",
+      complemento: "",
+    });
   };
   const enviarDadosCadastro = async (event) => {
     event.preventDefault();
 
-    isValid && dados.nome != "" && dados.email.length > 0 && isValidPhone
+    isValid &&
+    dados.nome != "" &&
+    dados.email.length > 0 &&
+    isValidPhone &&
+    isValidCep
       ? await axios
           .post("http://localhost:3003/cadastrar", {
             nome: dados.nome,
@@ -300,15 +313,24 @@ const Endereco = ({ isDark }) => {
           .then((response) => {
             console.log(response);
             limparDados();
+            sucesso();
           })
           .catch((error) => {
             console.log(error);
+            emailJaCadastrado();
           })
       : !isValid && alert("Digite um email valido")
       ? ""
-      : !isValidPhone && alert("Digite um número de telefone válido");
+      : !isValidPhone && alert("Digite um número de telefone válido")
+      ? ""
+      : !isValidCep && alert("Digite um cep valido");
   };
-
+  const emailJaCadastrado = async () => {
+    await axios.get("http://localhost:3003/cadastrar").then((response) => {
+      console.log(response.data);
+      alert(response.data);
+    });
+  };
   // todo -----------------------------------------------------------------------------
   const teste = () => {
     axios
@@ -318,7 +340,7 @@ const Endereco = ({ isDark }) => {
           throw new Error("erro");
         }
         setEndereco({ ...endereco, ...response.data });
-
+        setIsValidCep(true);
         setIsDisabled({
           ...isDisabled,
           logradouro: response.data.logradouro ? true : false,
@@ -332,6 +354,7 @@ const Endereco = ({ isDark }) => {
 
       .catch(() => {
         alert("Cep não encontrado");
+        setIsValidCep(false);
       });
   };
 
@@ -348,7 +371,6 @@ const Endereco = ({ isDark }) => {
           <p>Zip Code: {location.zipCode}</p>
         </div>
       )}
-
       {/* //todo----------------------------Dados------------------------------------------- */}
       <form method="post" onSubmit={enviarDadosCadastro}>
         <div
@@ -405,6 +427,7 @@ const Endereco = ({ isDark }) => {
                   name="sexo"
                   id="sexo"
                   defaultValue={null}
+                  value={dados.sexo}
                   onChange={onchangeSexo}
                   required
                 >
@@ -438,6 +461,15 @@ const Endereco = ({ isDark }) => {
                   value={endereco.cep}
                   onChange={onchangeCep}
                 />
+                <div
+                  className={
+                    isValidCep || endereco.cep == ""
+                      ? styles.valido
+                      : styles.invalido
+                  }
+                >
+                  Cep inválido
+                </div>
               </label>
 
               <label htmlFor="uf" className={styles.uf}>
@@ -587,88 +619,16 @@ const Endereco = ({ isDark }) => {
 
             {/* {errors.email && <p>{errors.email.message}</p>} */}
           </fieldset>
-          <div>{isValidPhone && <p>asdasd</p>}</div>
+
           <div className={styles.button}>
             <Button type="submit">Enviar</Button>
-            <Button onClick={console.log(dados, endereco)}>ver dados</Button>
+            <Button onClick={limparDados}>limpar dados</Button>
           </div>
         </div>
       </form>
-
       {/* //todo ---------------------------------------------------------- */}
-      {/*
-          <div className={styles.loading}>
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <div className={styles.testandoApi}>
-                {json &&
-                  json.map((item) => {
-                    {
-                      console.log("entrou no map");
-                      console.log(item);
-                    }
-                    item.map((numero) => {
-                      return (
-                        <div className={styles.testandoApiMap} key={numero.id}>
-                          <h1>asdasd</h1>
-                          {console.log("entrou no map 2")}
-                          aaaaaaaaas
-                          {console.log(numero.id)}
-                          {console.log(numero.nome)}
-                          {console.log(numero.preco)}
-                          <p> {numero.id}</p>
-                          <p> {numero.nome}</p>
-                          <p> {numero.preco}</p>
-                          <p> {numero.estoque}</p>
-                          <p> {numero.minEstoque}</p>
-                        </div>
-                      );
-                    });
-                  })}
-              </div>
-            )}
-          </div> */}
 
-      <div className={styles.loading}>
-        {isLoading ? (
-          <Loading />
-        ) : json == "" ? (
-          <div className={styles.falhaCarregamento}>
-            Não foi possível carregar
-          </div>
-        ) : (
-          <div className={styles.testandoApi}>
-            <table>
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>produto</th>
-                  <th>preço</th>
-                  <th>estoque</th>
-                  <th>estoque mínimo</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {json &&
-                  json.map((item) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>{item.nome}</td>
-                        <td>{item.preco}</td>
-                        <td>{item.estoque}</td>
-                        <td>{item.minEstoque}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
+      <TabelaProdutos />
       <button onClick={inserirDadosBanco}>inserir dados</button>
       <button onClick={mataCadeira}>Mata cadeiras</button>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../css/ScrollToTop.module.css";
+import styles from "../css/componentsStyles/ScrollToTop.module.css";
 import { BsArrowDown } from "react-icons/bs";
 import { useLocation } from "react-router-dom";
 

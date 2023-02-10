@@ -20,6 +20,8 @@ import PageNotFound from "./pages/PageNotFound";
 import Sobre from "./pages/Sobre";
 import News from "./pages/News";
 import NewsList from "./pages/NewsList";
+import LoginUser from "./pages/LoginUser";
+import RegisterUser from "./pages/RegisterUser";
 
 function App() {
   const [livros, setLivros] = useState([
@@ -201,6 +203,12 @@ function App() {
             path="/news"
             exact
             element={<NewsList newsData={newsData} />}
+          ></Route>
+          <Route path="/account/login" exact element={<LoginUser />}></Route>
+          <Route
+            path="/account/register"
+            exact
+            element={<RegisterUser />}
           ></Route>
         </Routes>
         <ScrollToTop />

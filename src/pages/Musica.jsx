@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import A from "../sounds/A.ogg";
-import styles from "../css/Musica.module.css";
+import styles from "../css/pagesStyles/Musica.module.css";
 import ReactPlayer from "react-player";
 import B from "../sounds/B_out.ogg";
 

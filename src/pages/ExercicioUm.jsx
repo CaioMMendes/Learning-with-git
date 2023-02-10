@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../css/ExercicioUm.module.css";
+import styles from "../css/pagesStyles/ExercicioUm.module.css";
 import Itens from "../components/Itens";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
