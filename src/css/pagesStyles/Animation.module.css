@@ -1,55 +1,47 @@
-@keyframes rotacao{
-    100%{transform:rotate(360deg); transition: transform 5s;}
+@keyframes rotacao {
+  100% {
+    transform: rotate(360deg);
+    transition: transform 5s;
+  }
 }
 
-
-
-@keyframes rotacao2{
-    50%{transform:rotate(360deg); transition: transform 5s;}
+@keyframes rotacao2 {
+  50% {
+    transform: rotate(360deg);
+    transition: transform 5s;
+  }
 }
 
-
-
-
-
-
-.video{
-width: 100%;
-margin: auto;
-max-width: 600px;
+.video {
+  width: 100%;
+  margin: auto;
+  max-width: 600px;
 }
 
-
-
-.animation p{
-    width: 40px;
-    display: flex;
-margin-left: 50px;
-animation: rotacao2 10s linear infinite;
+.animation p {
+  width: 40px;
+  display: flex;
+  margin-left: 50px;
+  animation: rotacao2 10s linear infinite;
 }
 
-
-
-.videoArea{
-position:relative;
-padding: 0 0 56.25%;
-height: 0px;
+.videoArea {
+  position: relative;
+  padding: 0 0 56.25%;
+  height: 0px;
 }
 
-.videoArea iframe{
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    border: 0px;
-    animation: rotacao 10s linear infinite;
-
+.videoArea iframe {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  animation: rotacao 10s linear infinite;
 }
-
-
 
 .holdsIframe {
-  background:url(../images/loader.gif) center center no-repeat;
+  background: url(../images/loader.gif) center center no-repeat;
 }

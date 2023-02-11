@@ -5,7 +5,7 @@ import { BsFillGearFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosArrowBack } from "react-icons/io";
 import SwitchComponent from "./SwitchComponent";
-import { FaUser } from "react-icons/fa";
+import NavbarUser from "./NavbarUser";
 
 import { Link } from "react-router-dom";
 
@@ -163,11 +163,7 @@ const NavBar = ({ mudarTema, isDark }) => {
           </label>
         </div>
       </div>
-      <div className={styles.user}>
-        <div className={styles.userBackground}>
-          <FaUser className={styles.userIcon} />
-        </div>
-      </div>
+      <NavbarUser />
     </nav>
   );
 };

@@ -326,26 +326,3 @@ body.open .burger {
   translate: 0 0;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 }
-
-.user {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 7rem;
-  cursor: pointer;
-}
-.userBackground {
-  width: 2.2rem;
-  height: 2.2rem;
-  background-color: var(--verdeRgba);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.userIcon {
-  font-size: 22px;
-  color: black;
-}

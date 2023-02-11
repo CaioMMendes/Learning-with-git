@@ -23,12 +23,14 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   // When the user clicks on the button, scroll to the top of the document
+
   const topFunction = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+
   useEffect(topFunction, [pathname]);
   // useEffect(() => {
   //   window.scrollTo({
