@@ -11,6 +11,8 @@ const Endereco = ({ isDark }) => {
   const [isValid, setIsValid] = useState(true);
   const [isValidCep, setIsValidCep] = useState(false);
   const [isValidPhone, setIsValidPhone] = useState(false);
+  const [dummy, setDummy] = useState("");
+
   const [location, setLocation] = useState({
     latitude: "",
     longitude: "",
@@ -279,7 +281,6 @@ const Endereco = ({ isDark }) => {
       timer: 2000,
       showCancelButton: false,
       showConfirmButton: false,
-      background: "#fff url(/images/trees.png)",
     });
   };
 
@@ -631,7 +632,7 @@ const Endereco = ({ isDark }) => {
       </form>
       {/* //todo ---------------------------------------------------------- */}
 
-      <TabelaProdutos />
+      <TabelaProdutos dummy={dummy} />
       <button onClick={inserirDadosBanco}>inserir dados</button>
       <button onClick={mataCadeira}>Mata cadeiras</button>
     </div>

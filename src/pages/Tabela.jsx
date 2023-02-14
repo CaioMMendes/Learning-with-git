@@ -33,9 +33,6 @@ const Home = ({
   let livros2 = livrosMap.map((livro, index) => {
     return "livro" + index + " " + livro;
   });
-  console.log(livros);
-  console.log(livros1);
-  console.log(livros2);
 
   //-----------------------------------
 

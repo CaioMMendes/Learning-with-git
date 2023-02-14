@@ -22,6 +22,8 @@ import News from "./pages/News";
 import NewsList from "./pages/NewsList";
 import LoginUser from "./pages/LoginUser";
 import RegisterUser from "./pages/RegisterUser";
+import { useDispatch } from "react-redux";
+import { changeLivros } from "./redux/LivrosSlice";
 
 function App() {
   const [livros, setLivros] = useState([
@@ -56,7 +58,10 @@ function App() {
       id: uuidv4(),
     },
   ]);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(changeLivros(livros));
+  }, [livros]);
   const [isDark, setIsDark] = useState(!!Cookies.get("dark"));
 
   // const currentMode = localStorage.getItem("darkMode");
@@ -204,11 +209,15 @@ function App() {
             exact
             element={<NewsList newsData={newsData} />}
           ></Route>
-          <Route path="/account/login" exact element={<LoginUser />}></Route>
+          <Route
+            path="/account/login"
+            exact
+            element={<LoginUser isDark={isDark} />}
+          ></Route>
           <Route
             path="/account/register"
             exact
-            element={<RegisterUser />}
+            element={<RegisterUser isDark={isDark} />}
           ></Route>
         </Routes>
         <ScrollToTop />

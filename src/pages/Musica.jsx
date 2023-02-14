@@ -30,7 +30,6 @@ const Musica = () => {
   const handleKeypress = (e) => {
     //it triggers by pressing the enter key
     if (e.keyCode === 13) {
-      console.log("asdas");
       play();
     }
   };
@@ -38,7 +37,6 @@ const Musica = () => {
   window.addEventListener("keypress", function (event) {
     if (event.key === "a") {
       play();
-      console.log("adsa");
     }
     if (event.key === "x") {
       setPlaying(true);
@@ -51,7 +49,6 @@ const Musica = () => {
 
   const play = () => {
     <audio src={A}></audio>;
-    console.log("first");
   };
 
   return (

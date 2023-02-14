@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import styles from "../css/componentsStyles/TabelaProdutos.module.css";
 import axios from "axios";
 
-const TabelaProdutos = () => {
+const TabelaProdutos = ({ dummy }) => {
   const [json, setJson] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [dummy, setDummy] = useState("");
+  // const [dummy, setDummy] = useState("");
 
   useEffect(() => {
     setLoading(true);

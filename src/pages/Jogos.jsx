@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../css/pagesStyles/Jogos.module.css";
 
 const Jogos = () => {
@@ -6,6 +6,7 @@ const Jogos = () => {
     <div className="container">
       <div className={styles.loading}>
         <p>Loading</p>
+
         <div className={styles.dotsFlow}></div>
       </div>
     </div>

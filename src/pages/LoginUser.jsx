@@ -5,7 +5,14 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Button from "../components/Button";
 
-const LoginUser = () => {
+const LoginUser = ({ isDark }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handdleLogin = (event) => {
+    event.preventDefault();
+  };
   const success = () => {
     inputData.length == 0
       ? Swal.fire("Preencha todas as informações", "", "error")
@@ -52,7 +59,7 @@ const LoginUser = () => {
           timer: 2000,
           showCancelButton: false,
           showConfirmButton: false,
-          background: "#fff url(/images/trees.png)",
+
           backdrop: `
 
     url("https://sweetalert2.github.io/images/nyan-cat.gif")
@@ -91,9 +98,7 @@ const LoginUser = () => {
   const handleKeypress = (e) => {
     //it triggers by pressing the enter key
     if (e.keyCode === 13) {
-      buttonAddLivro();
-      temporizador();
-      inputFocus();
+      alert("Em construção");
     }
   };
 
@@ -104,41 +109,48 @@ const LoginUser = () => {
 
   return (
     <div className="container">
-      {" "}
-      <div id="cadastro" className={styles.cadastro}>
-        <form>
-          <h1>Login</h1>
+      <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
+        <h1>Login</h1>
+        <form onSubmit={handdleLogin} method="post">
+          <div className={styles.box}>
+            <div className={styles.userBox}>
+              <input type="text" onKeyUp={handleKeypress} required />
+              <label>
+                Username <span>*</span>{" "}
+              </label>
+            </div>
 
-          <label className={styles.label}>
-            E-mail
-            <input
-              className={styles.input}
-              required="required"
-              type="text"
-              onChange={inputChangeTitulo}
-              onKeyUp={handleKeypress}
-              value={inputDataTitulo}
-              placeholder="Aprendendo Material Design"
-              autoComplete="on"
-            />
-          </label>
+            <div className={styles.userBox}>
+              <input
+                onKeyUp={handleKeypress}
+                className={styles.inputPassword}
+                type={`${showPassword ? "text" : "password"}`}
+                required
+              />
 
-          <label className={styles.label}>
-            Senha
-            <input
-              className={styles.input}
-              required="required"
-              type="text"
-              placeholder="Kyle Mew"
-              onKeyUp={handleKeypress}
-              onChange={inputChangeAutor}
-              value={inputDataAutor}
-            />
-          </label>
+              <label>
+                {" "}
+                Password <span>*</span>{" "}
+              </label>
+              <div
+                className={`${showPassword && `${styles.hide} `} ${
+                  styles.show
+                }`}
+                onClick={togglePassword}
+              ></div>
+            </div>
+          </div>
+          <div className={styles.buttonForm}>
+            <button type="submit" className={styles.submit}>
+              Submit
+            </button>
+            {/* <Button>Submits</Button> */}
+            <div className={styles.register}>
+              <p>Don't have an account?</p>
+              <Link to="/account/register">Register</Link>
+            </div>
+          </div>
         </form>
-        <div className={styles.botao}>
-          <Button>Cadastrar</Button>
-        </div>
       </div>
     </div>
   );

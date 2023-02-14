@@ -6,5 +6,11 @@
   text-indent: 50px;
 }
 .cebolinha {
-  filter: drop-shadow(4px 4px yellow);
+  filter: drop-shadow(-4px -4px yellow);
+}
+
+.zeGotinha {
+  filter: drop-shadow(-4px -4px rgb(0, 128, 202)) drop-shadow(4px 4px magenta);
+  /* filter: drop-shadow(2px 2px 4px rgb(22, 187, 7))
+    drop-shadow(-2px -2px 4px rgba(121, 18, 18, 0.986)); */
 }

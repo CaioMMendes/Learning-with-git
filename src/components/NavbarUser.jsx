@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { BsFillGearFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { GiPadlock } from "react-icons/gi";
+import { Link } from "react-router-dom";
 
 const NavbarUser = () => {
   function useOnClickOutside(ref, handler) {
@@ -38,11 +39,13 @@ const NavbarUser = () => {
         </div>
       </button>
       <div className={`${styles.dropdown} ${isOpen ? styles.open : ""}`}>
-        <button>
-          <span>
-            <FaUser /> Profile
-          </span>
-        </button>
+        <Link to="/account/login">
+          <button>
+            <span>
+              <FaUser /> Profile
+            </span>
+          </button>
+        </Link>
         <button>
           <span>
             <BsFillGearFill /> Settings

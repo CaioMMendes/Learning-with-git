@@ -1,8 +1,9 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
 import Livro from "./Livro";
 
-const Livros = ({ livros, excluirLivro }) => {
+const Livros = ({ excluirLivro }) => {
+  const { livros } = useSelector((state) => state.livrosList);
   return (
     <div>
       {livros.map((livro) => (

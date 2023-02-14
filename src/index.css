@@ -1,23 +1,22 @@
-*{
-    margin: 0;
+* {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 body {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  min-height: 100vh; 
-  margin:0;
+  min-height: 100vh;
+  margin: 0;
   position: relative;
 
   color: rgba(255, 255, 255, 0.87);
-  background-image: url(./img/brick-wall.svg) ;
+  background-image: url(./img/brick-wall.svg);
 
-  background-color: #FFFAFA;
+  background-color: #fffafa;
 
   /* min-height: calc(100vh - 124px ); */
 
@@ -27,103 +26,90 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   /* -webkit-print-color-adjust:exact; */
-  
 }
 
-:root{
-  --bg-color:#808080;
-  --verde:  #7fff00;
-  --verdeRgba:  rgb(127, 255, 0,0.5);
-  --font-size:16px;
-  --colorMenuHover:#f9f9f9;
-  --colorMenu:#808080;
-  --navbarBackground:#242424;
-  --alturaNavbar:64px;
-  --totalNavbar:calc(64px + 15px);
-  --alturaFooter:60px;
-  --totalFooter:60px;
-  --alturaContainer:calc(100vh - (var(--totalNavbar) + var(--totalFooter)));
+:root {
+  --bg-color: #808080;
+  --verde: #7fff00;
+  --verdeRgba: rgb(127, 255, 0, 0.5);
+  --font-size: 16px;
+  --colorMenuHover: #f9f9f9;
+  --colorMenu: #808080;
+  --navbarBackground: #242424;
+  --alturaNavbar: 64px;
+  --totalNavbar: calc(64px + 15px);
+  --alturaFooter: 60px;
+  --totalFooter: 60px;
+  --alturaContainer: calc(100vh - (var(--totalNavbar) + var(--totalFooter)));
 }
-
 
 @media print {
-  body{
+  body {
     background-color: #000;
-    color:red;
+    color: red;
   }
   /* body {-webkit-print-color-adjust: exact;} */
 }
 
-body:has(.dark){
+body:has(.dark) {
   background-color: #242424 !important;
   color-scheme: dark !important;
-  color: var(--colorMenu) !important;  
-   background-image: url(./img/brick-wall.svg) ;
-   
+  color: var(--colorMenu) !important;
+  background-image: url(./img/brick-wall.svg);
 }
-body:has(.dark) h1{
-  color: var(--colorMenu) !important;  
+body:has(.dark) h1 {
+  color: var(--colorMenu) !important;
 }
 
-body:has(.light) h1{
-  color: #000 !important;  
+body:has(.light) h1 {
+  color: #000 !important;
 }
-.dark{
-    background-color: #242424 !important;
+.dark {
+  background-color: #242424 !important;
   color-scheme: dark !important;
-  color: var(--colorMenu) !important;  
-     background-image: url(./img/brick-wall.svg) ;
+  color: var(--colorMenu) !important;
+  background-image: url(./img/brick-wall.svg);
 }
-.light{
-  background-color: #FFFAFA !important;
+.light {
+  background-color: #fffafa !important;
   color-scheme: light !important;
-  color: #000 !important;  
-  
+  color: #000 !important;
 }
-body{
+body {
   min-height: 100vh;
 }
-body:has(.light){
-  background-color: #FFFAFA !important;
+body:has(.light) {
+  background-color: #fffafa !important;
   color-scheme: light !important;
-  color: #000 !important;  
+  color: #000 !important;
   background-image: none;
-
 }
 
-
-.container{
-   width: 100%;
-    min-height: var(--alturaContainer);
+.container {
+  width: 100%;
+  min-height: var(--alturaContainer);
 }
 
-
-
-body:has(.dark)  th {
-   color: #c0bcbc;
-  background-color: rgb(36, 36, 36) ;
+body:has(.dark) th {
+  color: #c0bcbc;
+  background-color: rgb(36, 36, 36);
 }
 
-body:has(.light)  th{
-  color: #000 !important; 
-  background-color: #ffffff !important; 
+body:has(.light) th {
+  color: #000 !important;
+  background-color: #ffffff !important;
 }
-body:has(.dark) tr td{
+body:has(.dark) tr td {
   color: #c0bcbc;
   background-color: #464646;
-  
 }
-body:has(.light) tr td{
+body:has(.light) tr td {
   color: #000;
-  background-color: #FFFAFA;
-
+  background-color: #fffafa;
 }
-body:has(.dark) table{
+body:has(.dark) table {
   border: solid 1px var(--colorMenu);
-
-  
 }
-body:has(.light) teble{
-   border: solid 1px #000;
-
+body:has(.light) teble {
+  border: solid 1px #000;
 }

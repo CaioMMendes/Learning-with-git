@@ -38,7 +38,7 @@ const Cadastro = ({ cadastrarLivro }) => {
 
           showConfirmButton: true,
           confirmButtonColor: "#333",
-          background: "#fff url(/images/trees.png)",
+
           backdrop: `
     url("https://gifs.eco.br/wp-content/uploads/2022/05/gifs-triste-para-whatsapp-2.gif")
     left top
@@ -54,7 +54,7 @@ const Cadastro = ({ cadastrarLivro }) => {
           timer: 2000,
           showCancelButton: false,
           showConfirmButton: false,
-          background: "#fff url(/images/trees.png)",
+
           backdrop: `
 
     url("https://sweetalert2.github.io/images/nyan-cat.gif")
@@ -105,85 +105,87 @@ const Cadastro = ({ cadastrarLivro }) => {
   }, []);
 
   return (
-    <div className={styles.tudo}>
-      <div className={styles.content}>
-        <div id="cadastro" className={styles.cadastro}>
-          <form>
-            <Link to="/Tabela">
-              <IoIosArrowBack
-                aria-label="Voltar"
-                title="Voltar"
-                className={styles.voltar}
-              />
-            </Link>
-
-            <h1>Cadastro</h1>
-
-            <p className={styles.p}>
-              <label className={styles.label}>
-                ISBN
-                <input
-                  className={styles.input}
-                  required="required"
-                  type="number"
-                  onChange={inputChange}
-                  onKeyUp={handleKeypress}
-                  value={inputData}
-                  placeholder="9788575225127"
-                  onInput={(e) =>
-                    (e.target.value = e.target.value.slice(0, 13))
-                  }
-                  autoFocus
-                  ref={focusRef}
-                  autoComplete="off"
+    <div className="container">
+      <div className={styles.tudo}>
+        <div className={styles.content}>
+          <div id="cadastro" className={styles.cadastro}>
+            <form>
+              <Link to="/Tabela">
+                <IoIosArrowBack
+                  aria-label="Voltar"
+                  title="Voltar"
+                  className={styles.voltar}
                 />
-              </label>
-            </p>
+              </Link>
 
-            <p className={styles.p}>
-              <label className={styles.label}>
-                Título
-                <input
-                  className={styles.input}
-                  required="required"
-                  type="text"
-                  onChange={inputChangeTitulo}
-                  onKeyUp={handleKeypress}
-                  value={inputDataTitulo}
-                  placeholder="Aprendendo Material Design"
-                  autoComplete="on"
-                />
-              </label>
-            </p>
+              <h1>Cadastro</h1>
 
-            <p className={styles.p}>
-              <label className={styles.label}>
-                Autor
-                <input
-                  className={styles.input}
-                  required="required"
-                  type="text"
-                  placeholder="Kyle Mew"
-                  onKeyUp={handleKeypress}
-                  onChange={inputChangeAutor}
-                  value={inputDataAutor}
-                />
-              </label>
-            </p>
-          </form>
-          <div className={styles.botao}>
-            <Button
-              onClick={() => {
-                buttonAddLivro();
-                temporizador();
-                inputFocus();
-              }}
-            >
-              Cadastrar
-            </Button>
+              <p className={styles.p}>
+                <label className={styles.label}>
+                  ISBN
+                  <input
+                    className={styles.input}
+                    required="required"
+                    type="number"
+                    onChange={inputChange}
+                    onKeyUp={handleKeypress}
+                    value={inputData}
+                    placeholder="9788575225127"
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.slice(0, 13))
+                    }
+                    autoFocus
+                    ref={focusRef}
+                    autoComplete="off"
+                  />
+                </label>
+              </p>
+
+              <p className={styles.p}>
+                <label className={styles.label}>
+                  Título
+                  <input
+                    className={styles.input}
+                    required="required"
+                    type="text"
+                    onChange={inputChangeTitulo}
+                    onKeyUp={handleKeypress}
+                    value={inputDataTitulo}
+                    placeholder="Aprendendo Material Design"
+                    autoComplete="on"
+                  />
+                </label>
+              </p>
+
+              <p className={styles.p}>
+                <label className={styles.label}>
+                  Autor
+                  <input
+                    className={styles.input}
+                    required="required"
+                    type="text"
+                    placeholder="Kyle Mew"
+                    onKeyUp={handleKeypress}
+                    onChange={inputChangeAutor}
+                    value={inputDataAutor}
+                  />
+                </label>
+              </p>
+            </form>
+            <div className={styles.botao}>
+              <Button
+                onClick={() => {
+                  buttonAddLivro();
+                  temporizador();
+                  inputFocus();
+                }}
+              >
+                Cadastrar
+              </Button>
+            </div>
           </div>
-        </div>
-      </div>{" "}
+        </div>{" "}
+      </div>
     </div>
   );
 };
