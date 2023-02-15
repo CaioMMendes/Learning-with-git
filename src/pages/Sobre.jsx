@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "../css/pagesStyles/Sobre.module.css";
+import { useSelector } from "react-redux";
 
 const Sobre = () => {
+  const { isLogged } = useSelector((state) => state.isLoggedRedux);
   return (
     <div className="container">
+      {isLogged && <p>logado</p>}
       <img
         className={styles.cebolinha}
         src="https://upload.wikimedia.org/wikipedia/pt/9/98/Cebolinha.png"

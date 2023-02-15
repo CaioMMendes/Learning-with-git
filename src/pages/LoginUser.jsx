@@ -4,95 +4,30 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Button from "../components/Button";
+import axios from "axios";
 
 const LoginUser = ({ isDark }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [dados, setDados] = useState({
+    email: "",
+    password: "",
+  });
+  const inputRef = useRef(null);
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
-  const handdleLogin = (event) => {
-    event.preventDefault();
+  const onchangeEmail = (e) => {
+    setDados({ ...dados, email: e.target.value });
   };
-  const success = () => {
-    inputData.length == 0
-      ? Swal.fire("Preencha todas as informações", "", "error")
-      : Swal.fire("Cadastrado!", "", "success");
+  const onchangePassword = (e) => {
+    setDados({ ...dados, password: e.target.value });
   };
 
-  const temporizador = () => {
-    inputData.length == 0 ||
-    inputDataAutor.length == 0 ||
-    inputDataTitulo.length == 0
-      ? Swal.fire({
-          customClass: `${styles.swal}`,
-          icon: "error",
-
-          padding: 0,
-          width: 450,
-          text: `Os seguintes campos estão em branco: ${
-            inputData.length == 0 ? "ISBN " : ""
-          } ${inputDataTitulo.length == 0 ? "Título " : ""} ${
-            inputDataAutor.length == 0 ? "Autor " : ""
-          }  `,
-          timer: 3000,
-          showCancelButton: false,
-
-          buttons: {
-            confirm: '{ text: "aa" }',
-          },
-
-          showConfirmButton: true,
-          confirmButtonColor: "#333",
-
-          backdrop: `
-    url("https://gifs.eco.br/wp-content/uploads/2022/05/gifs-triste-para-whatsapp-2.gif")
-    left top
-    no-repeat
-  `,
-        })
-      : Swal.fire({
-          customClass: `${styles.swal}`,
-          icon: "success",
-          title: "Cadastrado!",
-          width: 450,
-          text: "",
-          timer: 2000,
-          showCancelButton: false,
-          showConfirmButton: false,
-
-          backdrop: `
-
-    url("https://sweetalert2.github.io/images/nyan-cat.gif")
-    left top
-    no-repeat
-  `,
-        });
-  };
-
-  const buttonAddLivro = () => {
-    inputData.length == 0 ||
-    inputDataAutor.length == 0 ||
-    inputDataTitulo.length == 0
-      ? {}
-      : (cadastrarLivro(inputData, inputDataTitulo, inputDataAutor),
-        setInputData(""),
-        setInputDataTitulo(""),
-        setInputDataAutor(""));
-  };
-
-  const [inputData, setInputData] = useState([]);
-  const inputChange = (e) => {
-    setInputData(e.target.value);
-  };
-
-  const [inputDataTitulo, setInputDataTitulo] = useState([]);
-  const inputChangeTitulo = (e) => {
-    setInputDataTitulo(e.target.value);
-  };
-
-  const [inputDataAutor, setInputDataAutor] = useState([]);
-  const inputChangeAutor = (e) => {
-    setInputDataAutor(e.target.value);
+  const onBlurEmail = () => {
+    let trimEmail;
+    trimEmail =
+      dados.email && dados.email.trim().split(" ").filter(Boolean).join(" ");
+    setDados({ ...dados, email: trimEmail });
   };
 
   const handleKeypress = (e) => {
@@ -101,11 +36,52 @@ const LoginUser = ({ isDark }) => {
       alert("Em construção");
     }
   };
+  const limparDados = () => {
+    setDados({
+      email: "",
+      password: "",
+    });
+  };
 
-  const focusRef = useRef(null);
-  const inputFocus = useCallback(() => {
-    focusRef.current?.focus();
-  }, []);
+  const sucesso = () => {
+    Swal.fire({
+      customClass: `${styles.swal}`,
+      icon: "success",
+      title: "Logado!",
+      width: 450,
+      text: "",
+      timer: 2000,
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+  };
+
+  const handdleLogin = async (event) => {
+    event.preventDefault();
+
+    dados.email != ""
+      ? await axios
+          .post("http://localhost:3003/login", {
+            email: dados.email,
+            password: dados.password,
+          })
+          .then((response) => {
+            console.log(response);
+            // limparDados();
+            sucesso();
+          })
+          .catch((error) => {
+            usuarioSenhaInvalidos(error);
+          })
+      : alert("Digite um email valido");
+    // ? ""
+    // : !isValidPhone && alert("Digite um número de telefone válido")
+    // ? ""
+    // : !isValidCep && alert("Digite um cep valido");
+  };
+  const usuarioSenhaInvalidos = (error) => {
+    alert(`O usuário ou senha estão incorretos`);
+  };
 
   return (
     <div className="container">
@@ -114,9 +90,17 @@ const LoginUser = ({ isDark }) => {
         <form onSubmit={handdleLogin} method="post">
           <div className={styles.box}>
             <div className={styles.userBox}>
-              <input type="text" onKeyUp={handleKeypress} required />
+              <input
+                type="text"
+                onKeyUp={handleKeypress}
+                value={dados.email}
+                onChange={onchangeEmail}
+                autoFocus
+                onBlur={onBlurEmail}
+                required
+              />
               <label>
-                Username <span>*</span>{" "}
+                E-mail <span>*</span>{" "}
               </label>
             </div>
 
@@ -125,6 +109,9 @@ const LoginUser = ({ isDark }) => {
                 onKeyUp={handleKeypress}
                 className={styles.inputPassword}
                 type={`${showPassword ? "text" : "password"}`}
+                value={dados.password}
+                ref={inputRef}
+                onChange={onchangePassword}
                 required
               />
 
@@ -138,6 +125,11 @@ const LoginUser = ({ isDark }) => {
                 }`}
                 onClick={togglePassword}
               ></div>
+              <div className={styles.forgotPassword}>
+                <Link to="/account/recover-password">
+                  Forgot your password ?
+                </Link>
+              </div>
             </div>
           </div>
           <div className={styles.buttonForm}>

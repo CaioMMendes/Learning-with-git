@@ -5,8 +5,17 @@ import { BsFillGearFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { GiPadlock } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import { BiLogIn, BiLogOut } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { changeIsLogged } from "../redux/isLoggedSlice";
 
 const NavbarUser = () => {
+  const [isLogged, setIsLogged] = useState(true);
+
+  const dispatch = useDispatch();
+
+  dispatch(changeIsLogged(isLogged));
+
   function useOnClickOutside(ref, handler) {
     useEffect(() => {
       const listener = (event) => {
@@ -39,23 +48,44 @@ const NavbarUser = () => {
         </div>
       </button>
       <div className={`${styles.dropdown} ${isOpen ? styles.open : ""}`}>
-        <Link to="/account/login">
+        {isLogged ? (
           <button>
             <span>
-              <FaUser /> Profile
+              {" "}
+              <FaUser /> <p>Profile</p>
             </span>
           </button>
-        </Link>
+        ) : (
+          <Link to="/account/login">
+            <button>
+              <span>
+                <BiLogIn className={styles.log} /> <p>Login</p>
+              </span>
+            </button>
+          </Link>
+        )}
+
         <button>
           <span>
-            <BsFillGearFill /> Settings
+            <BsFillGearFill /> <p>Settings</p>
           </span>
         </button>
         <button>
           <span>
-            <GiPadlock /> Account
+            <GiPadlock /> <p> Account</p>
           </span>
         </button>
+        {isLogged && (
+          <button
+            onClick={() => {
+              setIsLogged(false);
+            }}
+          >
+            <span>
+              <BiLogOut className={styles.log} /> <p>Logout</p>
+            </span>
+          </button>
+        )}
       </div>
     </div>
   );

@@ -139,3 +139,13 @@
 label span {
   color: red;
 }
+
+.forgotPassword a {
+  display: flex;
+  position: relative;
+  top: -30px;
+  justify-content: end;
+  text-decoration: none;
+  color: var(--verde);
+  font-size: 13px;
+}

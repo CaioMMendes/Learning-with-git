@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Livro from "./Livro";
 
 const Livros = ({ excluirLivro }) => {
-  const { livros } = useSelector((state) => state.livrosList);
+  const { livros } = useSelector((state) => state.livrosRedux);
   return (
     <div>
       {livros.map((livro) => (

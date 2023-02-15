@@ -22,6 +22,7 @@ import News from "./pages/News";
 import NewsList from "./pages/NewsList";
 import LoginUser from "./pages/LoginUser";
 import RegisterUser from "./pages/RegisterUser";
+import RecoverPassword from "./pages/RecoverPassword";
 import { useDispatch } from "react-redux";
 import { changeLivros } from "./redux/LivrosSlice";
 
@@ -218,6 +219,11 @@ function App() {
             path="/account/register"
             exact
             element={<RegisterUser isDark={isDark} />}
+          ></Route>
+          <Route
+            path="/account/recover-password"
+            exact
+            element={<RecoverPassword />}
           ></Route>
         </Routes>
         <ScrollToTop />

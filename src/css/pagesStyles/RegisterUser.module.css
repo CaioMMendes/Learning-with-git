@@ -144,3 +144,11 @@
 label span {
   color: red;
 }
+
+.emailInvalido {
+  display: flex;
+  position: relative;
+  color: red;
+  top: -40px;
+  left: 5px;
+}
