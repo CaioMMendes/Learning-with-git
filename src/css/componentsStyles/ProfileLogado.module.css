@@ -1,0 +1,14 @@
+.profileEmail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+}
+
+.editEmail {
+  margin-left: 3px;
+  cursor: pointer;
+}
+.editIcon {
+  color: var(--verde);
+}

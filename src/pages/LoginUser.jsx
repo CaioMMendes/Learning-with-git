@@ -13,7 +13,7 @@ const LoginUser = ({}) => {
   const [isChecked, setIsChecked] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
-  console.log(isLogged);
+
   const dispatch = useDispatch();
   const [dados, setDados] = useState({
     email: "",
@@ -66,8 +66,7 @@ const LoginUser = ({}) => {
     setIsChecked(e.target.checked);
   };
   const handdleKeepLogged = () => {
-    console.log("asd");
-    const expire = new Date().getTime() + 1 * 4 * 1000;
+    const expire = new Date().getTime() + 1 * 10 * 1000;
     if (isChecked) {
       localStorage.setItem(
         "email",
@@ -76,12 +75,11 @@ const LoginUser = ({}) => {
     } else {
       localStorage.setItem(
         "email",
-        JSON.stringify({ logado: false, email: "" })
+        JSON.stringify({ logado: true, email: dados.email, expire: expire })
       );
     }
   };
-  const teste = localStorage.getItem("email");
-  console.log(teste);
+
   const handdleLogin = async (event) => {
     event.preventDefault();
 

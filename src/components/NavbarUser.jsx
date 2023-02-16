@@ -11,6 +11,7 @@ import { logout } from "../redux/isLoggedSlice";
 
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
+
   const dispatch = useDispatch();
   function useOnClickOutside(ref, handler) {
     useEffect(() => {

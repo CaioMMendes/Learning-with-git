@@ -32,13 +32,14 @@ import { changeIsLogged } from "./redux/isLoggedSlice";
 function App() {
   const [isLogged, setIsLogged] = useState({ logado: false, email: "" });
   useEffect(() => {
-    setIsLogged(!!JSON.parse(localStorage.getItem("email")));
-  }, [isLogged]);
+    setIsLogged(JSON.parse(localStorage.getItem("email")));
+  }, []);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(changeIsLogged(isLogged));
   }, [isLogged]);
+
   const [livros, setLivros] = useState([
     {
       isbn: 2,

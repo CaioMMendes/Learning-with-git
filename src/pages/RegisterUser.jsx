@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import validator from "validator";
 const RegisterUser = ({ isDark }) => {
   const [dados, setDados] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -28,6 +29,9 @@ const RegisterUser = ({ isDark }) => {
 
     setDados({ ...dados, email: e.target.value });
   };
+  const onchangeName = (e) => {
+    setDados({ ...dados, name: e.target.value });
+  };
   const onchangePassword = (e) => {
     let password = e.target.value.replace(/\s+/g, "");
 
@@ -43,6 +47,12 @@ const RegisterUser = ({ isDark }) => {
     trimEmail =
       dados.email && dados.email.trim().split(" ").filter(Boolean).join(" ");
     setDados({ ...dados, email: trimEmail });
+  };
+  const onBlurName = () => {
+    let trimName;
+    trimName =
+      dados.name && dados.name.trim().split(" ").filter(Boolean).join(" ");
+    setDados({ ...dados, name: trimName });
   };
 
   const handleKeypress = (e) => {
@@ -67,6 +77,7 @@ const RegisterUser = ({ isDark }) => {
         .post("http://localhost:3003/register", {
           email: dados.email,
           password: dados.password,
+          name: dados.name,
         })
         .then((response) => {
           console.log(response);
@@ -105,10 +116,23 @@ const RegisterUser = ({ isDark }) => {
                 <input
                   type="text"
                   onKeyUp={handleKeypress}
+                  autoFocus
+                  value={dados.name}
+                  onChange={onchangeName}
+                  onBlur={onBlurName}
+                  required
+                />
+                <label>
+                  Name <span>*</span>
+                </label>
+              </div>
+              <div className={styles.userBox}>
+                <input
+                  type="text"
+                  onKeyUp={handleKeypress}
                   value={dados.email}
                   onChange={onchangeEmail}
                   onBlur={onBlurEmail}
-                  autoFocus
                   required
                 />
                 <label>

@@ -176,7 +176,6 @@ label span {
 .forgotKeep {
   position: absolute;
   top: 300px;
-
   display: flex;
   flex-direction: row;
 }
