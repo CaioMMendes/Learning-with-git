@@ -30,7 +30,7 @@
   /* background-color: red; */
   height: 100px;
 }
-.loginBox .userBox input {
+.loginBox .userBox input:not([type="checkbox"]) {
   /* background-color: aqua; */
   position: relative;
   width: 100%;
@@ -65,7 +65,7 @@
   background-repeat: no-repeat;
 }
 
-.loginBox .userBox label {
+.loginBox .userBox label:not(.labelCheckbox) {
   position: relative;
   left: 10px;
   top: -60px;
@@ -75,8 +75,8 @@
   transition: 0.5s;
 }
 /* o ~ seleciona o elemento label que vem imediatamente após o elemento input com o atributo :focus ou :valid */
-.loginBox .userBox input:focus ~ label,
-.loginBox .userBox input:valid ~ label {
+.loginBox .userBox input:focus ~ label:not(.labelCheckbox),
+.loginBox .userBox input:valid ~ label:not(.labelCheckbox) {
   top: -85px;
   left: 5px;
   color: var(--verde);
@@ -122,10 +122,10 @@
   color: #cbbddb;
   margin: auto;
   width: 60%;
-  text-align: center;
+  text-align: end;
 }
 
-.register a {
+.register a:not(.forgotPassword) {
   margin: auto;
   color: var(--verde);
   text-decoration: none;
@@ -142,10 +142,41 @@ label span {
 
 .forgotPassword a {
   display: flex;
-  position: relative;
-  top: -30px;
   justify-content: end;
+  width: 137px;
   text-decoration: none;
   color: var(--verde);
   font-size: 13px;
+}
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  justify-content: start;
+  width: 200px;
+  color: var(--verde);
+  align-items: center;
+}
+.checkbox input {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 0 0 0 0;
+  align-items: center;
+  scale: 1.1;
+  margin-right: 5px;
+}
+.checkbox label {
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+}
+
+.forgotKeep {
+  position: absolute;
+  top: 300px;
+
+  display: flex;
+  flex-direction: row;
 }

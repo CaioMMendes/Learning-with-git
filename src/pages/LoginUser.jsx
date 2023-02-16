@@ -5,9 +5,16 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Button from "../components/Button";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { changeIsLogged } from "../redux/isLoggedSlice";
 
-const LoginUser = ({ isDark }) => {
+const LoginUser = ({}) => {
+  const { isDark } = useSelector((state) => state.isDarkRedux);
+  const [isChecked, setIsChecked] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  console.log(isLogged);
+  const dispatch = useDispatch();
   const [dados, setDados] = useState({
     email: "",
     password: "",
@@ -55,7 +62,26 @@ const LoginUser = ({ isDark }) => {
       showConfirmButton: false,
     });
   };
-
+  const handdleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+  const handdleKeepLogged = () => {
+    console.log("asd");
+    const expire = new Date().getTime() + 1 * 4 * 1000;
+    if (isChecked) {
+      localStorage.setItem(
+        "email",
+        JSON.stringify({ logado: true, email: dados.email })
+      );
+    } else {
+      localStorage.setItem(
+        "email",
+        JSON.stringify({ logado: false, email: "" })
+      );
+    }
+  };
+  const teste = localStorage.getItem("email");
+  console.log(teste);
   const handdleLogin = async (event) => {
     event.preventDefault();
 
@@ -66,9 +92,12 @@ const LoginUser = ({ isDark }) => {
             password: dados.password,
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             // limparDados();
+            console.log(response);
             sucesso();
+            dispatch(changeIsLogged({ logado: true, email: dados.email }));
+            handdleKeepLogged();
           })
           .catch((error) => {
             usuarioSenhaInvalidos(error);
@@ -80,6 +109,7 @@ const LoginUser = ({ isDark }) => {
     // : !isValidCep && alert("Digite um cep valido");
   };
   const usuarioSenhaInvalidos = (error) => {
+    console.log(error);
     alert(`O usuário ou senha estão incorretos`);
   };
 
@@ -125,10 +155,27 @@ const LoginUser = ({ isDark }) => {
                 }`}
                 onClick={togglePassword}
               ></div>
-              <div className={styles.forgotPassword}>
-                <Link to="/account/recover-password">
-                  Forgot your password ?
-                </Link>
+              <div className={styles.forgotKeep}>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handdleCheckboxChange}
+                    id="checkboxInput"
+                  />
+                  <label
+                    htmlFor="checkboxInput"
+                    className={styles.labelCheckbox}
+                  >
+                    Keep logged in
+                  </label>
+                </div>
+
+                <div className={styles.forgotPassword}>
+                  <Link to="/account/recover-password">
+                    Forgot your password ?
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -139,6 +186,7 @@ const LoginUser = ({ isDark }) => {
             {/* <Button>Submits</Button> */}
             <div className={styles.register}>
               <p>Don't have an account?</p>
+
               <Link to="/account/register">Register</Link>
             </div>
           </div>

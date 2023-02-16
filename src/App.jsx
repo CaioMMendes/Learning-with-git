@@ -23,10 +23,22 @@ import NewsList from "./pages/NewsList";
 import LoginUser from "./pages/LoginUser";
 import RegisterUser from "./pages/RegisterUser";
 import RecoverPassword from "./pages/RecoverPassword";
+import UserProfile from "./pages/UserProfile";
 import { useDispatch } from "react-redux";
 import { changeLivros } from "./redux/LivrosSlice";
+import { changeIsDark } from "./redux/IsDarkSlice";
+import { changeIsLogged } from "./redux/isLoggedSlice";
 
 function App() {
+  const [isLogged, setIsLogged] = useState({ logado: false, email: "" });
+  useEffect(() => {
+    setIsLogged(!!JSON.parse(localStorage.getItem("email")));
+  }, [isLogged]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(changeIsLogged(isLogged));
+  }, [isLogged]);
   const [livros, setLivros] = useState([
     {
       isbn: 2,
@@ -59,14 +71,13 @@ function App() {
       id: uuidv4(),
     },
   ]);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(changeLivros(livros));
   }, [livros]);
   const [isDark, setIsDark] = useState(!!Cookies.get("dark"));
 
   // const currentMode = localStorage.getItem("darkMode");
-
   const mudarTema = () => {
     setIsDark(!isDark);
 
@@ -74,6 +85,11 @@ function App() {
       ? (setIsDark(false), Cookies.remove("dark"))
       : (setIsDark(true), Cookies.set("dark", true));
   };
+
+  // Se não usar dentro do useEffect da warning
+  useEffect(() => {
+    dispatch(changeIsDark(isDark));
+  }, [isDark]);
 
   // useEffect(mudarTema, []);
   const toggleMenu = () => document.body.classList.toggle("open");
@@ -210,11 +226,7 @@ function App() {
             exact
             element={<NewsList newsData={newsData} />}
           ></Route>
-          <Route
-            path="/account/login"
-            exact
-            element={<LoginUser isDark={isDark} />}
-          ></Route>
+          <Route path="/account/login" exact element={<LoginUser />}></Route>
           <Route
             path="/account/register"
             exact
@@ -225,6 +237,7 @@ function App() {
             exact
             element={<RecoverPassword />}
           ></Route>
+          <Route path="/account/profile" exact element={<UserProfile />} />
         </Routes>
         <ScrollToTop />
         <Footer isDark={isDark} />

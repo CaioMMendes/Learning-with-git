@@ -7,7 +7,10 @@ import {
 export const isLoggedSlice = createSlice({
     name: 'isLogged',
     initialState: {
-        isLogged: false
+        isLogged: {
+            logado: false,
+            email: ''
+        }
     },
     reducers: {
         changeIsLogged(state, {
@@ -17,12 +20,23 @@ export const isLoggedSlice = createSlice({
                 ...state,
                 isLogged: payload
             }
+        },
+        logout(state) {
+            return {
+                ...state,
+                isLogged: {
+                    logado: false,
+                    email: ''
+                }
+
+            }
         }
     }
 })
 
 export const {
     changeIsLogged,
+    logout
 } = isLoggedSlice.actions
 export const selectIsLogged = state => state.isLogged
 
