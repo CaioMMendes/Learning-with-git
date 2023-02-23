@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "../css/componentsStyles/ProfileLogado.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { FiEdit } from "react-icons/fi";
+import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 const ProfileLogado = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -11,16 +13,38 @@ const ProfileLogado = () => {
   });
   const [isDisabled, setIsDisabled] = useState({
     email: true,
+    name: true,
   });
   const onchangeEmail = (e) => {
     setDados({ ...dados, email: e.target.value });
   };
+  const onchangeName = (e) => {
+    setDados({ ...dados, name: e.target.value });
+  };
 
   return (
-    <div>
-      {dados.name}
+    <div className={styles.profileLogado}>
       <div className={styles.profileEmail}>
-        <label htmlFor="">
+        <label>
+          Name:
+          <input
+            type="text"
+            value={dados.name}
+            onChange={onchangeName}
+            disabled={isDisabled.name}
+          />
+        </label>
+        <div
+          className={styles.editEmail}
+          onClick={() => {
+            setIsDisabled({ ...isDisabled, name: false });
+          }}
+        >
+          <FiEdit className={styles.editIcon} /> Editar
+        </div>
+      </div>
+      <div className={styles.profileEmail}>
+        <label>
           E-mail:
           <input
             type="text"
@@ -37,6 +61,11 @@ const ProfileLogado = () => {
         >
           <FiEdit className={styles.editIcon} /> Editar
         </div>
+      </div>
+      <div className={styles.button}>
+        <Link to={"/account/login"}>
+          <Button>Change account</Button>
+        </Link>
       </div>
     </div>
   );

@@ -28,17 +28,18 @@ import { useDispatch } from "react-redux";
 import { changeLivros } from "./redux/LivrosSlice";
 import { changeIsDark } from "./redux/IsDarkSlice";
 import { changeIsLogged } from "./redux/isLoggedSlice";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [isLogged, setIsLogged] = useState({ logado: false, email: "" });
-  useEffect(() => {
-    setIsLogged(JSON.parse(localStorage.getItem("email")));
-  }, []);
+  const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  // useEffect(() => {
+  //   setIsLogged(JSON.parse(localStorage.getItem("email")));
+  // }, []);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(changeIsLogged(isLogged));
-  }, [isLogged]);
+    dispatch(changeIsLogged(JSON.parse(localStorage.getItem("email"))));
+  }, []);
 
   const [livros, setLivros] = useState([
     {

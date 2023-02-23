@@ -45,7 +45,7 @@ const NavbarUser = () => {
         </div>
       </button>
       <div className={`${styles.dropdown} ${isOpen ? styles.open : ""}`}>
-        {isLogged.logado ? (
+        {isLogged && isLogged.logado ? (
           <Link to="/account/profile">
             <button>
               <span>
@@ -74,13 +74,13 @@ const NavbarUser = () => {
             <GiPadlock /> <p> Account</p>
           </span>
         </button>
-        {isLogged.logado && (
+        {isLogged && isLogged.logado && (
           <button
             onClick={() => {
               dispatch(logout());
               localStorage.setItem(
                 "email",
-                JSON.stringify({ logado: false, email: "" })
+                JSON.stringify({ name: "", logado: false, email: "" })
               );
             }}
             //         localStorage.setItem(

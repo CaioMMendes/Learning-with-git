@@ -7,12 +7,14 @@ import Button from "../components/Button";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { changeIsLogged } from "../redux/isLoggedSlice";
+import PageTitle from "../components/PageTitle";
 
 const LoginUser = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);
   const [isChecked, setIsChecked] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  const [storageLogado, setStorageLogado] = useState({});
 
   const dispatch = useDispatch();
   const [dados, setDados] = useState({
@@ -65,21 +67,29 @@ const LoginUser = ({}) => {
   const handdleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
-  const handdleKeepLogged = () => {
+  const handdleKeepLogged = (response) => {
+    const novaStorageLogado = {
+      name: response.data.name,
+      email: response.data.email,
+      logado: true,
+    };
+    setStorageLogado(novaStorageLogado);
+    dispatch(changeIsLogged(novaStorageLogado));
+
     const expire = new Date().getTime() + 1 * 10 * 1000;
+
     if (isChecked) {
-      localStorage.setItem(
-        "email",
-        JSON.stringify({ logado: true, email: dados.email })
-      );
+      localStorage.setItem("email", JSON.stringify(novaStorageLogado));
     } else {
-      localStorage.setItem(
-        "email",
-        JSON.stringify({ logado: true, email: dados.email, expire: expire })
-      );
+      localStorage.setItem("email", JSON.stringify(novaStorageLogado));
     }
+    console.log(novaStorageLogado);
+    console.log(storageLogado);
   };
 
+  const excluir = () => {
+    localStorage.removeItem("email");
+  };
   const handdleLogin = async (event) => {
     event.preventDefault();
 
@@ -94,8 +104,7 @@ const LoginUser = ({}) => {
             // limparDados();
             console.log(response);
             sucesso();
-            dispatch(changeIsLogged({ logado: true, email: dados.email }));
-            handdleKeepLogged();
+            handdleKeepLogged(response);
           })
           .catch((error) => {
             usuarioSenhaInvalidos(error);
@@ -113,6 +122,8 @@ const LoginUser = ({}) => {
 
   return (
     <div className="container">
+      <PageTitle pageTitle="Login" />
+
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <h1>Login</h1>
         <form onSubmit={handdleLogin} method="post">
@@ -190,6 +201,7 @@ const LoginUser = ({}) => {
           </div>
         </form>
       </div>
+      <button onClick={excluir}>asdasdad</button>
     </div>
   );
 };

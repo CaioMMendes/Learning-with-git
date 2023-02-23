@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import styles from "../css/pagesStyles/RegisterUser.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { object } from "prop-types";
 import axios from "axios";
 import Swal from "sweetalert2";
 import validator from "validator";
+import PageTitle from "../components/PageTitle";
 const RegisterUser = ({ isDark }) => {
   const [dados, setDados] = useState({
     name: "",
@@ -67,7 +69,10 @@ const RegisterUser = ({ isDark }) => {
   const togglePasswordConfirm = () => {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
-
+  const navigate = useNavigate();
+  const redirect = () => {
+    navigate("/account/login");
+  };
   const handdleRegister = async (event) => {
     event.preventDefault();
     if (dados.password != dados.confirmPassword) {
@@ -80,17 +85,15 @@ const RegisterUser = ({ isDark }) => {
           name: dados.name,
         })
         .then((response) => {
-          console.log(response);
-          // limparDados();
-          sucesso();
+          console.log(response),
+            // limparDados();
+            sucesso(),
+            redirect();
         })
         .catch((error) => {
-          usernameJaCadastrado(error);
+          alert(`O usuário ${error.response.data.email} já está cadastrado`);
         });
     }
-  };
-  const usernameJaCadastrado = (error) => {
-    alert(`O usuário ${error.response.data.email} já está cadastrado`);
   };
 
   const sucesso = () => {
@@ -107,6 +110,7 @@ const RegisterUser = ({ isDark }) => {
   };
   return (
     <div className="container">
+      <PageTitle pageTitle="Register" />
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.registerContainer}>
           <h1>Register</h1>

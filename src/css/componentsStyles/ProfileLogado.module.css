@@ -1,3 +1,10 @@
+.profileLogado {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 .profileEmail {
   display: flex;
   flex-direction: row;
@@ -6,9 +13,14 @@
 }
 
 .editEmail {
-  margin-left: 3px;
+  /* margin-left: 3px; */
   cursor: pointer;
 }
 .editIcon {
   color: var(--verde);
+}
+
+.button button {
+  margin-top: 10px;
+  width: 150px;
 }
