@@ -7,6 +7,7 @@ export const isLoggedSlice = createSlice({
       name: "",
       logado: false,
       email: "",
+      img: "",
     },
   },
   reducers: {
@@ -23,6 +24,7 @@ export const isLoggedSlice = createSlice({
           name: "",
           logado: false,
           email: "",
+          img: "",
         },
       };
     },

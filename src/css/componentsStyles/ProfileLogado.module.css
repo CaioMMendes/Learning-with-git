@@ -23,4 +23,12 @@
 .button button {
   margin-top: 10px;
   width: 150px;
+  margin: 0 0 0 5px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

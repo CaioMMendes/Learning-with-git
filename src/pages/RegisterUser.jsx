@@ -2,12 +2,11 @@ import React from "react";
 import { useState } from "react";
 import styles from "../css/pagesStyles/RegisterUser.module.css";
 import { Link, useNavigate } from "react-router-dom";
-
-import { object } from "prop-types";
 import axios from "axios";
 import Swal from "sweetalert2";
 import validator from "validator";
 import PageTitle from "../components/PageTitle";
+
 const RegisterUser = ({ isDark }) => {
   const [dados, setDados] = useState({
     name: "",
@@ -132,9 +131,11 @@ const RegisterUser = ({ isDark }) => {
               </div>
               <div className={styles.userBox}>
                 <input
-                  type="text"
+                  type="email"
+                  name="email"
                   onKeyUp={handleKeypress}
                   value={dados.email}
+                  autoComplete="on"
                   onChange={onchangeEmail}
                   onBlur={onBlurEmail}
                   required

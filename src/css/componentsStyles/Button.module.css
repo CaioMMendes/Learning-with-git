@@ -1,43 +1,35 @@
-.addButton{
-    background-color: #7fff00;
-    height: 30px;
-    padding: 0 10px;
-    border-radius: 5px;
-    width: 9rem;
-    font-size: var(--font-size);
-    color: #333;
-    font-weight: bold;
-    cursor: pointer;
-    border: 1px solid #444;
-    transition: .5s;
-    box-shadow: 1px 1px #888888;
+.addButton {
+  background-color: #7fff00;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 5px;
+  width: 9rem;
+  font-size: var(--font-size);
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #444;
+  transition: 0.5s;
+  box-shadow: 1px 1px #888888;
 }
-
-
 
 .addButton:hover {
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
   background-color: #444;
   color: chartreuse;
-   box-shadow: #444 2px 4px
+  box-shadow: #444 2px 4px;
 }
 
-
-@media screen and (max-width:760px) {
-  .addButton{
-
+@media screen and (max-width: 760px) {
+  .addButton {
     width: 6rem;
-    font-size: 14px
-
+    font-size: 14px;
   }
 }
-  @media screen and (max-width:480px) {
-  .addButton{
-
+@media screen and (max-width: 480px) {
+  .addButton {
     width: 4rem;
     font-size: 10px !important;
-
   }
-  
 }

@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../css/pagesStyles/ExercicioUm.module.css";
 import Itens from "../components/Itens";
 import { v4 as uuidv4 } from "uuid";
-import TextField from "@mui/material/TextField";
-import { Input } from "@mui/material";
 import axios from "axios";
-import Button from "../components/Button";
 import Loading from "../components/Loading";
 
 const ExercicioUm = () => {
@@ -99,13 +96,7 @@ const ExercicioUm = () => {
           placeholder="Digite algo"
         />
       </div>
-      <TextField
-        id="outlined-basic"
-        label="Outlined"
-        variant="outlined"
-        className={styles.emailField}
-      />
-      <Input />
+
       {/* <div>
         {livros.map((livro) => (
           <Livro key={livro.id} livro={livro} excluirLivro={excluirLivro} />

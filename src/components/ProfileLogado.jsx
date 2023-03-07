@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "../css/componentsStyles/ProfileLogado.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 
 const ProfileLogado = () => {
-  const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  // const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  const [isLogged] = useState(JSON.parse(localStorage.getItem("email")));
   const [dados, setDados] = useState({
     name: isLogged.name,
     email: isLogged.email,
@@ -63,6 +63,7 @@ const ProfileLogado = () => {
         </div>
       </div>
       <div className={styles.button}>
+        <Button>Save</Button>
         <Link to={"/account/login"}>
           <Button>Change account</Button>
         </Link>

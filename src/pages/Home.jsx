@@ -2,8 +2,6 @@ import React from "react";
 import { useState, useRef } from "react";
 import styles from "../css/pagesStyles/Home.module.css";
 
-import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-
 const Home = ({ isDark }) => {
   const [tecla, setTecla] = useState();
   const [nomeTecla, setNomeTecla] = useState();

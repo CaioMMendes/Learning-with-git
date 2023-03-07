@@ -22,7 +22,7 @@ const Footer = ({ isDark }) => {
       </div>
       <div className={styles.sobre}>
         <Link to="/sobre" className={styles.linkSobre}>
-          Sobre
+          <p>Sobre</p>
         </Link>
       </div>
     </footer>

@@ -62,12 +62,11 @@ const NavBar = ({ mudarTema, isDark }) => {
         >
           <GiHamburgerMenu className={styles.burgerIcon} />
         </button>
-
+      </div>
+      <div className={styles.dropdowns}>
         <Link to="/" className={styles.menu}>
           Home
         </Link>
-      </div>
-      <div className={styles.dropdowns}>
         <div className={styles.dropdown}>
           <button className={styles.button}>
             Páginas
@@ -128,7 +127,7 @@ const NavBar = ({ mudarTema, isDark }) => {
         </div>
       </div>
 
-      <div className={styles.settings}>
+      {/* <div className={styles.settings}>
         <div className={styles.menuSettings}>
           <BsFillGearFill />
           <label htmlFor="dropControl">
@@ -149,12 +148,12 @@ const NavBar = ({ mudarTema, isDark }) => {
             </div>
           </label>
         </div>
-      </div>
-      <div>
+      </div> */}
+      <div className={styles.rightNavbar}>
         {" "}
         <div className={styles.switchStyle}>
           <label className={styles.themeText}>
-            Theme
+            <p>Theme</p>
             <SwitchComponent
               onChange={mudarTema}
               isDark={isDark}
@@ -162,8 +161,8 @@ const NavBar = ({ mudarTema, isDark }) => {
             />
           </label>
         </div>
+        <NavbarUser />
       </div>
-      <NavbarUser />
     </nav>
   );
 };

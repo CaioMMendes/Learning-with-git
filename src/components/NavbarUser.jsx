@@ -11,7 +11,8 @@ import { logout } from "../redux/isLoggedSlice";
 
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
-
+  console.log(isLogged);
+  console.log(isLogged.img);
   const dispatch = useDispatch();
   function useOnClickOutside(ref, handler) {
     useEffect(() => {
@@ -34,15 +35,27 @@ const NavbarUser = () => {
   useOnClickOutside(ref, () => setIsOpen(false));
 
   return (
-    <div ref={ref} className={styles.user}>
+    <div ref={ref} className={`${styles.user} `}>
       <button
         onClick={() => {
           setIsOpen(!isOpen);
         }}
       >
-        <div className={styles.userBackground}>
-          <FaUser className={styles.userIcon} />
-        </div>
+        {isLogged && isLogged.logado ? (
+          <div className={styles.userLogado}>
+            {isLogged.img ? (
+              <img src={isLogged.img} alt="" />
+            ) : (
+              <div className={`${styles.userBackground}`}>
+                <FaUser className={styles.userIcon} />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className={`${styles.userBackground}`}>
+            <FaUser className={styles.userIcon} />
+          </div>
+        )}
       </button>
       <div className={`${styles.dropdown} ${isOpen ? styles.open : ""}`}>
         {isLogged && isLogged.logado ? (

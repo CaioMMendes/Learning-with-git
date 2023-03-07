@@ -1,12 +1,11 @@
 import React, { useCallback } from "react";
 import { useState, useRef } from "react";
 import styles from "../css/pagesStyles/Cadastro.module.css";
-
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Swal from "sweetalert2";
-
 import { IoIosArrowBack } from "react-icons/io";
+
 const Cadastro = ({ cadastrarLivro }) => {
   const success = () => {
     inputData.length == 0

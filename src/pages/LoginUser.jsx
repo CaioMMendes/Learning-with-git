@@ -2,12 +2,15 @@ import React from "react";
 import styles from "../css/pagesStyles/LoginUser.module.css";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import Button from "../components/Button";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { changeIsLogged } from "../redux/isLoggedSlice";
 import PageTitle from "../components/PageTitle";
+import SwalFire from "../components/SwalFire";
+import jwt_decode from "jwt-decode";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import googleSvg from "../img/googleSvg.svg";
 
 const LoginUser = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);
@@ -21,6 +24,16 @@ const LoginUser = ({}) => {
     email: "",
     password: "",
   });
+
+  var iframe = document.getElementsByTagName("iframe");
+  console.log(iframe[0]);
+  // if (iframe[0]) {
+  //   iframe[0].body.style.backgroundColor = "red";
+  // }
+
+  // var innerDoc = iframe[0].contentDocument || iframe[0].contentWindow.document;
+  // innerDoc.body.style.backgroundColor = "red";
+
   const inputRef = useRef(null);
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -53,16 +66,7 @@ const LoginUser = ({}) => {
   };
 
   const sucesso = () => {
-    Swal.fire({
-      customClass: `${styles.swal}`,
-      icon: "success",
-      title: "Logado!",
-      width: 450,
-      text: "",
-      timer: 2000,
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
+    SwalFire("Logado!", "success");
   };
   const handdleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
@@ -120,86 +124,126 @@ const LoginUser = ({}) => {
     alert(`O usuário ou senha estão incorretos`);
   };
 
+  const login = useGoogleLogin({
+    onSuccess: async (respose) => {
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${respose.access_token}`,
+            },
+          }
+        );
+
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
+
   return (
     <div className="container">
       <PageTitle pageTitle="Login" />
 
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
-        <h1>Login</h1>
-        <form onSubmit={handdleLogin} method="post">
-          <div className={styles.box}>
-            <div className={styles.userBox}>
-              <input
-                type="text"
-                onKeyUp={handleKeypress}
-                value={dados.email}
-                onChange={onchangeEmail}
-                autoFocus
-                onBlur={onBlurEmail}
-                required
-              />
-              <label>
-                E-mail <span>*</span>{" "}
-              </label>
-            </div>
+        <div className={styles.loginContainer}>
+          <h1>Login</h1>
+          <form onSubmit={handdleLogin} method="post">
+            <div className={styles.box}>
+              <div className={styles.userBox}>
+                <input
+                  type="text"
+                  onKeyUp={handleKeypress}
+                  value={dados.email}
+                  name="email"
+                  onChange={onchangeEmail}
+                  autoFocus
+                  autoComplete="on"
+                  onBlur={onBlurEmail}
+                  required
+                />
+                <label>
+                  E-mail <span>*</span>{" "}
+                </label>
+              </div>
 
-            <div className={styles.userBox}>
-              <input
-                onKeyUp={handleKeypress}
-                className={styles.inputPassword}
-                type={`${showPassword ? "text" : "password"}`}
-                value={dados.password}
-                ref={inputRef}
-                onChange={onchangePassword}
-                required
-              />
+              <div className={styles.userBox}>
+                <input
+                  onKeyUp={handleKeypress}
+                  className={styles.inputPassword}
+                  type={`${showPassword ? "text" : "password"}`}
+                  value={dados.password}
+                  ref={inputRef}
+                  onChange={onchangePassword}
+                  required
+                />
 
-              <label>
-                {" "}
-                Password <span>*</span>{" "}
-              </label>
-              <div
-                className={`${showPassword && `${styles.hide} `} ${
-                  styles.show
-                }`}
-                onClick={togglePassword}
-              ></div>
-              <div className={styles.forgotKeep}>
-                <div className={styles.checkbox}>
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handdleCheckboxChange}
-                    id="checkboxInput"
-                  />
-                  <label
-                    htmlFor="checkboxInput"
-                    className={styles.labelCheckbox}
-                  >
-                    Keep logged in
-                  </label>
-                </div>
+                <label>
+                  {" "}
+                  Password <span>*</span>{" "}
+                </label>
+                <div
+                  className={`${showPassword && `${styles.hide} `} ${
+                    styles.show
+                  }`}
+                  onClick={togglePassword}
+                ></div>
+                <div className={styles.forgotKeep}>
+                  <div className={styles.checkbox}>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={handdleCheckboxChange}
+                      id="checkboxInput"
+                    />
+                    <label
+                      htmlFor="checkboxInput"
+                      className={styles.labelCheckbox}
+                    >
+                      Keep logged in
+                    </label>
+                  </div>
 
-                <div className={styles.forgotPassword}>
-                  <Link to="/account/recover-password">
-                    Forgot your password ?
-                  </Link>
+                  <div className={styles.forgotPassword}>
+                    <Link to="/account/recover-password">
+                      Forgot your password ?
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className={styles.buttonForm}>
-            <button type="submit" className={styles.submit}>
-              Submit
-            </button>
-            {/* <Button>Submits</Button> */}
-            <div className={styles.register}>
-              <p>Don't have an account?</p>
+            <div className={styles.buttonForm}>
+              <button type="submit" className={styles.submit}>
+                Submit
+              </button>
+              {/* <Button>Submits</Button> */}
+              <div className={styles.register}>
+                <p>Don't have an account?</p>
 
-              <Link to="/account/register">Register</Link>
+                <Link to="/account/register">Register</Link>
+              </div>
             </div>
+          </form>
+
+          <div className={styles.googleButton}>
+            <button onClick={() => login()}>
+              <img src={googleSvg} alt="" /> Sign in with Google
+            </button>
           </div>
-        </form>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse.credential);
+              var decoded = jwt_decode(credentialResponse.credential);
+
+              console.log(decoded);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
+        </div>
       </div>
       <button onClick={excluir}>asdasdad</button>
     </div>

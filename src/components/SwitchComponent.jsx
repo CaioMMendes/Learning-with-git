@@ -16,7 +16,7 @@ const SwitchComponent = ({ onChange, isDark, checkedSwitch }) => {
         offColor={shade(0.4, "#7fff00")}
         onColor="#7fff00"
         onHandleColor={lighten(0.4, "#242424")}
-        offHandleColor={shade(0, "#242424")}
+        offHandleColor={lighten(0.1, "#242424")}
         background="#7fff00"
         activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
         className="teste"

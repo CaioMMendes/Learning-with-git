@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styles from "../css/pagesStyles/Endereco.module.css";
 import axios from "axios";
-import Loading from "../components/Loading";
 import validator from "validator";
 import Button from "../components/Button";
 import Swal from "sweetalert2";
@@ -42,37 +41,37 @@ const Endereco = ({ isDark }) => {
     pais: false,
   });
 
-  const inserirDadosBanco = async () => {
-    await axios
-      .post("http://localhost:3003/produtos", {
-        nome: "cadeira",
-        preco: 249.11,
-        estoque: 10,
-        minEstoque: 4,
-      })
-      .then((response) => {
-        console.log(response);
-        setDummy((d) => d + "a");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const inserirDadosBanco = async () => {
+  //   await axios
+  //     .post("http://localhost:3003/produtos", {
+  //       nome: "cadeira",
+  //       preco: 249.11,
+  //       estoque: 10,
+  //       minEstoque: 4,
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //       setDummy((d) => d + "a");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
-  const mataCadeira = async () => {
-    await axios
-      .post("http://localhost:3003/fornecedor", {
-        nome: "caio",
-        telefone: 987654321,
-      })
-      .then((response) => {
-        console.log(response);
-        setDummy((d) => d + "a");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const mataCadeira = async () => {
+  //   await axios
+  //     .post("http://localhost:3003/fornecedor", {
+  //       nome: "caio",
+  //       telefone: 987654321,
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //       setDummy((d) => d + "a");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   function askForPermission() {
     // if (window.confirm("Would you like to share your location?")) {
@@ -633,8 +632,6 @@ const Endereco = ({ isDark }) => {
       {/* //todo ---------------------------------------------------------- */}
 
       <TabelaProdutos dummy={dummy} />
-      <button onClick={inserirDadosBanco}>inserir dados</button>
-      <button onClick={mataCadeira}>Mata cadeiras</button>
     </div>
   );
 };
