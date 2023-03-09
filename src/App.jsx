@@ -38,6 +38,12 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    const now = new Date().getTime();
+    const oldTimeStamp = JSON.parse(localStorage.getItem("email"));
+
+    if (oldTimeStamp != null && now - oldTimeStamp.time > 1 * 60 * 60 * 1000) {
+      localStorage.removeItem("email");
+    }
     dispatch(changeIsLogged(JSON.parse(localStorage.getItem("email"))));
   }, []);
 

@@ -76,6 +76,7 @@ const LoginUser = ({}) => {
       name: response.data.name,
       email: response.data.email,
       logado: true,
+      time: new Date().getTime(),
     };
     setStorageLogado(novaStorageLogado);
     dispatch(changeIsLogged(novaStorageLogado));
@@ -83,7 +84,10 @@ const LoginUser = ({}) => {
     const expire = new Date().getTime() + 1 * 10 * 1000;
 
     if (isChecked) {
-      localStorage.setItem("email", JSON.stringify(novaStorageLogado));
+      localStorage.setItem(
+        "email",
+        JSON.stringify({ ...novaStorageLogado, time: 9678287402600 })
+      );
     } else {
       localStorage.setItem("email", JSON.stringify(novaStorageLogado));
     }
@@ -177,6 +181,7 @@ const LoginUser = ({}) => {
                   value={dados.password}
                   ref={inputRef}
                   onChange={onchangePassword}
+                  autoComplete="off"
                   required
                 />
 
@@ -190,27 +195,27 @@ const LoginUser = ({}) => {
                   }`}
                   onClick={togglePassword}
                 ></div>
-                <div className={styles.forgotKeep}>
-                  <div className={styles.checkbox}>
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={handdleCheckboxChange}
-                      id="checkboxInput"
-                    />
-                    <label
-                      htmlFor="checkboxInput"
-                      className={styles.labelCheckbox}
-                    >
-                      Keep logged in
-                    </label>
-                  </div>
+              </div>
+              <div className={styles.forgotKeep}>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handdleCheckboxChange}
+                    id="checkboxInput"
+                  />
+                  <label
+                    htmlFor="checkboxInput"
+                    className={styles.labelCheckbox}
+                  >
+                    Keep logged in
+                  </label>
+                </div>
 
-                  <div className={styles.forgotPassword}>
-                    <Link to="/account/recover-password">
-                      Forgot your password ?
-                    </Link>
-                  </div>
+                <div className={styles.forgotPassword}>
+                  <Link to="/account/recover-password">
+                    Forgot your password ?
+                  </Link>
                 </div>
               </div>
             </div>

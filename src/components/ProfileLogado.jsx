@@ -21,6 +21,17 @@ const ProfileLogado = () => {
   const onchangeName = (e) => {
     setDados({ ...dados, name: e.target.value });
   };
+  const onBlurEmail = () => {
+    let trimEmail;
+    trimEmail = dados.email && dados.email.replace(/\s/g, "");
+    setDados({ ...dados, email: trimEmail });
+  };
+  const onBlurName = () => {
+    let trimName;
+    trimName =
+      dados.name && dados.name.trim().split(" ").filter(Boolean).join(" ");
+    setDados({ ...dados, name: trimName });
+  };
 
   return (
     <div className={styles.profileLogado}>
@@ -31,6 +42,7 @@ const ProfileLogado = () => {
             type="text"
             value={dados.name}
             onChange={onchangeName}
+            onBlur={onBlurName}
             disabled={isDisabled.name}
           />
         </label>
@@ -50,6 +62,7 @@ const ProfileLogado = () => {
             type="text"
             value={dados.email}
             onChange={onchangeEmail}
+            onBlur={onBlurEmail}
             disabled={isDisabled.email}
           />
         </label>

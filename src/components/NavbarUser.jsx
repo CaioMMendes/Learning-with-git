@@ -12,7 +12,7 @@ import { logout } from "../redux/isLoggedSlice";
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   console.log(isLogged);
-  console.log(isLogged.img);
+
   const dispatch = useDispatch();
   function useOnClickOutside(ref, handler) {
     useEffect(() => {

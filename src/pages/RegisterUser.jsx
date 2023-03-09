@@ -45,8 +45,7 @@ const RegisterUser = ({ isDark }) => {
 
   const onBlurEmail = () => {
     let trimEmail;
-    trimEmail =
-      dados.email && dados.email.trim().split(" ").filter(Boolean).join(" ");
+    trimEmail = dados.email && dados.email.replace(/\s/g, "");
     setDados({ ...dados, email: trimEmail });
   };
   const onBlurName = () => {
