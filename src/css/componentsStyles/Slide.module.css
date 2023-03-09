@@ -60,12 +60,14 @@ body {
 }
 
 .numberSlide5 {
-  background: rgb(255, 64, 156);
+  background-image: url("https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/KR5RYH57GJG2ZLLJP4QF2RBPPM.png");
+  background-size: cover;
+  /* background: rgb(255, 64, 156);
   background: linear-gradient(
     128deg,
     rgba(255, 64, 156, 1) 0%,
     rgba(255, 63, 63, 1) 100%
-  );
+  ); */
 }
 .numberSlide6 {
   background: rgb(64, 76, 255);

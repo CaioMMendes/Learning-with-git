@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../css/componentsStyles/Livro.module.css";
-import Button from "./Button";
+import Button from "./smallComponents/Button";
 const Livro = ({ livro, excluirLivro }) => {
   return (
     <div className={styles.container}>

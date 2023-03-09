@@ -6,7 +6,7 @@ import "./index.css";
 import Tabela from "./pages/Tabela";
 import Cadastro from "./pages/Cadastro";
 import OutroEstilo from "./pages/Animation";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/navbar/NavBar";
 import SiteFlexbox from "./pages/SiteFlexbox";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";

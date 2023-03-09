@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../css/pagesStyles/LoginUser.module.css";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
+import Button from "../components/smallComponents/Button";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { changeIsLogged } from "../redux/isLoggedSlice";

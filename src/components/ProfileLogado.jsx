@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../css/componentsStyles/ProfileLogado.module.css";
 import { FiEdit } from "react-icons/fi";
-import Button from "../components/Button";
+import Button from "./smallComponents/Button";
 import { Link } from "react-router-dom";
 
 const ProfileLogado = () => {

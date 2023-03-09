@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/componentsStyles/NavbarUser.module.css";
+import styles from "../../css/componentsStyles/navbarCss/NavbarUser.module.css";
 import { useState, useEffect, useRef } from "react";
 import { BsFillGearFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
@@ -7,32 +7,20 @@ import { GiPadlock } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/isLoggedSlice";
+import { logout } from "../../redux/isLoggedSlice";
+import { ClickOutside } from "../smallComponents/ClickOutside";
 
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   console.log(isLogged);
 
   const dispatch = useDispatch();
-  function useOnClickOutside(ref, handler) {
-    useEffect(() => {
-      const listener = (event) => {
-        if (!ref.current || ref.current.contains(event.target)) {
-          return;
-        }
-        handler(event);
-      };
-      document.addEventListener("mousedown", listener);
-      document.addEventListener("touchstart", listener);
-      return () => {
-        document.removeEventListener("mousedown", listener);
-        document.removeEventListener("touchstart", listener);
-      };
-    }, [ref, handler]);
-  }
+
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
-  useOnClickOutside(ref, () => setIsOpen(false));
+
+  // useOnClickOutside(ref, () => setIsOpen(false));
+  ClickOutside(ref, () => setIsOpen(false));
 
   return (
     <div ref={ref} className={`${styles.user} `}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import styles from "../css/pagesStyles/Endereco.module.css";
 import axios from "axios";
 import validator from "validator";
-import Button from "../components/Button";
+import Button from "../components/smallComponents/Button";
 import Swal from "sweetalert2";
 import TabelaProdutos from "../components/TabelaProdutos";
 

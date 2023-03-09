@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import styles from "../css/componentsStyles/NavBar.module.css";
+import styles from "../../css/componentsStyles/navbarCss/Navbar.module.css";
 import { BsFillGearFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosArrowBack } from "react-icons/io";
-import SwitchComponent from "./SwitchComponent";
+import SwitchComponent from "../SwitchComponent";
 import NavbarUser from "./NavbarUser";
+import NavbarHamburguer from "./NavbarHamburguer";
 
 import { Link } from "react-router-dom";
 
@@ -53,7 +54,7 @@ const NavBar = ({ mudarTema, isDark }) => {
 
   return (
     <nav className={`${styles.navbar} dark`}>
-      <div>
+      <div className={styles.burguerContainer}>
         <button
           onClick={() => {
             console.log("asdas");
