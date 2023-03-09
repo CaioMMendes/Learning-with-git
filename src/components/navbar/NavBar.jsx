@@ -1,27 +1,22 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../../css/componentsStyles/navbarCss/Navbar.module.css";
 import { BsFillGearFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoIosClose } from "react-icons/io";
 import SwitchComponent from "../SwitchComponent";
 import NavbarUser from "./NavbarUser";
 import NavbarHamburguer from "./NavbarHamburguer";
+import { ClickOutside } from "../smallComponents/ClickOutside";
 
 import { Link } from "react-router-dom";
 
 const NavBar = ({ mudarTema, isDark }) => {
   const checkedSwitch = false;
-  const [backgroundColor, setBackgroundColor] = useState("#FFF");
 
-  const mudarBackground = () => {
-    document.body.style.backgroundColor = `${backgroundColor} !important`;
-    console.log(backgroundColor);
-  };
-
-  const inputChange = (e) => {
-    setBackgroundColor(e.target.value);
-  };
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef(null);
+  ClickOutside(ref, () => setIsOpen(false));
 
   const root = getComputedStyle(document.querySelector(":root"));
 
@@ -56,15 +51,24 @@ const NavBar = ({ mudarTema, isDark }) => {
     <nav className={`${styles.navbar} dark`}>
       <div className={styles.burguerContainer}>
         <button
-          onClick={() => {
-            console.log("asdas");
-          }}
           className={styles.burger}
+          onClick={() => {
+            setIsOpen(!isOpen);
+            console.log(isOpen);
+          }}
         >
-          <GiHamburgerMenu className={styles.burgerIcon} />
+          {isOpen ? (
+            <IoIosClose className={styles.closeIcon} />
+          ) : (
+            <GiHamburgerMenu className={styles.burgerIcon} />
+          )}
         </button>
       </div>
-      <div className={styles.dropdowns}>
+
+      <div
+        ref={ref}
+        className={`${styles.dropdowns} ${isOpen ? styles.open : styles.close}`}
+      >
         <Link to="/" className={styles.menu}>
           Home
         </Link>

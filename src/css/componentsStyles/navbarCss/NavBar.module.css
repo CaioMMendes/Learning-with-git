@@ -39,9 +39,11 @@ button {
   box-sizing: border-box;
 }
 
-.burguerContainer:hover .burgerIcon {
+.burguerContainer:hover .burgerIcon,
+.burguerContainer:hover .closeIcon {
   color: var(--colorMenuHover);
 }
+
 .burger {
   display: grid;
   place-items: center;
@@ -54,8 +56,13 @@ button {
 .burgerIcon {
   color: var(--colorMenu);
   font-size: 24px;
+  width: 100%;
 }
-
+.closeIcon {
+  color: var(--colorMenu);
+  font-size: 47px;
+  width: 100%;
+}
 body.open .burger {
   background-image: url("../img/close.svg");
 }
@@ -341,6 +348,9 @@ body.open .burger {
     height: 40px;
   }
   .dropdowns {
+    opacity: 0;
+    translate: 0 -20px;
+    transition: 0.4s;
     border-right: 1px solid var(--verde);
     border-top: 1px solid var(--verde);
     /* border-bottom: 1px solid var(--verde); */
@@ -356,8 +366,8 @@ body.open .burger {
     flex-direction: column;
     justify-content: flex-start;
     background: transparent;
-    opacity: 1;
-    visibility: visible;
+    /* opacity: 1;
+    visibility: visible; */
     background-color: var(--navbarBackground);
   }
   .dropdown {
@@ -380,7 +390,6 @@ body.open .burger {
     opacity: 1;
     visibility: visible;
     translate: 0 0;
-    box-shadow: inset 0 0 0 1px var(--navbarBackground);
     /* box-shadow: 0 0 0 1px var(--verde); */
     /* box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2); */
   }
@@ -422,7 +431,17 @@ body.open .burger {
     width: 100%;
     border-top: 1px solid var(--verde);
   }
-
+  .open {
+    opacity: 1;
+    visibility: visible;
+    translate: 0;
+  }
+  .close {
+    /* display: none; */
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+  }
   .menu {
     width: 100%;
     display: flex;
