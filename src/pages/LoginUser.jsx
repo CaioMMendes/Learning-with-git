@@ -11,10 +11,11 @@ import SwalFire from "../components/SwalFire";
 import jwt_decode from "jwt-decode";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import googleSvg from "../img/googleSvg.svg";
+import { UserApi } from "../hooks/UserApi";
 
 const LoginUser = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const [storageLogado, setStorageLogado] = useState({});
@@ -100,13 +101,16 @@ const LoginUser = ({}) => {
   };
   const handdleLogin = async (event) => {
     event.preventDefault();
-
+    const api = UserApi();
     dados.email != ""
-      ? await axios
-          .post("http://localhost:3003/login", {
-            email: dados.email,
-            password: dados.password,
-          })
+      ? await api
+          .login(dados.email, dados.password)
+
+          // await axios
+          //   .post("http://localhost:3003/login", {
+          //     email: dados.email,
+          //     password: dados.password,
+          //   })
           .then((response) => {
             // console.log(response);
             // limparDados();
