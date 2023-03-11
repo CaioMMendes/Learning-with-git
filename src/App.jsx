@@ -29,6 +29,7 @@ import { changeLivros } from "./redux/LivrosSlice";
 import { changeIsDark } from "./redux/IsDarkSlice";
 import { changeIsLogged } from "./redux/isLoggedSlice";
 import { useSelector } from "react-redux";
+import { UserApi } from "./hooks/UserApi";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -45,6 +46,24 @@ function App() {
       localStorage.removeItem("email");
     }
     dispatch(changeIsLogged(JSON.parse(localStorage.getItem("email"))));
+
+    const getData = async () => {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const api = UserApi();
+      console.log("first");
+      await api
+        .token(token)
+        .then((response) => {
+          console.log(response.data);
+
+          dispatch(changeIsLogged(response.data));
+        })
+        .catch((error, response) => {
+          console.log(error);
+          console.log(response);
+        });
+    };
+    getData();
   }, []);
 
   const [livros, setLivros] = useState([

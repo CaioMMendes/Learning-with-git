@@ -13,9 +13,42 @@ export const UserApi = () => ({
             password
         })
         return response
+    },
+
+    register: async (email, password, name) => {
+        const response = await api.post('/register', {
+            email,
+            password,
+            name
+        })
+        return response
+    },
+
+    token: async (token) => {
+        const response = await api.post('/userinfo', {
+            token
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        return response
     }
 
-    // register:
+
+
+
+    //   await axios
+    //       .post(
+    //           "http://localhost:3003/userinfo", {
+    //               token
+    //           }, {
+    //               headers: {
+    //                   Authorization: `Bearer ${token}`,
+    //               },
+    //           }
+    //       )
+
 
 
 

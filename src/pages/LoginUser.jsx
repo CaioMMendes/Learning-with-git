@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../css/pagesStyles/LoginUser.module.css";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/smallComponents/Button";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -53,12 +53,11 @@ const LoginUser = ({}) => {
     setDados({ ...dados, email: trimEmail });
   };
 
-  const handleKeypress = (e) => {
-    //it triggers by pressing the enter key
-    if (e.keyCode === 13) {
-      alert("Em construção");
-    }
-  };
+  // const handleKeypress = (e) => {
+  //   //it triggers by pressing the enter key
+  //   if (e.keyCode === 13) {
+  //   }
+  // };
   const limparDados = () => {
     setDados({
       email: "",
@@ -99,9 +98,12 @@ const LoginUser = ({}) => {
   const excluir = () => {
     localStorage.removeItem("email");
   };
+  //porque quando o navigate esta dendo da função handdlelogin da erro?
+  const navigate = useNavigate();
   const handdleLogin = async (event) => {
     event.preventDefault();
     const api = UserApi();
+
     dados.email != ""
       ? await api
           .login(dados.email, dados.password)
@@ -117,6 +119,10 @@ const LoginUser = ({}) => {
             console.log(response);
             sucesso();
             handdleKeepLogged(response);
+            console.log(response.data);
+            localStorage.setItem("token", JSON.stringify(response.data.token));
+            console.log(response.headers);
+            navigate("/", { replace: true });
           })
           .catch((error) => {
             usuarioSenhaInvalidos(error);
@@ -128,7 +134,7 @@ const LoginUser = ({}) => {
     // : !isValidCep && alert("Digite um cep valido");
   };
   const usuarioSenhaInvalidos = (error) => {
-    console.log(error);
+    console.error(error);
     alert(`O usuário ou senha estão incorretos`);
   };
 
@@ -150,11 +156,33 @@ const LoginUser = ({}) => {
       }
     },
   });
-
+  const puxardados = async () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    const api = UserApi();
+    // await axios
+    //   .post(
+    //     "http://localhost:3003/userinfo",
+    //     { token },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   )
+    await api
+      .token(token)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error, response) => {
+        console.log(error);
+        console.log(response);
+      });
+  };
   return (
     <div className="container">
       <PageTitle pageTitle="Login" />
-
+      <button onClick={puxardados}>puxar dados usuario</button>
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.loginContainer}>
           <h1>Login</h1>
@@ -163,7 +191,7 @@ const LoginUser = ({}) => {
               <div className={styles.userBox}>
                 <input
                   type="text"
-                  onKeyUp={handleKeypress}
+                  // onKeyUp={handleKeypress}
                   value={dados.email}
                   name="email"
                   onChange={onchangeEmail}
@@ -179,7 +207,7 @@ const LoginUser = ({}) => {
 
               <div className={styles.userBox}>
                 <input
-                  onKeyUp={handleKeypress}
+                  // onKeyUp={handleKeypress}
                   className={styles.inputPassword}
                   type={`${showPassword ? "text" : "password"}`}
                   value={dados.password}

@@ -5,6 +5,8 @@ import validator from "validator";
 import Button from "../components/smallComponents/Button";
 import Swal from "sweetalert2";
 import TabelaProdutos from "../components/TabelaProdutos";
+import { UserApi } from "../hooks/UserApi";
+import { EnderecoApi } from "../hooks/EnderecoApi";
 
 const Endereco = ({ isDark }) => {
   const [isValid, setIsValid] = useState(true);
@@ -298,27 +300,42 @@ const Endereco = ({ isDark }) => {
   };
   const enviarDadosCadastro = async (event) => {
     event.preventDefault();
-
+    const api = EnderecoApi();
     isValid &&
     dados.nome != "" &&
     dados.email.length > 0 &&
     isValidPhone &&
     isValidCep
-      ? await axios
-          .post("http://localhost:3003/cadastrar", {
-            nome: dados.nome,
-            telefone: dados.telefone,
-            email: dados.email,
-            sexo: dados.sexo,
-            localidade: endereco.localidade,
-            cep: endereco.cep,
-            logradouro: endereco.logradouro,
-            uf: endereco.uf,
-            numero: endereco.numero,
-            complemento: endereco.complemento,
-            bairro: endereco.bairro,
-            pais: endereco.pais,
-          })
+      ? await api
+          .cadastrar(
+            dados.nome,
+            dados.telefone,
+            dados.email,
+            dados.sexo,
+            endereco.localidade,
+            endereco.cep,
+            endereco.logradouro,
+            endereco.uf,
+            endereco.numero,
+            endereco.complemento,
+            endereco.bairro,
+            endereco.pais
+          )
+          // await axios
+          //     .post("http://localhost:3003/cadastrar", {
+          //       nome: dados.nome,
+          //       telefone: dados.telefone,
+          //       email: dados.email,
+          //       sexo: dados.sexo,
+          //       localidade: endereco.localidade,
+          //       cep: endereco.cep,
+          //       logradouro: endereco.logradouro,
+          //       uf: endereco.uf,
+          //       numero: endereco.numero,
+          //       complemento: endereco.complemento,
+          //       bairro: endereco.bairro,
+          //       pais: endereco.pais,
+          //     })
           .then((response) => {
             console.log(response);
             limparDados();

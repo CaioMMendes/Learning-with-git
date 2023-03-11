@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 import styles from "../css/pagesStyles/RegisterUser.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Swal from "sweetalert2";
 import validator from "validator";
 import PageTitle from "../components/PageTitle";
+import { UserApi } from "../hooks/UserApi";
 
 const RegisterUser = ({ isDark }) => {
   const [dados, setDados] = useState({
@@ -73,15 +73,18 @@ const RegisterUser = ({ isDark }) => {
   };
   const handdleRegister = async (event) => {
     event.preventDefault();
+    const api = UserApi();
     if (dados.password != dados.confirmPassword) {
       return alert("As senhas estão diferentes");
     } else if (dados.email != "") {
-      await axios
-        .post("http://localhost:3003/register", {
-          email: dados.email,
-          password: dados.password,
-          name: dados.name,
-        })
+      // await axios
+      //   .post("http://localhost:3003/register", {
+      //     email: dados.email,
+      //     password: dados.password,
+      //     name: dados.name,
+      //   })
+      await api
+        .register(dados.email, dados.password, dados.name)
         .then((response) => {
           console.log(response),
             // limparDados();
