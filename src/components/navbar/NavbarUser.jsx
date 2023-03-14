@@ -9,6 +9,7 @@ import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/isLoggedSlice";
 import { ClickOutside } from "../smallComponents/ClickOutside";
+import { UserApi } from "../../hooks/UserApi";
 
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -22,6 +23,19 @@ const NavbarUser = () => {
   // useOnClickOutside(ref, () => setIsOpen(false));
   ClickOutside(ref, () => setIsOpen(false));
 
+  //todo não ta excluindo o token do banco de dados porque não sei como enviar o refresh token
+  //todo e o servidor usa isso para achar qual pessoa é e excluir o token
+  const logoutServer = async () => {
+    const api = UserApi();
+    await api
+      .logout()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div ref={ref} className={`${styles.user} `}>
       <button
@@ -78,6 +92,7 @@ const NavbarUser = () => {
         {isLogged && isLogged.logado && (
           <button
             onClick={() => {
+              logoutServer();
               dispatch(logout());
               localStorage.setItem(
                 "email",

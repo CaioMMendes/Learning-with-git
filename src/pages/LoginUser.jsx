@@ -122,7 +122,7 @@ const LoginUser = ({}) => {
             console.log(response.data);
             localStorage.setItem("token", JSON.stringify(response.data.token));
             console.log(response.headers);
-            navigate("/", { replace: true });
+            // navigate("/", { replace: true });
           })
           .catch((error) => {
             usuarioSenhaInvalidos(error);
@@ -179,10 +179,25 @@ const LoginUser = ({}) => {
         console.log(response);
       });
   };
+  const refresh = async () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    const api = UserApi();
+
+    await api
+      .refresh()
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error, response) => {
+        console.log(error);
+        console.log(response);
+      });
+  };
   return (
     <div className="container">
       <PageTitle pageTitle="Login" />
       <button onClick={puxardados}>puxar dados usuario</button>
+      <button onClick={refresh}>refresh dados usuario</button>
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.loginContainer}>
           <h1>Login</h1>

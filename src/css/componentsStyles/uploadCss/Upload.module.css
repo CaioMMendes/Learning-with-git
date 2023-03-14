@@ -1,0 +1,33 @@
+.dropZone {
+  background-color: var(--navbarBackground);
+  border: 1px dashed #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: height 0.2s ease;
+}
+.dropContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+}
+
+.dragActive {
+  border-color: #78e5d5;
+  color: #78e5d5;
+}
+
+.dragReject {
+  border-color: #e57878;
+  color: #e57878;
+}
+.avatarEditorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.avatarBox {
+  border: 1px solid var(--verde);
+}

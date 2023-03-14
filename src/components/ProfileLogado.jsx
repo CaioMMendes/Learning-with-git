@@ -3,6 +3,7 @@ import styles from "../css/componentsStyles/ProfileLogado.module.css";
 import { FiEdit } from "react-icons/fi";
 import Button from "./smallComponents/Button";
 import { Link } from "react-router-dom";
+import UploadUserImg from "./upload/UploadUserImg";
 
 const ProfileLogado = () => {
   // const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -35,6 +36,7 @@ const ProfileLogado = () => {
 
   return (
     <div className={styles.profileLogado}>
+      <UploadUserImg />
       <div className={styles.profileEmail}>
         <label>
           Name:

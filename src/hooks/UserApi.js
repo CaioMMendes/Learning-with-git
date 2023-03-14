@@ -33,8 +33,20 @@ export const UserApi = () => ({
             }
         })
         return response
-    }
+    },
+    refresh: async () => {
+        const response = await api.get('/refresh', {
+            withCredentials: true
+        })
+        return response
+    },
+    logout: async () => {
 
+        const response = await api.post('/logout', {
+            withCredentials: true
+        })
+        return response
+    }
 
 
 

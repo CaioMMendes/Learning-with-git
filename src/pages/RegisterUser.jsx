@@ -55,12 +55,6 @@ const RegisterUser = ({ isDark }) => {
     setDados({ ...dados, name: trimName });
   };
 
-  const handleKeypress = (e) => {
-    //it triggers by pressing the enter key
-    if (e.keyCode === 13) {
-      handdleRegister();
-    }
-  };
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -120,7 +114,6 @@ const RegisterUser = ({ isDark }) => {
               <div className={styles.userBox}>
                 <input
                   type="text"
-                  onKeyUp={handleKeypress}
                   autoFocus
                   value={dados.name}
                   onChange={onchangeName}
@@ -135,11 +128,11 @@ const RegisterUser = ({ isDark }) => {
                 <input
                   type="email"
                   name="email"
-                  onKeyUp={handleKeypress}
                   value={dados.email}
                   autoComplete="on"
                   onChange={onchangeEmail}
                   onBlur={onBlurEmail}
+                  className={dados.email ? styles.emailInput : ""}
                   required
                 />
                 <label>
@@ -160,7 +153,6 @@ const RegisterUser = ({ isDark }) => {
                   // }`}
                   className={styles.inputPassword}
                   type={`${showPassword ? "text" : "password"}`}
-                  onKeyUp={handleKeypress}
                   value={dados.password}
                   onChange={onchangePassword}
                   required
@@ -180,7 +172,6 @@ const RegisterUser = ({ isDark }) => {
                 <input
                   className={styles.inputPassword}
                   type={`${showPasswordConfirm ? "text" : "password"}`}
-                  onKeyUp={handleKeypress}
                   value={dados.confirmPassword}
                   onChange={onchangeConfirmPassword}
                   required

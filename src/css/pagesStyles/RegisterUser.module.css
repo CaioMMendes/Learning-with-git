@@ -86,12 +86,20 @@
 }
 /* o ~ seleciona o elemento label que vem imediatamente após o elemento input com o atributo :focus ou :valid */
 .loginBox .userBox input:focus ~ label,
-.loginBox .userBox input:valid ~ label,
-.loginBox .userBox input[type="email"] ~ label {
+.loginBox .userBox input:valid ~ label {
   top: -85px;
   left: 5px;
   color: var(--verde);
   font-size: 12px;
+}
+.emailInput {
+  border-bottom: 1px solid var(--verde) !important;
+}
+.emailInput ~ label {
+  top: -85px !important;
+  left: 5px !important;
+  color: var(--verde) !important;
+  font-size: 12px !important;
 }
 .loginBox .userBox input:focus,
 .loginBox .userBox input:valid {
