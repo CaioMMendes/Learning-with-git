@@ -26,8 +26,6 @@ const LoginUser = ({}) => {
     password: "",
   });
 
-  var iframe = document.getElementsByTagName("iframe");
-  console.log(iframe[0]);
   // if (iframe[0]) {
   //   iframe[0].body.style.backgroundColor = "red";
   // }
@@ -117,6 +115,7 @@ const LoginUser = ({}) => {
             // console.log(response);
             // limparDados();
             console.log(response);
+            console.log(response.cookie);
             sucesso();
             handdleKeepLogged(response);
             console.log(response.data);
@@ -284,7 +283,7 @@ const LoginUser = ({}) => {
               <img src={googleSvg} alt="" /> Sign in with Google
             </button>
           </div>
-          <GoogleLogin
+          {/* <GoogleLogin
             onSuccess={(credentialResponse) => {
               console.log(credentialResponse.credential);
               var decoded = jwt_decode(credentialResponse.credential);
@@ -294,7 +293,7 @@ const LoginUser = ({}) => {
             onError={() => {
               console.log("Login Failed");
             }}
-          />
+          /> */}
         </div>
       </div>
       <button onClick={excluir}>asdasdad</button>

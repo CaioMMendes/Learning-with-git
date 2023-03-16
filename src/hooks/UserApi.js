@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
+    withCredentials: true,
+    credentials: 'include',
     //Sempre tem que usar o vite_ para ele puxar o valor
     baseURL: import.meta.env.VITE_APIURL
 })
@@ -9,6 +11,10 @@ export const UserApi = () => ({
 
     login: async (email, password) => {
         const response = await api.post('/login', {
+
+
+
+
             email,
             password
         })
@@ -36,14 +42,16 @@ export const UserApi = () => ({
     },
     refresh: async () => {
         const response = await api.get('/refresh', {
-            withCredentials: true
+            withCredentials: true,
+            credentials: 'include',
+
         })
         return response
     },
     logout: async () => {
 
         const response = await api.post('/logout', {
-            withCredentials: true
+
         })
         return response
     }

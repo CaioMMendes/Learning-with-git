@@ -22,6 +22,12 @@ const Sobre = () => {
       <div className={styles.conteudo}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, maxime.
       </div>
+      <div class={styles.a}>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/pt/9/98/Cebolinha.png"
+          alt="Imagem"
+        />
+      </div>
     </div>
   );
 };

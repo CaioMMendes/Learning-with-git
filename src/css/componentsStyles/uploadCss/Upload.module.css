@@ -1,7 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.avatarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.avatarContainer button {
+  margin: 5px 0 5px 0;
+  width: 150px;
+}
 .dropZone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: var(--navbarBackground);
-  border: 1px dashed #ddd;
-  border-radius: 5px;
+  border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
   padding: 10px;
   cursor: pointer;
   transition: height 0.2s ease;
@@ -13,21 +36,97 @@
   width: 300px;
 }
 
-.dragActive {
-  border-color: #78e5d5;
-  color: #78e5d5;
-}
-
-.dragReject {
-  border-color: #e57878;
-  color: #e57878;
-}
-.avatarEditorContainer {
+.dragAccept::after {
+  content: "drop";
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--navbarBackground);
+  border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  color: #fffafa;
+  font-size: 24px;
+  text-transform: uppercase;
+  cursor: pointer;
+  /* background: rgba(255, 0, 0, 0.5); */
+  background: rgba(120, 229, 213, 0.5);
 }
-.avatarBox {
+
+.dragReject::after {
+  content: "invalid";
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--navbarBackground);
+  border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+  color: #fffafa;
+  font-size: 24px;
+  text-transform: uppercase;
+  cursor: pointer;
+  /* background: rgba(255, 0, 0, 0.5); */
+  background: rgba(206, 51, 51, 0.5);
+}
+.avatarEditorContainer {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--navbarBackground);
   border: 1px solid var(--verde);
+  padding: 10px 0 10px 0;
+}
+
+.open {
+  display: flex;
+}
+.close {
+  display: none;
+}
+.closeIcon {
+  top: 0;
+  right: 0;
+  color: var(--verde);
+  font-size: 47px;
+  z-index: 2;
+  position: absolute;
+  cursor: pointer;
+}
+.closeIcon:hover {
+  color: var(--colorMenuHover);
+}
+.editIcon {
+  position: absolute;
+  z-index: 3;
+  font-size: 24px;
+  bottom: 0;
+  right: 0;
+  color: var(--verde);
+  background-color: var(--navbarBackground);
+}
+.avatarImage {
+  position: absolute;
+  z-index: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--navbarBackground);
+}
+
+.sizeAdjustHide {
+  display: none;
+}
+.avatarIcon {
+  width: 85px;
+  height: 85px;
 }

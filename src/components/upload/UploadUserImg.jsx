@@ -2,10 +2,18 @@ import React, { useState, useCallback, useRef } from "react";
 // import Dropzone from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import DropContainer from "./DropContainer";
+import { FaUser } from "react-icons/fa";
+import { IoIosClose } from "react-icons/io";
 import styles from "../../css/componentsStyles/uploadCss/Upload.module.css";
 import AvatarEditor from "react-avatar-editor";
+import { FiEdit } from "react-icons/fi";
+import Button from "../smallComponents/Button";
+
 const UploadUserImg = () => {
+  const editorRef = useRef(null);
   const [file, setFile] = useState([]);
+  const [img, setImg] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const [zoomValue, setZoomValue] = useState(1);
   const handdleDrop = (onDropAccepted) => {
     this.setState({ image: dropped[0] });
@@ -15,6 +23,7 @@ const UploadUserImg = () => {
       return alert("Envie um arquivo válido");
     }
     setFile(acceptedFiles);
+    setIsOpen(true);
   }, []);
   console.log(file[0]);
   const {
@@ -44,21 +53,51 @@ const UploadUserImg = () => {
   const onChangeZoom = (e) => {
     setZoomValue(e.target.value);
   };
+  const handleSave = () => {
+    if (editorRef.current) {
+      const canvas = editorRef.current.getImageScaledToCanvas();
+      const img = canvas.toDataURL();
+      // Faça algo com a imagem, como enviar para o servidor]
+      console.log(img);
+      setImg(img);
+    }
+  };
+  const sizeAdjust = () => {
+    setIsOpen(true);
+  };
   return (
-    <div>
-      {/* <Dropzone accept={"image/*"} onDropAccepted={() => {}}>
+    <div className={styles.container}>
+      <div className={styles.avatarContainer}>
+        {/* <Dropzone accept={"image/*"} onDropAccepted={() => {}}>
         {({ getRootProps, getInputProps, isDragActive, isDragReject }) => ( */}
-      <div
-        {...getRootProps()}
-        className={`${styles.dropZone} ${isDragActive && styles.dragActive} ${
-          isDragReject && styles.dragReject
-        }`}
-      >
-        <input {...getInputProps()} />
-        <div className={styles.dropContainer}>
-          {" "}
-          {renderDragMessage(isDragActive, isDragReject)}
+        <div
+          {...getRootProps()}
+          className={`${styles.dropZone} ${isDragAccept && styles.dragAccept} ${
+            isDragReject && styles.dragReject
+          } `}
+        >
+          {img === undefined ? (
+            <FaUser className={`${styles.avatarImage} ${styles.avatarIcon}`} />
+          ) : (
+            <img src={img} alt="Image" className={styles.avatarImage} />
+          )}
+
+          <FiEdit className={styles.editIcon} />
+
+          <input {...getInputProps()} />
+          <div
+            className={styles.dropContainer}
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
+            {" "}
+            {/* {renderDragMessage(isDragActive, isDragReject)} */}
+          </div>
         </div>
+        <span className={img === undefined ? styles.sizeAdjustHide : ""}>
+          <Button onClick={sizeAdjust}>Ajustar posição</Button>
+        </span>
       </div>
 
       {/* {...getRootProps()}
@@ -70,9 +109,19 @@ const UploadUserImg = () => {
 
         )}
       </Dropzone> */}
-      <div className={styles.avatarEditorContainer}>
-        {" "}
+      <div
+        className={`${styles.avatarEditorContainer} ${
+          isOpen ? styles.open : styles.close
+        }`}
+      >
+        <IoIosClose
+          className={styles.closeIcon}
+          onClick={() => {
+            setIsOpen(false);
+          }}
+        />{" "}
         <AvatarEditor
+          ref={editorRef}
           image={file[0]}
           width={200}
           height={200}
@@ -97,6 +146,7 @@ const UploadUserImg = () => {
             max="3"
           />
         </label>
+        <Button onClick={handleSave}>Salvar</Button>
       </div>
     </div>
   );
