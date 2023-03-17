@@ -30,6 +30,7 @@ import { changeIsDark } from "./redux/IsDarkSlice";
 import { changeIsLogged } from "./redux/isLoggedSlice";
 import { useSelector } from "react-redux";
 import { UserApi } from "./hooks/UserApi";
+import { localStorageToken } from "./components/smallComponents/LocalStorage";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -48,9 +49,11 @@ function App() {
     dispatch(changeIsLogged(JSON.parse(localStorage.getItem("email"))));
 
     const getData = async () => {
-      const token = JSON.parse(localStorage.getItem("token"));
+      const token = localStorageToken();
+      // const token = JSON.parse(localStorage.getItem("token"));
+      // JSON.parse(typeof localStorage.getItem("token")==string?JSON.parse(localStorage.getItem("token")):'a');
       const api = UserApi();
-      console.log("first");
+
       await api
         .token(token)
         .then((response) => {

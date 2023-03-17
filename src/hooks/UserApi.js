@@ -6,6 +6,15 @@ const api = axios.create({
     //Sempre tem que usar o vite_ para ele puxar o valor
     baseURL: import.meta.env.VITE_APIURL
 })
+export const apiPrivate = axios.create({
+    withCredentials: true,
+    headers: {
+        'content-Type': 'aplication/json'
+    },
+    credentials: 'include',
+    //Sempre tem que usar o vite_ para ele puxar o valor
+    baseURL: import.meta.env.VITE_APIURL
+})
 
 export const UserApi = () => ({
 

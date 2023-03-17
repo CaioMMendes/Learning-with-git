@@ -12,6 +12,7 @@ import jwt_decode from "jwt-decode";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import googleSvg from "../img/googleSvg.svg";
 import { UserApi } from "../hooks/UserApi";
+import { localStorageToken } from "../components/smallComponents/LocalStorage";
 
 const LoginUser = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);
@@ -156,7 +157,8 @@ const LoginUser = ({}) => {
     },
   });
   const puxardados = async () => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    // const token = JSON.parse(localStorage.getItem("token"));
+    const token = localStorageToken();
     const api = UserApi();
     // await axios
     //   .post(
@@ -179,7 +181,7 @@ const LoginUser = ({}) => {
       });
   };
   const refresh = async () => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    // const token = JSON.parse(localStorage.getItem("token"));
     const api = UserApi();
 
     await api

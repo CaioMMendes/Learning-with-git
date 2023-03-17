@@ -21,14 +21,17 @@ const UserProfile = () => {
   return (
     <div className="container">
       <PageTitle pageTitle="Profile" />
-      {logado && logado.logado ? (
+
+      <ProfileLogado />
+
+      {/* {logado && logado.logado ? (
         <ProfileLogado />
       ) : (
         <div className={styles.deslogado}>
           Você ainda não está logado em nenhuma conta. Por favor,{" "}
           <Link to="/account/login">clique aqui</Link> para efetuar o login
         </div>
-      )}
+      )} */}
     </div>
   );
 };
