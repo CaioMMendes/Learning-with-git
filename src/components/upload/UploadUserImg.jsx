@@ -25,7 +25,7 @@ const UploadUserImg = () => {
     setFile(acceptedFiles);
     setIsOpen(true);
   }, []);
-  console.log(file[0]);
+
   const {
     getRootProps,
     getInputProps,
@@ -58,7 +58,7 @@ const UploadUserImg = () => {
       const canvas = editorRef.current.getImageScaledToCanvas();
       const img = canvas.toDataURL();
       // Faça algo com a imagem, como enviar para o servidor]
-      console.log(img);
+
       setImg(img);
     }
   };
@@ -146,7 +146,7 @@ const UploadUserImg = () => {
             max="3"
           />
         </label>
-        <Button onClick={handleSave}>Salvar</Button>
+        <Button onClick={handleSave}>Cortar</Button>
       </div>
     </div>
   );

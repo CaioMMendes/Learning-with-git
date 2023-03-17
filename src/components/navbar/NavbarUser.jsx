@@ -13,7 +13,6 @@ import { UserApi } from "../../hooks/UserApi";
 
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
-  console.log(isLogged);
 
   const dispatch = useDispatch();
 
@@ -35,6 +34,7 @@ const NavbarUser = () => {
       .catch((error) => {
         console.log(error);
       });
+    localStorage.removeItem("token");
   };
   return (
     <div ref={ref} className={`${styles.user} `}>

@@ -57,12 +57,12 @@ const LoginUser = ({}) => {
   //   if (e.keyCode === 13) {
   //   }
   // };
-  const limparDados = () => {
-    setDados({
-      email: "",
-      password: "",
-    });
-  };
+  // const limparDados = () => {
+  //   setDados({
+  //     email: "",
+  //     password: "",
+  //   });
+  // };
 
   const sucesso = () => {
     SwalFire("Logado!", "success");
@@ -90,8 +90,6 @@ const LoginUser = ({}) => {
     } else {
       localStorage.setItem("email", JSON.stringify(novaStorageLogado));
     }
-    console.log(novaStorageLogado);
-    console.log(storageLogado);
   };
 
   const excluir = () => {
@@ -105,7 +103,7 @@ const LoginUser = ({}) => {
 
     dados.email != ""
       ? await api
-          .login(dados.email, dados.password)
+          .login(dados.email, dados.password, isChecked)
 
           // await axios
           //   .post("http://localhost:3003/login", {
@@ -115,13 +113,12 @@ const LoginUser = ({}) => {
           .then((response) => {
             // console.log(response);
             // limparDados();
-            console.log(response);
-            console.log(response.cookie);
+
             sucesso();
             handdleKeepLogged(response);
-            console.log(response.data);
+
             localStorage.setItem("token", JSON.stringify(response.data.token));
-            console.log(response.headers);
+
             // navigate("/", { replace: true });
           })
           .catch((error) => {
@@ -149,56 +146,18 @@ const LoginUser = ({}) => {
             },
           }
         );
-
-        console.log(res.data);
+        //enviar os dados, se não for cadastrado,cadastrar, se já for, fazer update dos dados e retornar
+        // verificar se o email já esta cadastrado
       } catch (err) {
         console.log(err);
       }
     },
   });
-  const puxardados = async () => {
-    // const token = JSON.parse(localStorage.getItem("token"));
-    const token = localStorageToken();
-    const api = UserApi();
-    // await axios
-    //   .post(
-    //     "http://localhost:3003/userinfo",
-    //     { token },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   )
-    await api
-      .token(token)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error, response) => {
-        console.log(error);
-        console.log(response);
-      });
-  };
-  const refresh = async () => {
-    // const token = JSON.parse(localStorage.getItem("token"));
-    const api = UserApi();
 
-    await api
-      .refresh()
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error, response) => {
-        console.log(error);
-        console.log(response);
-      });
-  };
   return (
     <div className="container">
       <PageTitle pageTitle="Login" />
-      <button onClick={puxardados}>puxar dados usuario</button>
-      <button onClick={refresh}>refresh dados usuario</button>
+
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.loginContainer}>
           <h1>Login</h1>
@@ -298,7 +257,6 @@ const LoginUser = ({}) => {
           /> */}
         </div>
       </div>
-      <button onClick={excluir}>asdasdad</button>
     </div>
   );
 };

@@ -54,7 +54,6 @@ const NavBar = ({ mudarTema, isDark }) => {
           className={styles.burger}
           onClick={() => {
             setIsOpen(!isOpen);
-            console.log(isOpen);
           }}
         >
           {isOpen ? (

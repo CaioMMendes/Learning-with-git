@@ -29,15 +29,15 @@ const ProfileLogado = () => {
   const getUser = async () => {
     try {
       const response = await apiPrivate.post("/userinfo");
-      console.log(response.data);
+
       setUserInfo(response.data);
-      console.log("first");
+
       setLoading(false);
 
       // isMounted && setUsers(response.data);
     } catch (err) {
       console.error(err);
-      console.log("qaswd");
+
       setLoading(false);
       // navigate("/account/login", { state: { from: location }, replace: true });
     }

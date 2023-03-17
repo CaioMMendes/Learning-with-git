@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import validator from "validator";
 import PageTitle from "../components/PageTitle";
 import { UserApi } from "../hooks/UserApi";
+import UploadUserImg from "../components/upload/UploadUserImg";
 
 const RegisterUser = ({ isDark }) => {
   const [dados, setDados] = useState({
@@ -109,6 +110,10 @@ const RegisterUser = ({ isDark }) => {
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.registerContainer}>
           <h1>Register</h1>
+          <div className={styles.userImage}>
+            <UploadUserImg />
+          </div>
+
           <form onSubmit={handdleRegister} method="post">
             <div className={styles.box}>
               <div className={styles.userBox}>

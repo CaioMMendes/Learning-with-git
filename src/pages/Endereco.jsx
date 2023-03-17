@@ -337,7 +337,6 @@ const Endereco = ({ isDark }) => {
           //       pais: endereco.pais,
           //     })
           .then((response) => {
-            console.log(response);
             limparDados();
             sucesso();
           })

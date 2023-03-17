@@ -18,14 +18,15 @@ export const apiPrivate = axios.create({
 
 export const UserApi = () => ({
 
-    login: async (email, password) => {
+    login: async (email, password, isChecked) => {
         const response = await api.post('/login', {
 
 
 
 
             email,
-            password
+            password,
+            isChecked
         })
         return response
     },

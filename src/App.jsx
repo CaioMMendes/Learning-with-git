@@ -57,7 +57,6 @@ function App() {
       await api
         .token(token)
         .then((response) => {
-          const a = response.data;
           console.log(response.data);
 
           dispatch(changeIsLogged({ ...response.data, logado: true }));

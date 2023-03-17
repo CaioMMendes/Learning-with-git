@@ -34,7 +34,7 @@ const useRefreshToken = () => {
     try {
       const response = await api.refresh();
       const { accessToken } = response.data;
-      console.log(accessToken);
+
       localStorage.setItem("token", JSON.stringify(accessToken));
       return accessToken;
     } catch (error) {

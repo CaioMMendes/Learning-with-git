@@ -171,3 +171,7 @@ label span {
 .emailInvalido p {
   font-size: 14px;
 }
+
+.userImage {
+  margin-bottom: 30px;
+}
