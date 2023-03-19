@@ -8,8 +8,11 @@ import styles from "../../css/componentsStyles/uploadCss/Upload.module.css";
 import AvatarEditor from "react-avatar-editor";
 import { FiEdit } from "react-icons/fi";
 import Button from "../smallComponents/Button";
+import { useDispatch } from "react-redux";
+import { changeAvatarImage } from "../../redux/avatarImage";
 
 const UploadUserImg = () => {
+  const dispatch = useDispatch();
   const editorRef = useRef(null);
   const [file, setFile] = useState([]);
   const [img, setImg] = useState();
@@ -58,7 +61,7 @@ const UploadUserImg = () => {
       const canvas = editorRef.current.getImageScaledToCanvas();
       const img = canvas.toDataURL();
       // Faça algo com a imagem, como enviar para o servidor]
-
+      dispatch(changeAvatarImage(img));
       setImg(img);
     }
   };

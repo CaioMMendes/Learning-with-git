@@ -55,7 +55,7 @@ function App() {
       const api = UserApi();
 
       await api
-        .token(token)
+        .userInfo(token)
         .then((response) => {
           console.log(response.data);
 

@@ -40,7 +40,7 @@ export const UserApi = () => ({
         return response
     },
 
-    token: async (token) => {
+    userInfo: async (token) => {
         const response = await api.post('/userinfo', {
             token
         }, {
@@ -62,6 +62,14 @@ export const UserApi = () => ({
 
         const response = await api.post('/logout', {
 
+        })
+        return response
+    },
+    avatar: async () => {
+
+        const response = await api.post('/upload', {
+            image,
+            userId
         })
         return response
     }

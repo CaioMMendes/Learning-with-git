@@ -7,14 +7,17 @@ import validator from "validator";
 import PageTitle from "../components/PageTitle";
 import { UserApi } from "../hooks/UserApi";
 import UploadUserImg from "../components/upload/UploadUserImg";
+import { useSelector } from "react-redux";
 
 const RegisterUser = ({ isDark }) => {
+  const { image } = useSelector((state) => state.avatarImageRedux);
   const [dados, setDados] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [userId, setUserId] = useState();
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -78,11 +81,13 @@ const RegisterUser = ({ isDark }) => {
       //     password: dados.password,
       //     name: dados.name,
       //   })
+
       await api
         .register(dados.email, dados.password, dados.name)
         .then((response) => {
           console.log(response),
             // limparDados();
+            setUserId(response.data),
             sucesso(),
             redirect();
         })
@@ -90,6 +95,13 @@ const RegisterUser = ({ isDark }) => {
           alert(`O usuário ${error.response.data.email} já está cadastrado`);
         });
     }
+    console.log(userId, image);
+    await api
+      .avatar(userId, image)
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const sucesso = () => {

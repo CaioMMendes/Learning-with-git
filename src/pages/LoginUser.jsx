@@ -116,7 +116,7 @@ const LoginUser = ({}) => {
 
             sucesso();
             handdleKeepLogged(response);
-
+            console.log(response.data);
             localStorage.setItem("token", JSON.stringify(response.data.token));
 
             // navigate("/", { replace: true });
