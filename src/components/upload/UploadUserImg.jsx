@@ -10,17 +10,31 @@ import { FiEdit } from "react-icons/fi";
 import Button from "../smallComponents/Button";
 import { useDispatch } from "react-redux";
 import { changeAvatarImage } from "../../redux/avatarImage";
+import { useSelector } from "react-redux";
 
 const UploadUserImg = () => {
   const dispatch = useDispatch();
   const editorRef = useRef(null);
   const [file, setFile] = useState([]);
   const [img, setImg] = useState();
+
   const [isOpen, setIsOpen] = useState(false);
   const [zoomValue, setZoomValue] = useState(1);
+  const [numbers, setNumbers] = useState();
   const handdleDrop = (onDropAccepted) => {
     this.setState({ image: dropped[0] });
   };
+  // function dataURItoFile(dataURI, fileName) {
+  //   const byteString = atob(dataURI.split(",")[1]);
+  //   const ab = new ArrayBuffer(byteString.length);
+  //   const ia = new Uint8Array(ab);
+  //   for (let i = 0; i < byteString.length; i++) {
+  //     ia[i] = byteString.charCodeAt(i);
+  //   }
+  //   const blob = new Blob([ab], { type: "image/*" });
+  //   return new File([blob], fileName, { type: "image/*" });
+  // }
+
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles[0]) {
       return alert("Envie um arquivo válido");
@@ -56,12 +70,28 @@ const UploadUserImg = () => {
   const onChangeZoom = (e) => {
     setZoomValue(e.target.value);
   };
+  // const numberGenerator = () => {
+  //   const newNumbers = [];
+  //   for (let i = 0; i < 5; i++) {
+  //     const randomNumber = Math.floor(Math.random() * 100) + 1;
+  //     newNumbers.push(randomNumber);
+  //   }
+  //   setNumbers(newNumbers.join(""));
+  // };
+
   const handleSave = () => {
+    // numberGenerator();
+
     if (editorRef.current) {
       const canvas = editorRef.current.getImageScaledToCanvas();
       const img = canvas.toDataURL();
+
+      // const imageFile = dataURItoFile(img, `${numbers}`);
+      // console.log(imageFile);
+      //todo esse tava funcionando imagem base 64----- const img = canvas.toDataURL();
       // Faça algo com a imagem, como enviar para o servidor]
       dispatch(changeAvatarImage(img));
+
       setImg(img);
     }
   };
@@ -144,9 +174,9 @@ const UploadUserImg = () => {
             name="zoom"
             value={zoomValue}
             onChange={onChangeZoom}
-            step=".01"
-            min="0.5"
-            max="3"
+            step={0.01}
+            min={0.5}
+            max={3}
           />
         </label>
         <Button onClick={handleSave}>Cortar</Button>

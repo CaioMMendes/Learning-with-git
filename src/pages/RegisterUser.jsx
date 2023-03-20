@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../css/pagesStyles/RegisterUser.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -7,10 +7,20 @@ import validator from "validator";
 import PageTitle from "../components/PageTitle";
 import { UserApi } from "../hooks/UserApi";
 import UploadUserImg from "../components/upload/UploadUserImg";
-import { useSelector } from "react-redux";
-
+import { dataURItoFile } from "../components/smallComponents/Base64ToFile";
+import { numberGenerator } from "../components/smallComponents/NumberGenerator";
+import { changeAvatarImage } from "../redux/avatarImage";
+import { useSelector, useDispatch } from "react-redux";
+// const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
+  const dispatch = useDispatch();
   const { image } = useSelector((state) => state.avatarImageRedux);
+  const [imagem, setImagem] = useState();
+  useEffect(() => {
+    setImagem(image);
+    dispatch(changeAvatarImage(""));
+  }, []);
+
   const [dados, setDados] = useState({
     name: "",
     email: "",
@@ -69,9 +79,15 @@ const RegisterUser = ({ isDark }) => {
   const redirect = () => {
     navigate("/account/login");
   };
+
   const handdleRegister = async (event) => {
     event.preventDefault();
     const api = UserApi();
+
+    const number = numberGenerator();
+
+    const imageFile = dataURItoFile(image, `${number}`);
+
     if (dados.password != dados.confirmPassword) {
       return alert("As senhas estão diferentes");
     } else if (dados.email != "") {
@@ -85,23 +101,29 @@ const RegisterUser = ({ isDark }) => {
       await api
         .register(dados.email, dados.password, dados.name)
         .then((response) => {
-          console.log(response),
-            // limparDados();
-            setUserId(response.data),
-            sucesso(),
-            redirect();
+          const userId = response.data;
+
+          console.log(userId);
+          sucesso(), redirect();
+          if (imageFile != "" && imageFile != undefined) {
+            console.log(imageFile);
+
+            api
+              // .avatar(imageFile, userId)
+              .avatar(imageFile)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
         })
         .catch((error) => {
           alert(`O usuário ${error.response.data.email} já está cadastrado`);
+          console.log(error);
         });
     }
-    console.log(userId, image);
-    await api
-      .avatar(userId, image)
-      .then((response) => {})
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   const sucesso = () => {
@@ -118,6 +140,13 @@ const RegisterUser = ({ isDark }) => {
   };
   return (
     <div className="container">
+      <button
+        onClick={() => {
+          a();
+        }}
+      >
+        asda
+      </button>
       <PageTitle pageTitle="Register" />
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.registerContainer}>
