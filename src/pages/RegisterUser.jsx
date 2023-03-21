@@ -16,6 +16,7 @@ const RegisterUser = ({ isDark }) => {
   const dispatch = useDispatch();
   const { image } = useSelector((state) => state.avatarImageRedux);
   const [imagem, setImagem] = useState();
+
   useEffect(() => {
     setImagem(image);
     dispatch(changeAvatarImage(""));
@@ -85,7 +86,7 @@ const RegisterUser = ({ isDark }) => {
     const api = UserApi();
 
     const number = numberGenerator();
-
+    console.log(image);
     const imageFile = dataURItoFile(image, `${number}`);
 
     if (dados.password != dados.confirmPassword) {
@@ -107,10 +108,11 @@ const RegisterUser = ({ isDark }) => {
           sucesso(), redirect();
           if (imageFile != "" && imageFile != undefined) {
             console.log(imageFile);
+            console.log(imageFile instanceof File);
 
             api
               // .avatar(imageFile, userId)
-              .avatar(imageFile)
+              .avatar(imageFile, userId)
               .then((response) => {
                 console.log(response);
               })
@@ -140,13 +142,6 @@ const RegisterUser = ({ isDark }) => {
   };
   return (
     <div className="container">
-      <button
-        onClick={() => {
-          a();
-        }}
-      >
-        asda
-      </button>
       <PageTitle pageTitle="Register" />
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.registerContainer}>

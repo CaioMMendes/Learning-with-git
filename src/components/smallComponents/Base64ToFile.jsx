@@ -8,10 +8,10 @@ export function dataURItoFile(dataURI, fileName) {
       ia[i] = byteString.charCodeAt(i);
     }
     const blob = new Blob([ab], {
-      type: "image/*",
+      type: "image/png",
     });
     return new File([blob], fileName, {
-      type: "image/*",
+      type: "image/png",
     });
   }
 }

@@ -66,17 +66,18 @@ export const UserApi = () => ({
         return response
     },
     // avatar: async (image, userId) => {
-    avatar: async (image) => {
+    avatar: async (image, userId) => {
 
         const form = new FormData()
         // form.append('urserId',userId)
         form.append('file', image)
+        form.append('userId', userId)
         const response = await api.post('/upload', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }
-            // userId
+
         )
         return response
     }
