@@ -23,7 +23,6 @@ import NewsList from "./pages/NewsList";
 import LoginUser from "./pages/LoginUser";
 import RegisterUser from "./pages/RegisterUser";
 import RecoverPassword from "./pages/RecoverPassword";
-import UserProfile from "./pages/UserProfile";
 import { useDispatch } from "react-redux";
 import { changeLivros } from "./redux/LivrosSlice";
 import { changeIsDark } from "./redux/IsDarkSlice";
@@ -31,27 +30,15 @@ import { changeIsLogged } from "./redux/isLoggedSlice";
 import { useSelector } from "react-redux";
 import { UserApi } from "./hooks/UserApi";
 import { localStorageToken } from "./components/smallComponents/LocalStorage";
+import ProfileLogado from "./pages/ProfileLogado";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
-  // useEffect(() => {
-  //   setIsLogged(JSON.parse(localStorage.getItem("email")));
-  // }, []);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    // const now = new Date().getTime();
-    // const oldTimeStamp = JSON.parse(localStorage.getItem("email"));
-
-    // if (oldTimeStamp != null && now - oldTimeStamp.time > 1 * 60 * 60 * 1000) {
-    //   localStorage.removeItem("email");
-    // }
-    // dispatch(changeIsLogged(JSON.parse(localStorage.getItem("email"))));
-
     const getData = async () => {
       const token = localStorageToken();
-      // const token = JSON.parse(localStorage.getItem("token"));
-      // JSON.parse(typeof localStorage.getItem("token")==string?JSON.parse(localStorage.getItem("token")):'a');
       const api = UserApi();
 
       await api
@@ -267,7 +254,7 @@ function App() {
             exact
             element={<RecoverPassword />}
           ></Route>
-          <Route path="/account/profile" exact element={<UserProfile />} />
+          <Route path="/account/profile" exact element={<ProfileLogado />} />
         </Routes>
         <ScrollToTop />
         <Footer isDark={isDark} />

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/componentsStyles/ProfileLogado.module.css";
 import { FiEdit } from "react-icons/fi";
-import Button from "./smallComponents/Button";
+import Button from "../components/smallComponents/Button";
 import { Link } from "react-router-dom";
-import UploadUserImg from "./upload/UploadUserImg";
+import UploadUserImg from "../components/upload/UploadUserImg";
 import useApiPrivate from "../hooks/useApiPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 const ProfileLogado = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -68,7 +68,7 @@ const ProfileLogado = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       {isLoading ? (
         <div className={styles.loading}>
           <Loading />
