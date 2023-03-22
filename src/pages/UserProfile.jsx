@@ -8,15 +8,15 @@ import PageTitle from "../components/PageTitle";
 import { useEffect } from "react";
 
 const UserProfile = () => {
-  const { isLogged } = useSelector((state) => state.isLoggedRedux);
-  const [logado, setLogado] = useState(
-    JSON.parse(localStorage.getItem("email"))
-  );
-  useEffect(() => {
-    setLogado(JSON.parse(localStorage.getItem("email")));
-  }, [isLogged]);
+  // const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  // const [logado, setLogado] = useState(
+  //   JSON.parse(localStorage.getItem("email"))
+  // );
+  // useEffect(() => {
+  //   setLogado(JSON.parse(localStorage.getItem("email")));
+  // }, [isLogged]);
 
-  const [isLoading, setLoading] = useState(false);
+  // const [isLoading, setLoading] = useState(false);
 
   return (
     <div className="container">

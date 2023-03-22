@@ -70,27 +70,27 @@ const LoginUser = ({}) => {
   const handdleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
-  const handdleKeepLogged = (response) => {
-    const novaStorageLogado = {
-      name: response.data.name,
-      email: response.data.email,
-      logado: true,
-      time: new Date().getTime(),
-    };
-    setStorageLogado(novaStorageLogado);
-    dispatch(changeIsLogged(novaStorageLogado));
+  // const handdleKeepLogged = (response) => {
+  //   const novaStorageLogado = {
+  //     name: response.data.name,
+  //     email: response.data.email,
+  //     logado: true,
+  //     time: new Date().getTime(),
+  //   };
+  //   setStorageLogado(novaStorageLogado);
+  //   dispatch(changeIsLogged(novaStorageLogado));
 
-    const expire = new Date().getTime() + 1 * 10 * 1000;
+  //   const expire = new Date().getTime() + 1 * 10 * 1000;
 
-    if (isChecked) {
-      localStorage.setItem(
-        "email",
-        JSON.stringify({ ...novaStorageLogado, time: 9678287402600 })
-      );
-    } else {
-      localStorage.setItem("email", JSON.stringify(novaStorageLogado));
-    }
-  };
+  //   if (isChecked) {
+  //     localStorage.setItem(
+  //       "email",
+  //       JSON.stringify({ ...novaStorageLogado, time: 9678287402600 })
+  //     );
+  //   } else {
+  //     localStorage.setItem("email", JSON.stringify(novaStorageLogado));
+  //   }
+  // };
 
   const excluir = () => {
     localStorage.removeItem("email");
@@ -113,10 +113,10 @@ const LoginUser = ({}) => {
           .then((response) => {
             // console.log(response);
             // limparDados();
-
+            dispatch(changeIsLogged({ ...response.data, logado: true }));
             sucesso();
-            handdleKeepLogged(response);
-            console.log(response.data);
+            // handdleKeepLogged(response);
+            console.log(response);
             localStorage.setItem("token", JSON.stringify(response.data.token));
 
             // navigate("/", { replace: true });

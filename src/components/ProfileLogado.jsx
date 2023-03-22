@@ -7,11 +7,11 @@ import UploadUserImg from "./upload/UploadUserImg";
 import useApiPrivate from "../hooks/useApiPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import Loading from "./Loading";
-
+import { useSelector } from "react-redux";
 const ProfileLogado = () => {
-  // const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const apiPrivate = useApiPrivate();
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState(isLogged);
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setLoading] = useState(true);
@@ -19,34 +19,32 @@ const ProfileLogado = () => {
   useEffect(() => {
     const controller = new AbortController();
 
-    getUser();
-
+    // getUser();
+    setDados(isLogged);
     // return () => {
     //   isMounted = false;
     //   controller.abort();
     // };
-  }, []);
-  const getUser = async () => {
-    try {
-      const response = await apiPrivate.post("/userinfo");
 
-      setUserInfo(response.data);
+    setLoading(false);
+  }, [isLogged]);
+  // const getUser = async () => {
+  //   try {
+  //     const response = await apiPrivate.post("/userinfo");
 
-      setLoading(false);
+  //     setUserInfo(response.data);
 
-      // isMounted && setUsers(response.data);
-    } catch (err) {
-      console.error(err);
+  //     setLoading(false);
 
-      setLoading(false);
-      // navigate("/account/login", { state: { from: location }, replace: true });
-    }
-  };
-  const [isLogged] = useState(JSON.parse(localStorage.getItem("email")));
-  const [dados, setDados] = useState({
-    name: isLogged?.name,
-    email: isLogged?.email,
-  });
+  //     // isMounted && setUsers(response.data);
+  //   } catch (err) {
+  //     console.error(err);
+
+  //     setLoading(false);
+  //     // navigate("/account/login", { state: { from: location }, replace: true });
+  //   }
+  // };
+  const [dados, setDados] = useState(isLogged);
   const [isDisabled, setIsDisabled] = useState({
     email: true,
     name: true,
@@ -75,7 +73,7 @@ const ProfileLogado = () => {
         <div className={styles.loading}>
           <Loading />
         </div>
-      ) : userInfo ? (
+      ) : dados.logado ? (
         <div className={styles.profileLogado}>
           <UploadUserImg />
           <div className={styles.profileEmail}>

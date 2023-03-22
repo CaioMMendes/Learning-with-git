@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import DropContainer from "./DropContainer";
 import { FaUser } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
+import { useLocation } from "react-router-dom";
 import styles from "../../css/componentsStyles/uploadCss/Upload.module.css";
 import AvatarEditor from "react-avatar-editor";
 import { FiEdit } from "react-icons/fi";
@@ -11,14 +12,17 @@ import Button from "../smallComponents/Button";
 import { useDispatch } from "react-redux";
 import { changeAvatarImage } from "../../redux/avatarImage";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const UploadUserImg = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const editorRef = useRef(null);
   const [file, setFile] = useState([]);
   const [img, setImg] = useState();
-
   const [isOpen, setIsOpen] = useState(false);
+  const [ajustPositionOpen, setAjustPositionOpen] = useState(false);
   const [zoomValue, setZoomValue] = useState(1);
   const [numbers, setNumbers] = useState();
   const handdleDrop = (onDropAccepted) => {
@@ -34,6 +38,12 @@ const UploadUserImg = () => {
   //   const blob = new Blob([ab], { type: "image/*" });
   //   return new File([blob], fileName, { type: "image/*" });
   // }
+  useEffect(() => {
+    if (location.pathname === "/account/profile") {
+      setImg(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
+      console.log(img);
+    }
+  }, [isLogged]);
 
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles[0]) {
@@ -93,6 +103,7 @@ const UploadUserImg = () => {
       dispatch(changeAvatarImage(img));
 
       setImg(img);
+      setAjustPositionOpen(true);
     }
   };
   const sizeAdjust = () => {
@@ -112,7 +123,7 @@ const UploadUserImg = () => {
           {img === undefined ? (
             <FaUser className={`${styles.avatarImage} ${styles.avatarIcon}`} />
           ) : (
-            <img src={img} alt="Image" className={styles.avatarImage} />
+            <img src={img} alt="ERRO" className={styles.avatarImage} />
           )}
 
           <FiEdit className={styles.editIcon} />
@@ -128,7 +139,7 @@ const UploadUserImg = () => {
             {/* {renderDragMessage(isDragActive, isDragReject)} */}
           </div>
         </div>
-        <span className={img === undefined ? styles.sizeAdjustHide : ""}>
+        <span className={ajustPositionOpen ? "" : styles.sizeAdjustHide}>
           <Button onClick={sizeAdjust}>Ajustar posição</Button>
         </span>
       </div>
@@ -156,6 +167,7 @@ const UploadUserImg = () => {
         <AvatarEditor
           ref={editorRef}
           image={file[0]}
+          // image={img}
           width={200}
           height={200}
           border={20}

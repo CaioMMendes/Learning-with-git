@@ -10,15 +10,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/isLoggedSlice";
 import { ClickOutside } from "../smallComponents/ClickOutside";
 import { UserApi } from "../../hooks/UserApi";
+import Loading from "../Loading";
 
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
-
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-
+  const [image, setImage] = useState(
+    isLogged.avatarId && `https://docs.google.com/uc?id=${isLogged?.avatarId}`
+  );
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
+  useEffect(() => {
+    setImage(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
+    setIsLoading(false);
+  }, [isLogged]);
 
+  console.log(image);
+  console.log(isLogged);
   // useOnClickOutside(ref, () => setIsOpen(false));
   ClickOutside(ref, () => setIsOpen(false));
 
@@ -43,10 +52,12 @@ const NavbarUser = () => {
           setIsOpen(!isOpen);
         }}
       >
-        {isLogged && isLogged.logado ? (
+        {isLoading ? (
+          <Loading />
+        ) : isLogged && isLogged.logado ? (
           <div className={styles.userLogado}>
-            {isLogged.img ? (
-              <img src={isLogged.img} alt="" />
+            {image && image != `https://docs.google.com/uc?id=undefined` ? (
+              <img src={image} alt="" className={styles.avatarImage} />
             ) : (
               <div className={`${styles.userBackground}`}>
                 <FaUser className={styles.userIcon} />

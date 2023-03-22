@@ -13,6 +13,11 @@ import { changeAvatarImage } from "../redux/avatarImage";
 import { useSelector, useDispatch } from "react-redux";
 // const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
+  window.addEventListener("beforeunload", function (event) {
+    event.preventDefault();
+    event.returnValue = "";
+  });
+
   const dispatch = useDispatch();
   const { image } = useSelector((state) => state.avatarImageRedux);
   const [imagem, setImagem] = useState();
