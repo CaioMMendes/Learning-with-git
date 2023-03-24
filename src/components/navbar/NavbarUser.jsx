@@ -17,12 +17,23 @@ const NavbarUser = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const [image, setImage] = useState(
-    isLogged.avatarId && `https://docs.google.com/uc?id=${isLogged?.avatarId}`
+    isLogged.avatarId != ""
+      ? `https://docs.google.com/uc?id=${isLogged?.avatarId}`
+      : isLogged.picture != undefined
+      ? isLogged.picture
+      : "https://docs.google.com/uc?id=undefined"
   );
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
-    setImage(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
+    if (isLogged.avatarId != "") {
+      setImage(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
+    } else if (isLogged.picture != undefined) {
+      setImage(isLogged.picture);
+    } else {
+      setImage("https://docs.google.com/uc?id=undefined");
+    }
+
     setIsLoading(false);
   }, [isLogged]);
 
@@ -105,10 +116,6 @@ const NavbarUser = () => {
             onClick={() => {
               logoutServer();
               dispatch(logout());
-              localStorage.setItem(
-                "email",
-                JSON.stringify({ name: "", logado: false, email: "" })
-              );
             }}
             //         localStorage.setItem(
             //   "email",

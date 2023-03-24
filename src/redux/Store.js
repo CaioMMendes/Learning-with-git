@@ -4,6 +4,7 @@ import {
 import livrosReducer from './LivrosSlice'
 import isDarkReducer from './IsDarkSlice'
 import isLoggedReducer from './isLoggedSlice'
+import googleLoginReducer from './GoogleLoginSlice'
 import avatarImageReducer from './avatarImage'
 
 
@@ -12,6 +13,7 @@ export default configureStore({
         livrosRedux: livrosReducer,
         isDarkRedux: isDarkReducer,
         isLoggedRedux: isLoggedReducer,
+        googleLoginRedux: googleLoginReducer,
         avatarImageRedux: avatarImageReducer,
     }
 })

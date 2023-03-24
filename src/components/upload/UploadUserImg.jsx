@@ -9,13 +9,14 @@ import styles from "../../css/componentsStyles/uploadCss/Upload.module.css";
 import AvatarEditor from "react-avatar-editor";
 import { FiEdit } from "react-icons/fi";
 import Button from "../smallComponents/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeAvatarImage } from "../../redux/avatarImage";
-import { useSelector } from "react-redux";
+
 import { useEffect } from "react";
 
 const UploadUserImg = () => {
   const dispatch = useDispatch();
+  const { googleLogin } = useSelector((state) => state.googleLoginRedux);
   const location = useLocation();
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const editorRef = useRef(null);
@@ -28,6 +29,8 @@ const UploadUserImg = () => {
   const handdleDrop = (onDropAccepted) => {
     this.setState({ image: dropped[0] });
   };
+
+  console.log(isLogged);
   // function dataURItoFile(dataURI, fileName) {
   //   const byteString = atob(dataURI.split(",")[1]);
   //   const ab = new ArrayBuffer(byteString.length);
@@ -39,9 +42,16 @@ const UploadUserImg = () => {
   //   return new File([blob], fileName, { type: "image/*" });
   // }
   useEffect(() => {
-    if (location.pathname === "/account/profile") {
+    console.log(googleLogin);
+    console.log(isLogged);
+    if (location.pathname === "/account/profile" && isLogged.avatarId != "") {
       setImg(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
       console.log(img);
+    } else if (isLogged.avatarId == "" && isLogged.picture != undefined) {
+      setImg(isLogged.picture);
+    }
+    if (location.pathname === "/account/register") {
+      setImg(googleLogin.picture);
     }
   }, [isLogged]);
 
@@ -123,7 +133,7 @@ const UploadUserImg = () => {
           {img === undefined ? (
             <FaUser className={`${styles.avatarImage} ${styles.avatarIcon}`} />
           ) : (
-            <img src={img} alt="ERRO" className={styles.avatarImage} />
+            <img src={`${img}`} alt="ERRO" className={styles.avatarImage} />
           )}
 
           <FiEdit className={styles.editIcon} />

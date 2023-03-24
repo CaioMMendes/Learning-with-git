@@ -175,3 +175,7 @@ label span {
 .userImage {
   margin-bottom: 30px;
 }
+
+.emailDisabled {
+  color: #9b9999 !important;
+}

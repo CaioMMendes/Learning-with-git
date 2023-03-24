@@ -13,6 +13,7 @@ import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import googleSvg from "../img/googleSvg.svg";
 import { UserApi } from "../hooks/UserApi";
 import { localStorageToken } from "../components/smallComponents/LocalStorage";
+import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
 
 const LoginUser = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);
@@ -70,27 +71,6 @@ const LoginUser = ({}) => {
   const handdleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
-  // const handdleKeepLogged = (response) => {
-  //   const novaStorageLogado = {
-  //     name: response.data.name,
-  //     email: response.data.email,
-  //     logado: true,
-  //     time: new Date().getTime(),
-  //   };
-  //   setStorageLogado(novaStorageLogado);
-  //   dispatch(changeIsLogged(novaStorageLogado));
-
-  //   const expire = new Date().getTime() + 1 * 10 * 1000;
-
-  //   if (isChecked) {
-  //     localStorage.setItem(
-  //       "email",
-  //       JSON.stringify({ ...novaStorageLogado, time: 9678287402600 })
-  //     );
-  //   } else {
-  //     localStorage.setItem("email", JSON.stringify(novaStorageLogado));
-  //   }
-  // };
 
   const excluir = () => {
     localStorage.removeItem("email");
@@ -105,11 +85,6 @@ const LoginUser = ({}) => {
       ? await api
           .login(dados.email, dados.password, isChecked)
 
-          // await axios
-          //   .post("http://localhost:3003/login", {
-          //     email: dados.email,
-          //     password: dados.password,
-          //   })
           .then((response) => {
             // console.log(response);
             // limparDados();
@@ -119,33 +94,57 @@ const LoginUser = ({}) => {
             console.log(response);
             localStorage.setItem("token", JSON.stringify(response.data.token));
 
-            // navigate("/", { replace: true });
+            navigate("/account/profile", { replace: true });
           })
           .catch((error) => {
-            usuarioSenhaInvalidos(error);
+            console.error(error);
+            alert(`O usuário e/ou senha estão incorretos`);
           })
       : alert("Digite um email valido");
-    // ? ""
-    // : !isValidPhone && alert("Digite um número de telefone válido")
-    // ? ""
-    // : !isValidCep && alert("Digite um cep valido");
-  };
-  const usuarioSenhaInvalidos = (error) => {
-    console.error(error);
-    alert(`O usuário ou senha estão incorretos`);
   };
 
   const login = useGoogleLogin({
-    onSuccess: async (respose) => {
+    onSuccess: async (response) => {
+      const api = UserApi();
       try {
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
             headers: {
-              Authorization: `Bearer ${respose.access_token}`,
+              Authorization: `Bearer ${response.access_token}`,
             },
           }
         );
+
+        await api
+          .googleLogin(res.data.email, res.data.sub, isChecked)
+
+          .then((response) => {
+            if (response.data.redirect === true) {
+              dispatch(changeGoogleLogin({ ...res.data, disabled: true }));
+              return navigate("/account/register", { replace: true });
+            } else {
+              dispatch(changeIsLogged({ ...response.data, logado: true }));
+              sucesso();
+
+              localStorage.setItem(
+                "token",
+                JSON.stringify(response.data.token)
+              );
+              navigate("/account/profile", { replace: true });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            alert(`O usuário e/ou senha estão incorretos`);
+          });
+
+        console.log(res.data);
+        //todo buscar o email e o googleId
+        //todo se ja tiver o googleId cadastrado logar
+        //todo se já tiver o email mas não tiver o google id perguntar se ele é o dono da conta e pedir pra logar se for
+        //todo se não tiver nenhum dos dois redirecionar para a pagina de cadastro com autocomplete do email
+        //todo travado e autocomplete do nome liberado pedindo pra ele colocar a senha
         //enviar os dados, se não for cadastrado,cadastrar, se já for, fazer update dos dados e retornar
         // verificar se o email já esta cadastrado
       } catch (err) {

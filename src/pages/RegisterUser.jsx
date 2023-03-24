@@ -11,20 +11,32 @@ import { dataURItoFile } from "../components/smallComponents/Base64ToFile";
 import { numberGenerator } from "../components/smallComponents/NumberGenerator";
 import { changeAvatarImage } from "../redux/avatarImage";
 import { useSelector, useDispatch } from "react-redux";
+import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
+import { changeIsLogged } from "../redux/isLoggedSlice";
 // const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
-  window.addEventListener("beforeunload", function (event) {
-    event.preventDefault();
-    event.returnValue = "";
-  });
-
   const dispatch = useDispatch();
   const { image } = useSelector((state) => state.avatarImageRedux);
+  const { googleLogin } = useSelector((state) => state.googleLoginRedux);
   const [imagem, setImagem] = useState();
+  console.log(googleLogin);
+  const beforeUnloadCallback = function (event) {
+    event.preventDefault();
+    event.returnValue = "";
+  };
 
   useEffect(() => {
     setImagem(image);
     dispatch(changeAvatarImage(""));
+    console.log("useefect");
+    if (googleLogin.name) {
+      setDados({ ...dados, email: googleLogin.email, name: googleLogin.name });
+    }
+    if (googleLogin != "") {
+      window.addEventListener("beforeunload", beforeUnloadCallback);
+    } else {
+      window.removeEventListener("beforeunload", beforeUnloadCallback);
+    }
   }, []);
 
   const [dados, setDados] = useState({
@@ -33,6 +45,7 @@ const RegisterUser = ({ isDark }) => {
     password: "",
     confirmPassword: "",
   });
+
   const [userId, setUserId] = useState();
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -91,7 +104,7 @@ const RegisterUser = ({ isDark }) => {
     const api = UserApi();
 
     const number = numberGenerator();
-    console.log(image);
+
     const imageFile = dataURItoFile(image, `${number}`);
 
     if (dados.password != dados.confirmPassword) {
@@ -103,36 +116,129 @@ const RegisterUser = ({ isDark }) => {
       //     password: dados.password,
       //     name: dados.name,
       //   })
+      if (googleLogin.email) {
+        console.log(googleLogin);
+        await api
+          .register(
+            googleLogin.email,
+            dados.password,
+            dados.name,
+            googleLogin.sub,
+            googleLogin.picture
+          )
+          .then((response) => {
+            const userId = response.data;
 
-      await api
-        .register(dados.email, dados.password, dados.name)
-        .then((response) => {
-          const userId = response.data;
+            console.log(userId);
 
-          console.log(userId);
-          sucesso(), redirect();
-          if (imageFile != "" && imageFile != undefined) {
-            console.log(imageFile);
-            console.log(imageFile instanceof File);
+            // redirect();
+            if (imageFile != "" && imageFile != undefined) {
+              api
+                // .avatar(imageFile, userId)
+                .avatar(imageFile, userId)
+                .then((response) => {
+                  api
+                    .login(googleLogin.email, dados.password, true)
+                    .then((response) => {
+                      sucesso();
+                      navigate("/account/profile");
+                      console.log(response.data);
+                      dispatch(
+                        changeIsLogged({ ...response.data, logado: true })
+                      );
+                      dispatch(changeGoogleLogin(""));
+                      localStorage.setItem(
+                        "token",
+                        JSON.stringify(response.data.token)
+                      );
+                      window.removeEventListener(
+                        "beforeunload",
+                        beforeUnloadCallback
+                      );
+                    })
 
-            api
-              // .avatar(imageFile, userId)
-              .avatar(imageFile, userId)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }
-        })
-        .catch((error) => {
-          alert(`O usuário ${error.response.data.email} já está cadastrado`);
-          console.log(error);
-        });
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                  console.log(response);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              api
+                .login(googleLogin.email, dados.password, true)
+                .then((response) => {
+                  sucesso();
+                  navigate("/account/profile");
+                  console.log(response.data);
+                  dispatch(changeIsLogged({ ...response.data, logado: true }));
+                  dispatch(changeGoogleLogin(""));
+                  localStorage.setItem(
+                    "token",
+                    JSON.stringify(response.data.token)
+                  );
+                  window.removeEventListener(
+                    "beforeunload",
+                    beforeUnloadCallback
+                  );
+                })
+
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        //  api
+        //   .login(googleLogin.email, dados.password, true)
+        //   .then((response) => {
+        //     sucesso();
+        //     navigate("/account/profile");
+        //     console.log(response.data);
+        //     dispatch(changeIsLogged({ ...response.data, logado: true }));
+        //     dispatch(changeGoogleLogin(""));
+        //     localStorage.setItem("token", JSON.stringify(response.data.token));
+        //     window.removeEventListener("beforeunload", beforeUnloadCallback);
+        //   })
+
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
+      } else {
+        console.log(dados.name);
+        await api
+          .register(dados.email, dados.password, dados.name)
+          .then((response) => {
+            const userId = response.data;
+
+            console.log(userId);
+            sucesso(), redirect();
+            if (imageFile != "" && imageFile != undefined) {
+              console.log(imageFile);
+              console.log(imageFile instanceof File);
+
+              api
+                // .avatar(imageFile, userId)
+                .avatar(imageFile, userId)
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
+          })
+          .catch((error) => {
+            alert(`O usuário ${error.response.data.email} já está cadastrado`);
+            console.log(error);
+          });
+      }
     }
   };
-
+  console.log(googleLogin);
   const sucesso = () => {
     Swal.fire({
       customClass: `${styles.swal}`,
@@ -160,7 +266,7 @@ const RegisterUser = ({ isDark }) => {
               <div className={styles.userBox}>
                 <input
                   type="text"
-                  autoFocus
+                  autoFocus="true"
                   value={dados.name}
                   onChange={onchangeName}
                   onBlur={onBlurName}
@@ -178,7 +284,10 @@ const RegisterUser = ({ isDark }) => {
                   autoComplete="on"
                   onChange={onchangeEmail}
                   onBlur={onBlurEmail}
-                  className={dados.email ? styles.emailInput : ""}
+                  disabled={googleLogin.disabled}
+                  className={`${dados.email ? styles.emailInput : ""} ${
+                    googleLogin.disabled ? styles.emailDisabled : ""
+                  }`}
                   required
                 />
                 <label>

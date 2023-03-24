@@ -31,11 +31,13 @@ export const UserApi = () => ({
         return response
     },
 
-    register: async (email, password, name) => {
+    register: async (email, password, name, googleId, picture) => {
         const response = await api.post('/register', {
             email,
             password,
-            name
+            name,
+            googleId,
+            picture
         })
         return response
     },
@@ -80,7 +82,7 @@ export const UserApi = () => ({
 
         )
         return response
-    }
+    },
 
 
 
@@ -96,6 +98,18 @@ export const UserApi = () => ({
     //       )
 
 
+    googleLogin: async (email, googleId, isChecked) => {
+        const response = await api.post('/googleLogin', {
+
+
+
+
+            email,
+            googleId,
+            isChecked
+        })
+        return response
+    }
 
 
 })
