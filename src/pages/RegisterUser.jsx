@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../css/pagesStyles/RegisterUser.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -16,10 +16,23 @@ import { changeIsLogged } from "../redux/isLoggedSlice";
 // const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
   const { image } = useSelector((state) => state.avatarImageRedux);
   const { googleLogin } = useSelector((state) => state.googleLoginRedux);
   const [imagem, setImagem] = useState();
-  console.log(googleLogin);
+
+  const [dados, setDados] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [userId, setUserId] = useState();
+  const [isValid, setIsValid] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
   const beforeUnloadCallback = function (event) {
     event.preventDefault();
     event.returnValue = "";
@@ -37,19 +50,20 @@ const RegisterUser = ({ isDark }) => {
     } else {
       window.removeEventListener("beforeunload", beforeUnloadCallback);
     }
+    //todo
+    // if (googleLogin.name) {
+    //   inputRef.current.focus();
+    // }
+    // todo
   }, []);
-
-  const [dados, setDados] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const [userId, setUserId] = useState();
-  const [isValid, setIsValid] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const focusPassword = () => {
+    if (googleLogin.name) {
+      inputRef.current.focus();
+    }
+  };
+  // useEffect(() => {
+  //   focusPassword();
+  // }, []);
 
   const onchangeEmail = (e) => {
     if (
@@ -109,14 +123,14 @@ const RegisterUser = ({ isDark }) => {
 
     if (dados.password != dados.confirmPassword) {
       return alert("As senhas estão diferentes");
-    } else if (dados.email != "") {
+    } else if (dados.email != "" && dados.name != null) {
       // await axios
       //   .post("http://localhost:3003/register", {
       //     email: dados.email,
       //     password: dados.password,
       //     name: dados.name,
       //   })
-      if (googleLogin.email) {
+      if (googleLogin.email && googleLogin.name != null) {
         console.log(googleLogin);
         await api
           .register(
@@ -253,6 +267,7 @@ const RegisterUser = ({ isDark }) => {
   };
   return (
     <div className="container">
+      <button onClick={focusPassword}>focus</button>
       <PageTitle pageTitle="Register" />
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.registerContainer}>
@@ -266,7 +281,7 @@ const RegisterUser = ({ isDark }) => {
               <div className={styles.userBox}>
                 <input
                   type="text"
-                  autoFocus="true"
+                  autoFocus
                   value={dados.name}
                   onChange={onchangeName}
                   onBlur={onBlurName}
@@ -310,6 +325,7 @@ const RegisterUser = ({ isDark }) => {
                   type={`${showPassword ? "text" : "password"}`}
                   value={dados.password}
                   onChange={onchangePassword}
+                  ref={inputRef}
                   required
                 />
                 <label>

@@ -30,7 +30,6 @@ const UploadUserImg = () => {
     this.setState({ image: dropped[0] });
   };
 
-  console.log(isLogged);
   // function dataURItoFile(dataURI, fileName) {
   //   const byteString = atob(dataURI.split(",")[1]);
   //   const ab = new ArrayBuffer(byteString.length);
@@ -42,19 +41,21 @@ const UploadUserImg = () => {
   //   return new File([blob], fileName, { type: "image/*" });
   // }
   useEffect(() => {
-    console.log(googleLogin);
-    console.log(isLogged);
     if (location.pathname === "/account/profile" && isLogged.avatarId != "") {
       setImg(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
-      console.log(img);
-    } else if (isLogged.avatarId == "" && isLogged.picture != undefined) {
+    } else if (
+      isLogged.avatarId == "" &&
+      isLogged.picture != undefined &&
+      location.pathname !== "/account/register"
+    ) {
       setImg(isLogged.picture);
     }
     if (location.pathname === "/account/register") {
+      console.log(googleLogin.picture);
       setImg(googleLogin.picture);
     }
-  }, [isLogged]);
-
+  }, [isLogged, googleLogin]);
+  console.log(img);
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles[0]) {
       return alert("Envie um arquivo válido");
@@ -121,7 +122,7 @@ const UploadUserImg = () => {
   };
   return (
     <div className={styles.container}>
-      <div className={styles.avatarContainer}>
+      <div className={styles.avatarContainer} title="Change Avatar">
         {/* <Dropzone accept={"image/*"} onDropAccepted={() => {}}>
         {({ getRootProps, getInputProps, isDragActive, isDragReject }) => ( */}
         <div
@@ -133,7 +134,7 @@ const UploadUserImg = () => {
           {img === undefined ? (
             <FaUser className={`${styles.avatarImage} ${styles.avatarIcon}`} />
           ) : (
-            <img src={`${img}`} alt="ERRO" className={styles.avatarImage} />
+            <img src={`${img}`} alt="" className={styles.avatarImage} />
           )}
 
           <FiEdit className={styles.editIcon} />

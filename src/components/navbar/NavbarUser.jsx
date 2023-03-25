@@ -37,8 +37,6 @@ const NavbarUser = () => {
     setIsLoading(false);
   }, [isLogged]);
 
-  console.log(image);
-  console.log(isLogged);
   // useOnClickOutside(ref, () => setIsOpen(false));
   ClickOutside(ref, () => setIsOpen(false));
 

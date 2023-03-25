@@ -14,11 +14,13 @@ import googleSvg from "../img/googleSvg.svg";
 import { UserApi } from "../hooks/UserApi";
 import { localStorageToken } from "../components/smallComponents/LocalStorage";
 import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
+import Loading from "../components/Loading";
 
 const LoginUser = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const [storageLogado, setStorageLogado] = useState({});
 
@@ -72,15 +74,12 @@ const LoginUser = ({}) => {
     setIsChecked(e.target.checked);
   };
 
-  const excluir = () => {
-    localStorage.removeItem("email");
-  };
   //porque quando o navigate esta dendo da função handdlelogin da erro?
   const navigate = useNavigate();
   const handdleLogin = async (event) => {
     event.preventDefault();
     const api = UserApi();
-
+    setIsLoading(true);
     dados.email != ""
       ? await api
           .login(dados.email, dados.password, isChecked)
@@ -92,6 +91,7 @@ const LoginUser = ({}) => {
             sucesso();
             // handdleKeepLogged(response);
             console.log(response);
+            setIsLoading(false);
             localStorage.setItem("token", JSON.stringify(response.data.token));
 
             navigate("/account/profile", { replace: true });
@@ -99,8 +99,10 @@ const LoginUser = ({}) => {
           .catch((error) => {
             console.error(error);
             alert(`O usuário e/ou senha estão incorretos`);
+            setIsLoading(false);
           })
       : alert("Digite um email valido");
+    setIsLoading(false);
   };
 
   const login = useGoogleLogin({
@@ -115,7 +117,7 @@ const LoginUser = ({}) => {
             },
           }
         );
-
+        setIsLoading(true);
         await api
           .googleLogin(res.data.email, res.data.sub, isChecked)
 
@@ -123,6 +125,7 @@ const LoginUser = ({}) => {
             if (response.data.redirect === true) {
               dispatch(changeGoogleLogin({ ...res.data, disabled: true }));
               return navigate("/account/register", { replace: true });
+              setIsLoading(false);
             } else {
               dispatch(changeIsLogged({ ...response.data, logado: true }));
               sucesso();
@@ -132,11 +135,13 @@ const LoginUser = ({}) => {
                 JSON.stringify(response.data.token)
               );
               navigate("/account/profile", { replace: true });
+              setIsLoading(false);
             }
           })
           .catch((error) => {
             console.error(error);
-            alert(`O usuário e/ou senha estão incorretos`);
+            alert(`Ocorreu um erro`);
+            setIsLoading(false);
           });
 
         console.log(res.data);
@@ -149,14 +154,17 @@ const LoginUser = ({}) => {
         // verificar se o email já esta cadastrado
       } catch (err) {
         console.log(err);
+        setIsLoading(false);
       }
     },
   });
 
   return (
-    <div className="container">
+    <div className={`${isLoading ? styles.fundoCinza : ""} container`}>
       <PageTitle pageTitle="Login" />
-
+      <div className={`${isLoading ? styles.loading : styles.hidden}`}>
+        <Loading />
+      </div>
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.loginContainer}>
           <h1>Login</h1>
