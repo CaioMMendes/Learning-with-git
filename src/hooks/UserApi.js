@@ -18,7 +18,7 @@ export const apiPrivate = axios.create({
 
 export const UserApi = () => ({
 
-    login: async (email, password, isChecked) => {
+    login: async (email, password, isChecked, linkAccount, googleId) => {
         const response = await api.post('/login', {
 
 
@@ -26,7 +26,9 @@ export const UserApi = () => ({
 
             email,
             password,
-            isChecked
+            isChecked,
+            linkAccount,
+            googleId
         })
         return response
     },

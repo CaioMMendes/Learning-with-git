@@ -42,6 +42,7 @@ const RegisterUser = ({ isDark }) => {
     setImagem(image);
     dispatch(changeAvatarImage(""));
     console.log("useefect");
+    focusPassword();
     if (googleLogin.name) {
       setDados({ ...dados, email: googleLogin.email, name: googleLogin.name });
     }
@@ -50,11 +51,6 @@ const RegisterUser = ({ isDark }) => {
     } else {
       window.removeEventListener("beforeunload", beforeUnloadCallback);
     }
-    //todo
-    // if (googleLogin.name) {
-    //   inputRef.current.focus();
-    // }
-    // todo
   }, []);
   const focusPassword = () => {
     if (googleLogin.name) {
@@ -266,8 +262,7 @@ const RegisterUser = ({ isDark }) => {
     });
   };
   return (
-    <div className="container">
-      <button onClick={focusPassword}>focus</button>
+    <div className="containerCss">
       <PageTitle pageTitle="Register" />
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.registerContainer}>

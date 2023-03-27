@@ -104,7 +104,7 @@ const Cadastro = ({ cadastrarLivro }) => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="containerCss">
       <div className={styles.tudo}>
         <div className={styles.content}>
           <div id="cadastro" className={styles.cadastro}>

@@ -5,6 +5,10 @@
   align-items: center;
   width: 100%;
 }
+.disabledInput input {
+  color: var(--colorMenu) !important;
+  background-color: var(--navbarBackground) !important;
+}
 .profileEmail {
   display: flex;
   flex-direction: row;
@@ -15,6 +19,7 @@
 .editEmail {
   /* margin-left: 3px; */
   cursor: pointer;
+  display: flex;
 }
 .editIcon {
   color: var(--verde);
@@ -42,4 +47,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.profileEmail input {
+  border: 1px solid var(--colorMenu);
+  color: var(--colorMenuHover);
 }

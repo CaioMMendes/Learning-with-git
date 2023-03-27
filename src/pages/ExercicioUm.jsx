@@ -82,7 +82,7 @@ const ExercicioUm = () => {
   // };
 
   return (
-    <div className="container">
+    <div className="containerCss">
       {itens.map((itens) => (
         <Itens key={uuidv4()} itens={itens} excluirLivro={excluirLivro} />
       ))}

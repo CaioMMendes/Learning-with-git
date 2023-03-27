@@ -1,9 +1,0 @@
-.deslogado a {
-  text-decoration: none;
-  color: var(--verde);
-}
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

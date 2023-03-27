@@ -10,6 +10,8 @@ export const googleLoginSlice = createSlice({
       logado: false,
       disabled: false,
       picture: undefined,
+      linkAccount: "",
+      googleId: "",
     },
   },
   reducers: {
@@ -29,6 +31,8 @@ export const googleLoginSlice = createSlice({
           logado: false,
           disabled: false,
           picture: undefined,
+          linkAccount: "",
+          googleId: "",
         },
       };
     },

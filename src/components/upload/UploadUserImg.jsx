@@ -41,11 +41,11 @@ const UploadUserImg = () => {
   //   return new File([blob], fileName, { type: "image/*" });
   // }
   useEffect(() => {
-    if (location.pathname === "/account/profile" && isLogged.avatarId != "") {
+    if (location.pathname === "/account/profile" && isLogged.avatarId != null) {
       setImg(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
     } else if (
-      isLogged.avatarId == "" &&
-      isLogged.picture != undefined &&
+      isLogged.avatarId == null &&
+      isLogged.picture != null &&
       location.pathname !== "/account/register"
     ) {
       setImg(isLogged.picture);

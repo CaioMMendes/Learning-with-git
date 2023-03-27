@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import styles from "../css/componentsStyles/ProfileLogado.module.css";
+import styles from "../css/pagesStyles/profileLogado.module.css";
 import { FiEdit } from "react-icons/fi";
 import Button from "../components/smallComponents/Button";
 import { Link } from "react-router-dom";
 import UploadUserImg from "../components/upload/UploadUserImg";
 import useApiPrivate from "../hooks/useApiPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
+import { debounce } from "lodash";
 import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 const ProfileLogado = () => {
@@ -15,6 +16,11 @@ const ProfileLogado = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setLoading] = useState(true);
+  const [dados, setDados] = useState();
+  const [isDisabled, setIsDisabled] = useState({
+    email: true,
+    name: true,
+  });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -25,7 +31,7 @@ const ProfileLogado = () => {
     //   isMounted = false;
     //   controller.abort();
     // };
-
+    // debounceLoading();
     setLoading(false);
   }, [isLogged]);
   // const getUser = async () => {
@@ -44,11 +50,10 @@ const ProfileLogado = () => {
   //     // navigate("/account/login", { state: { from: location }, replace: true });
   //   }
   // };
-  const [dados, setDados] = useState(isLogged);
-  const [isDisabled, setIsDisabled] = useState({
-    email: true,
-    name: true,
-  });
+
+  const debounceLoading = debounce(() => {
+    setLoading(false);
+  }, 2000);
   const onchangeEmail = (e) => {
     setDados({ ...dados, email: e.target.value });
   };
@@ -66,17 +71,25 @@ const ProfileLogado = () => {
       dados.name && dados.name.trim().split(" ").filter(Boolean).join(" ");
     setDados({ ...dados, name: trimName });
   };
-
+  console.log("dados", dados);
+  console.log("logged", isLogged);
+  if (isLogged.logado === false && isLogged.carregado == false) {
+    navigate("/account/login", { replace: true });
+  }
   return (
-    <div className="container">
+    <div className="containerCss">
       {isLoading ? (
         <div className={styles.loading}>
           <Loading />
         </div>
-      ) : dados.logado ? (
+      ) : isLogged.logado ? (
         <div className={styles.profileLogado}>
           <UploadUserImg />
-          <div className={styles.profileEmail}>
+          <div
+            className={`${styles.profileEmail} ${
+              isDisabled.name ? styles.disabledInput : ""
+            }`}
+          >
             <label>
               Name:
               <input
@@ -85,6 +98,7 @@ const ProfileLogado = () => {
                 onChange={onchangeName}
                 onBlur={onBlurName}
                 disabled={isDisabled.name}
+                className="pl-1.5 text-left"
               />
             </label>
             <div
@@ -96,7 +110,11 @@ const ProfileLogado = () => {
               <FiEdit className={styles.editIcon} /> Editar
             </div>
           </div>
-          <div className={styles.profileEmail}>
+          <div
+            className={`${styles.profileEmail} ${
+              isDisabled.email ? styles.disabledInput : ""
+            }`}
+          >
             <label>
               E-mail:
               <input
@@ -105,6 +123,7 @@ const ProfileLogado = () => {
                 onChange={onchangeEmail}
                 onBlur={onBlurEmail}
                 disabled={isDisabled.email}
+                className="pl-1.5 text-left"
               />
             </label>
             <div
@@ -123,11 +142,13 @@ const ProfileLogado = () => {
             </Link>
           </div>
         </div>
-      ) : (
+      ) : !isLoading ? (
         <div className={styles.deslogado}>
           Você ainda não está logado em nenhuma conta. Por favor,{" "}
           <Link to="/account/login">clique aqui</Link> para efetuar o login
         </div>
+      ) : (
+        ""
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import styles from "../css/pagesStyles/Animation.module.css";
 
 const OutroEstilo = () => {
   return (
-    <div className="container">
+    <div className="containerCss">
       <div className={styles.video}>
         <div className={styles.videoArea}>
           <div className={styles.holdsIframe}>

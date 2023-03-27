@@ -2,7 +2,7 @@ import React from "react";
 
 const NewsList = ({ newsData }) => {
   return (
-    <div className="container">
+    <div className="containerCss">
       <ul>
         {newsData.map((news) => (
           <li key={news.id}>

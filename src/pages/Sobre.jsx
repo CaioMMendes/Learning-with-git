@@ -6,9 +6,10 @@ import PageTitle from "../components/PageTitle";
 const Sobre = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   return (
-    <div className="container">
+    <div className="containerCss">
       <PageTitle pageTitle="Sobre" />
       {isLogged.logado && <p>logado</p>}
+      <h1 className="text-3xl font-bold underline bg-blue-700">Hello world!</h1>
       <img
         className={styles.cebolinha}
         src="https://upload.wikimedia.org/wikipedia/pt/9/98/Cebolinha.png"
@@ -22,7 +23,7 @@ const Sobre = () => {
       <div className={styles.conteudo}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, maxime.
       </div>
-      <div class={styles.a}>
+      <div className={styles.a}>
         <img
           src="https://upload.wikimedia.org/wikipedia/pt/9/98/Cebolinha.png"
           alt="Imagem"

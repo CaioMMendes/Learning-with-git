@@ -3,7 +3,7 @@ import styles from "../css/pagesStyles/Jogos.module.css";
 
 const Jogos = () => {
   return (
-    <div className="container">
+    <div className="containerCss">
       <div className={styles.loading}>
         <p>Loading</p>
 

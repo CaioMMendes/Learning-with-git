@@ -17,18 +17,18 @@ const NavbarUser = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const [image, setImage] = useState(
-    isLogged.avatarId != ""
+    isLogged.avatarId != null
       ? `https://docs.google.com/uc?id=${isLogged?.avatarId}`
-      : isLogged.picture != undefined
+      : isLogged.picture != null
       ? isLogged.picture
       : "https://docs.google.com/uc?id=undefined"
   );
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
-    if (isLogged.avatarId != "") {
+    if (isLogged.avatarId != null) {
       setImage(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
-    } else if (isLogged.picture != undefined) {
+    } else if (isLogged.picture != null) {
       setImage(isLogged.picture);
     } else {
       setImage("https://docs.google.com/uc?id=undefined");

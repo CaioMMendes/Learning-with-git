@@ -26,7 +26,7 @@ const Home = ({ isDark }) => {
   };
 
   return (
-    <div className="container">
+    <div className="containerCss">
       <input type="text" id="key" onKeyUp={qualTecla} value={nomeTecla} />
       <p>{nomeTecla}</p>
       <p>{tecla}</p>

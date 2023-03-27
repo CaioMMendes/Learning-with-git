@@ -22,8 +22,9 @@ const LoginUser = ({}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
+  const { googleLogin } = useSelector((state) => state.googleLoginRedux);
   const [storageLogado, setStorageLogado] = useState({});
-
+  const inputRef = useRef(null);
   const dispatch = useDispatch();
   const [dados, setDados] = useState({
     email: "",
@@ -37,7 +38,6 @@ const LoginUser = ({}) => {
   // var innerDoc = iframe[0].contentDocument || iframe[0].contentWindow.document;
   // innerDoc.body.style.backgroundColor = "red";
 
-  const inputRef = useRef(null);
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -82,7 +82,13 @@ const LoginUser = ({}) => {
     setIsLoading(true);
     dados.email != ""
       ? await api
-          .login(dados.email, dados.password, isChecked)
+          .login(
+            dados.email,
+            dados.password,
+            isChecked,
+            googleLogin.linkAccount,
+            googleLogin.googleId
+          )
 
           .then((response) => {
             // console.log(response);
@@ -122,7 +128,22 @@ const LoginUser = ({}) => {
           .googleLogin(res.data.email, res.data.sub, isChecked)
 
           .then((response) => {
-            if (response.data.redirect === true) {
+            if (response.data.message === "Email já cadastrado") {
+              alert(
+                `O email ${response.data.email} já está cadastrado, efetue o login dessa conta para linkar o google`
+              );
+              inputRef.current.focus();
+              setDados({ ...dados, email: response.data.email });
+              dispatch(
+                changeGoogleLogin({
+                  ...googleLogin,
+                  linkAccount: response.data.email,
+                  googleId: res.data.sub,
+                })
+              );
+              setIsLoading(false);
+              console.log(googleLogin);
+            } else if (response.data.redirect === true) {
               dispatch(changeGoogleLogin({ ...res.data, disabled: true }));
               return navigate("/account/register", { replace: true });
               setIsLoading(false);
@@ -160,7 +181,7 @@ const LoginUser = ({}) => {
   });
 
   return (
-    <div className={`${isLoading ? styles.fundoCinza : ""} container`}>
+    <div className={`${isLoading ? styles.fundoCinza : ""} containerCss`}>
       <PageTitle pageTitle="Login" />
       <div className={`${isLoading ? styles.loading : styles.hidden}`}>
         <Loading />
@@ -193,9 +214,9 @@ const LoginUser = ({}) => {
                   className={styles.inputPassword}
                   type={`${showPassword ? "text" : "password"}`}
                   value={dados.password}
-                  ref={inputRef}
                   onChange={onchangePassword}
                   autoComplete="off"
+                  ref={inputRef}
                   required
                 />
 

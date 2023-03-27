@@ -1,7 +1,7 @@
 import React from "react";
 
 const RecoverPassword = () => {
-  return <div className="container">RecoverPassword</div>;
+  return <div className="containerCss">RecoverPassword</div>;
 };
 
 export default RecoverPassword;

@@ -52,7 +52,7 @@ const Musica = () => {
   };
 
   return (
-    <div className="container" onKeyDown={handleKeypress}>
+    <div className="containerCss" onKeyDown={handleKeypress}>
       <button className={styles.button} onClick={play}>
         Play
       </button>

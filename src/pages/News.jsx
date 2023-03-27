@@ -12,7 +12,7 @@ const News = ({ newsData }) => {
   let { id } = useParams();
   let newss = newsData.find((news) => news.id == id);
   return (
-    <div className="container">
+    <div className="containerCss">
       <h1>{newss.title}</h1>
       <p>{newss.content}</p>
       <Slide />
