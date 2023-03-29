@@ -8,6 +8,7 @@ const Sobre = () => {
   return (
     <div className="containerCss">
       <PageTitle pageTitle="Sobre" />
+
       {isLogged.logado && <p>logado</p>}
       <h1 className="text-3xl font-bold underline bg-blue-700">Hello world!</h1>
       <img

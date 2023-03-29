@@ -16,7 +16,7 @@ const ProfileLogado = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setLoading] = useState(true);
-  const [dados, setDados] = useState();
+  const [dados, setDados] = useState(isLogged);
   const [isDisabled, setIsDisabled] = useState({
     email: true,
     name: true,
@@ -73,9 +73,7 @@ const ProfileLogado = () => {
   };
   console.log("dados", dados);
   console.log("logged", isLogged);
-  if (isLogged.logado === false && isLogged.carregado == false) {
-    navigate("/account/login", { replace: true });
-  }
+
   return (
     <div className="containerCss">
       {isLoading ? (
@@ -142,7 +140,7 @@ const ProfileLogado = () => {
             </Link>
           </div>
         </div>
-      ) : !isLoading ? (
+      ) : !isLoading && isLogged.logado === false ? (
         <div className={styles.deslogado}>
           Você ainda não está logado em nenhuma conta. Por favor,{" "}
           <Link to="/account/login">clique aqui</Link> para efetuar o login

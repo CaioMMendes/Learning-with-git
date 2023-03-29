@@ -87,12 +87,14 @@ const LoginUser = ({}) => {
             dados.password,
             isChecked,
             googleLogin.linkAccount,
-            googleLogin.googleId
+            googleLogin.googleId,
+            googleLogin.picture
           )
 
           .then((response) => {
             // console.log(response);
             // limparDados();
+            console.log(response.data);
             dispatch(changeIsLogged({ ...response.data, logado: true }));
             sucesso();
             // handdleKeepLogged(response);
@@ -139,6 +141,7 @@ const LoginUser = ({}) => {
                   ...googleLogin,
                   linkAccount: response.data.email,
                   googleId: res.data.sub,
+                  picture: res.data.picture,
                 })
               );
               setIsLoading(false);
@@ -148,6 +151,7 @@ const LoginUser = ({}) => {
               return navigate("/account/register", { replace: true });
               setIsLoading(false);
             } else {
+              console.log(response.data);
               dispatch(changeIsLogged({ ...response.data, logado: true }));
               sucesso();
 
@@ -247,8 +251,13 @@ const LoginUser = ({}) => {
                   </label>
                 </div>
 
-                <div className={styles.forgotPassword}>
-                  <Link to="/account/recover-password">
+                <div
+                  className={`${styles.forgotPassword} cursor-pointer  h-full w-full flex justify-end `}
+                >
+                  <Link
+                    to="/account/recover-password"
+                    className="cursor-pointer  h-full z-10"
+                  >
                     Forgot your password ?
                   </Link>
                 </div>

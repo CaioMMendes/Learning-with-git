@@ -5,7 +5,7 @@ export const isLoggedSlice = createSlice({
   initialState: {
     isLogged: {
       name: "",
-      logado: false,
+
       email: "",
       img: "",
     },
@@ -22,7 +22,7 @@ export const isLoggedSlice = createSlice({
         ...state,
         isLogged: {
           name: "",
-          logado: false,
+
           email: "",
           img: "",
         },

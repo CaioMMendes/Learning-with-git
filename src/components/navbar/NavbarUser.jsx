@@ -4,18 +4,21 @@ import { useState, useEffect, useRef } from "react";
 import { BsFillGearFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { GiPadlock } from "react-icons/gi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/isLoggedSlice";
 import { ClickOutside } from "../smallComponents/ClickOutside";
 import { UserApi } from "../../hooks/UserApi";
 import Loading from "../Loading";
+import { useLocation } from "react-router-dom";
 
 const NavbarUser = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [image, setImage] = useState(
     isLogged.avatarId != null
       ? `https://docs.google.com/uc?id=${isLogged?.avatarId}`
@@ -48,6 +51,9 @@ const NavbarUser = () => {
       .logout()
       .then((response) => {
         console.log(response);
+        if (location.pathname === "/account/profile") {
+          navigate("/account/login", { replace: true });
+        }
       })
       .catch((error) => {
         console.log(error);

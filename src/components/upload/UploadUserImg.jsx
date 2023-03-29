@@ -21,7 +21,20 @@ const UploadUserImg = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const editorRef = useRef(null);
   const [file, setFile] = useState([]);
-  const [img, setImg] = useState();
+  const [img, setImg] = useState(() => {
+    if (location.pathname === "/account/profile" && isLogged.avatarId != null) {
+      `https://docs.google.com/uc?id=${isLogged?.avatarId}`;
+    } else if (
+      isLogged.avatarId == null &&
+      isLogged.picture != null &&
+      location.pathname !== "/account/register"
+    ) {
+      isLogged.picture;
+    }
+    if (location.pathname === "/account/register") {
+      googleLogin.picture;
+    }
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [ajustPositionOpen, setAjustPositionOpen] = useState(false);
   const [zoomValue, setZoomValue] = useState(1);
@@ -134,7 +147,15 @@ const UploadUserImg = () => {
           {img === undefined ? (
             <FaUser className={`${styles.avatarImage} ${styles.avatarIcon}`} />
           ) : (
-            <img src={`${img}`} alt="" className={styles.avatarImage} />
+            <>
+              <img src={`${img}`} alt="" className={styles.avatarImage} />
+              {img}
+              {/* <img
+                src={`https://lh3.googleusercontent.com/a/AGNmyxb4_naCnnb4yPCF5hVfnRdkyeaCJktRLHDYexGG9g=s96-c`}
+                alt=""
+                className={styles.avatarImage}
+              /> */}
+            </>
           )}
 
           <FiEdit className={styles.editIcon} />

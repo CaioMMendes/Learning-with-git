@@ -49,6 +49,7 @@ function App() {
           dispatch(changeIsLogged({ ...response.data, logado: true }));
         })
         .catch((error, response) => {
+          dispatch(changeIsLogged({ ...isLogged, logado: false }));
           console.log(error);
           console.log(response);
         });
