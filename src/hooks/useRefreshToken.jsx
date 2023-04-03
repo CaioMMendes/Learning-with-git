@@ -5,7 +5,12 @@ import { UserApi } from "./UserApi";
 
 const useRefreshToken = () => {
   // const token = JSON.parse(localStorage.getItem("token"));
-
+  // axios.create({
+  //   withCredentials: true,
+  //   credentials: "include",
+  //   //Sempre tem que usar o vite_ para ele puxar o valor
+  //   baseURL: import.meta.env.VITE_APIURL,
+  // })
   const api = UserApi();
   // const refresh = async () => {
 
@@ -32,6 +37,7 @@ const useRefreshToken = () => {
 
   const refresh = async () => {
     try {
+      // const response = await api.refresh();
       const response = await api.refresh();
       const { accessToken } = response.data;
 

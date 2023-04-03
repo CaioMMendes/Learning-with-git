@@ -23,7 +23,11 @@
     --alturaContainer: calc(100vh - (var(--totalNavbar) + var(--totalFooter)));
   }
 }
-
+@layer components {
+  .boxShadowGreen {
+    box-shadow: 0 15px 25px rgba(96, 238, 120, 0.7);
+  }
+}
 body {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;

@@ -17,7 +17,7 @@ const EmailVerificated = () => {
         navigate("/account/login", { replace: true })
       ) : (
         <div
-          className={`w-3/4 -bg--navbarBackground h-56 rounded-xl flex justify-center items-center flex-col ${styles.boxShadowGreen}`}
+          className={`w-3/4 -bg--navbarBackground h-56 rounded-xl flex justify-center items-center flex-col boxShadowGreen`}
         >
           <p className="-text--verde text-5xl pb-6">E-mail enviado</p>
           <br />

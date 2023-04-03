@@ -1,5 +1,5 @@
 import axios from "axios";
-
+// import useApiPrivate from "./useApiPrivate";
 const api = axios.create({
     withCredentials: true,
     credentials: 'include',
@@ -16,7 +16,10 @@ export const apiPrivate = axios.create({
     baseURL: import.meta.env.VITE_APIURL
 })
 
+// const apiPrivateToken = useApiPrivate()
+
 export const UserApi = () => ({
+
 
     login: async (email, password, isChecked, linkAccount, googleId, picture) => {
         const response = await api.post('/login', {
@@ -121,7 +124,12 @@ export const UserApi = () => ({
             email
         })
         return response
-    }
+    },
 
+
+    // apiPrivate: async () => {
+    //     const response = await apiPrivateToken.post('/userinfo')
+    //     return response
+    // }
 
 })

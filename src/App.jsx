@@ -33,28 +33,32 @@ import { localStorageToken } from "./components/smallComponents/LocalStorage";
 import ProfileLogado from "./pages/ProfileLogado";
 import RecoverPasswordSent from "./pages/RecoverPasswordSent";
 import EmailVerificated from "./pages/EmailVerificated";
+import useApiPrivate from "./hooks/useApiPrivate";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
-
+  const apiPrivate = useApiPrivate();
   const dispatch = useDispatch();
   useEffect(() => {
     const getData = async () => {
       const token = localStorageToken();
       const api = UserApi();
+      try {
+        await apiPrivate
+          .post("userinfo")
+          .then((response) => {
+            console.log(response.data);
 
-      await api
-        .userInfo(token)
-        .then((response) => {
-          console.log(response.data);
-
-          dispatch(changeIsLogged({ ...response.data, logado: true }));
-        })
-        .catch((error, response) => {
-          dispatch(changeIsLogged({ ...isLogged, logado: false }));
-          console.log(error);
-          console.log(response);
-        });
+            dispatch(changeIsLogged({ ...response.data, logado: true }));
+          })
+          .catch((error, response) => {
+            dispatch(changeIsLogged({ ...isLogged, logado: false }));
+            console.log(error);
+            console.log(response);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     };
     getData();
   }, []);

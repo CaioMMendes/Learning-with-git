@@ -281,6 +281,11 @@ const RegisterUser = ({ isDark }) => {
       showConfirmButton: false,
     });
   };
+  //todo como fazer await de duas coisas ao mesmo tempo
+  // async function loadData(){
+  //   const [products,categories]=Promise.allSettled([loadProducts(),loadCategories()])
+  //   return{products,categories}
+  // }
   return (
     <div className="containerCss">
       <PageTitle pageTitle="Register" />
