@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from "react";
 // import Dropzone from "react-dropzone";
 import { useDropzone } from "react-dropzone";
-import DropContainer from "./DropContainer";
+
 import { FaUser } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { useLocation } from "react-router-dom";
@@ -221,6 +221,7 @@ const UploadUserImg = () => {
             step={0.01}
             min={0.5}
             max={3}
+            className="-accent--verde"
           />
         </label>
         <Button onClick={handleSave}>Cortar</Button>

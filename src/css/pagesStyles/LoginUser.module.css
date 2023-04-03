@@ -166,6 +166,7 @@ label span {
   justify-content: start;
   width: 200px;
   color: var(--verde);
+  accent-color: var(--verde);
   align-items: center;
 }
 .checkbox input {

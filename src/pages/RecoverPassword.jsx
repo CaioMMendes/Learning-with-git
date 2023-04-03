@@ -17,6 +17,7 @@ import { localStorageToken } from "../components/smallComponents/LocalStorage";
 import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
 import Loading from "../components/Loading";
 import { GiPadlock } from "react-icons/gi";
+import { changeRecoverPassword } from "../redux/RecoverPasswordSlice";
 
 const RecoverPassword = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);
@@ -45,16 +46,55 @@ const RecoverPassword = ({}) => {
   };
 
   const sucesso = () => {
-    SwalFire("Sent", "success");
+    SwalFire("Sent", "success", 2000, false);
+  };
+  const erro = () => {
+    SwalFire("Email not found", "error", 2000, false);
+  };
+
+  const handdleRecoverPassword = async (event) => {
+    event.preventDefault();
+    const api = UserApi();
+    setIsLoading(true);
+    await api
+      .recoverPassword(dados.email)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data?.message === "E-mail not found") {
+          erro();
+        } else {
+          sucesso();
+          dispatch(
+            changeRecoverPassword({ email: dados.email, redirect: true })
+          );
+          navigate("/account/recover-password/sent", { replace: true });
+        }
+
+        // handdleKeepLogged(response);
+        setIsLoading(false);
+        console.log(response);
+        console.log("first");
+      })
+      .catch((error) => {
+        console.error(error);
+
+        setIsLoading(false);
+      });
   };
 
   return (
-    <div className={`${isLoading ? styles.fundoCinza : ""} containerCss`}>
+    <div
+      className={`${
+        isLoading ? styles.fundoCinza : ""
+      } containerCss flex justify-center items-center relative bottom-2`}
+    >
       <PageTitle pageTitle="Recover Password" />
       <div className={`${isLoading ? styles.loading : styles.hidden}`}>
         <Loading />
       </div>
-      <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
+      <div
+        className={`${styles.loginBox} ${!isDark && styles.loginBoxLight}  `}
+      >
         <div className={styles.loginContainer}>
           <div className="flex justify-center items-center flex-col mb-6">
             <div>
@@ -65,15 +105,10 @@ const RecoverPassword = ({}) => {
             </p>
             <p className="text-xl flex justify-center items-center text-center">
               Enter your email and we'll send you a link to get back into your
-              account."
+              account.
             </p>
           </div>
-          <form
-            onSubmit={() => {
-              sucesso();
-            }}
-            method="post"
-          >
+          <form onSubmit={handdleRecoverPassword} method="post">
             <div className={styles.box}>
               <div className={styles.userBox}>
                 <input
@@ -97,7 +132,7 @@ const RecoverPassword = ({}) => {
                 type="submit"
                 className={`${styles.submit} flex justify-start items-center`}
               >
-                Send
+                Submit
               </button>
               {/* <Button>Submits</Button> */}
               <div className={` text-2xl flex flex-col mx-auto w-3/5 text-end`}>
@@ -107,7 +142,7 @@ const RecoverPassword = ({}) => {
                   to="/account/login"
                   className="text-xl leading-normal flex justify-end mx-auto mr-0 -text--verde"
                 >
-                  <p1 className="bg-(--verde)">Login</p1>
+                  <span className="bg-(--verde)">Login</span>
                 </Link>
               </div>
             </div>

@@ -13,6 +13,7 @@ import { changeAvatarImage } from "../redux/avatarImage";
 import { useSelector, useDispatch } from "react-redux";
 import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
 import { changeIsLogged } from "../redux/isLoggedSlice";
+import { changeEmailSent } from "../redux/EmailSentSlice";
 // const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
   const dispatch = useDispatch();
@@ -43,14 +44,17 @@ const RegisterUser = ({ isDark }) => {
     dispatch(changeAvatarImage(""));
     console.log("useefect");
     focusPassword();
-    if (googleLogin.name) {
+    if (googleLogin.email) {
       setDados({ ...dados, email: googleLogin.email, name: googleLogin.name });
-    }
-    if (googleLogin != "") {
       window.addEventListener("beforeunload", beforeUnloadCallback);
     } else {
       window.removeEventListener("beforeunload", beforeUnloadCallback);
     }
+    // if (googleLogin != "") {
+    //       window.addEventListener("beforeunload", beforeUnloadCallback);
+    // } else {
+    //   window.removeEventListener("beforeunload", beforeUnloadCallback);
+    // }
   }, []);
   const focusPassword = () => {
     if (googleLogin.name) {
@@ -105,8 +109,12 @@ const RegisterUser = ({ isDark }) => {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
   const navigate = useNavigate();
-  const redirect = () => {
-    navigate("/account/login");
+  const redirect = (email) => {
+    dispatch(changeEmailSent({ email: email, redirect: true }));
+    //todo colocar na pagina criada para quando o redirect for true aceitar e quando for
+    //todo false mudar pra outra tela
+    navigate("/account/register/email-verificated");
+    //todo mudar aqui o navigate
   };
 
   const handdleRegister = async (event) => {
@@ -225,7 +233,7 @@ const RegisterUser = ({ isDark }) => {
             const userId = response.data;
 
             console.log(userId);
-            sucesso(), redirect();
+            sucessoEnvioEmail(), redirect(dados.email);
             if (imageFile != "" && imageFile != undefined) {
               console.log(imageFile);
               console.log(imageFile instanceof File);
@@ -254,6 +262,18 @@ const RegisterUser = ({ isDark }) => {
       customClass: `${styles.swal}`,
       icon: "success",
       title: "Cadastrado!",
+      width: 450,
+      text: "",
+      timer: 2000,
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+  };
+  const sucessoEnvioEmail = () => {
+    Swal.fire({
+      customClass: `${styles.swal}`,
+      icon: "success",
+      title: "Email Enviado!",
       width: 450,
       text: "",
       timer: 2000,

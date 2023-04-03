@@ -17,6 +17,7 @@ import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
 import Loading from "../components/Loading";
 
 const LoginUser = ({}) => {
+  const navigate = useNavigate();
   const { isDark } = useSelector((state) => state.isDarkRedux);
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -68,14 +69,14 @@ const LoginUser = ({}) => {
   // };
 
   const sucesso = () => {
-    SwalFire("Logado!", "success");
+    SwalFire("Logado!", "success", 2000, false);
   };
   const handdleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
 
   //porque quando o navigate esta dendo da função handdlelogin da erro?
-  const navigate = useNavigate();
+
   const handdleLogin = async (event) => {
     event.preventDefault();
     const api = UserApi();
@@ -94,6 +95,19 @@ const LoginUser = ({}) => {
           .then((response) => {
             // console.log(response);
             // limparDados();
+            if (response.data.message === "Verifique o e-mail") {
+              return alert(response.data.message);
+            }
+            if (
+              response.data.message ===
+              "O seu email de confirmação expirou, cadastre novamente para efetuar o login"
+            ) {
+              return alert(response.data.message);
+            }
+            if (response.data.invalidUserPassword === true) {
+              return alert("Usuário ou senha inválidos");
+            }
+
             console.log(response.data);
             dispatch(changeIsLogged({ ...response.data, logado: true }));
             sucesso();
@@ -106,7 +120,7 @@ const LoginUser = ({}) => {
           })
           .catch((error) => {
             console.error(error);
-            alert(`O usuário e/ou senha estão incorretos`);
+            alert(`Ocorreu um erro no sistema`);
             setIsLoading(false);
           })
       : alert("Digite um email valido");
@@ -185,7 +199,11 @@ const LoginUser = ({}) => {
   });
 
   return (
-    <div className={`${isLoading ? styles.fundoCinza : ""} containerCss`}>
+    <div
+      className={`${
+        isLoading ? styles.fundoCinza : ""
+      } containerCss flex justify-center items-center relative bottom-2`}
+    >
       <PageTitle pageTitle="Login" />
       <div className={`${isLoading ? styles.loading : styles.hidden}`}>
         <Loading />

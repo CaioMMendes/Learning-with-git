@@ -6,6 +6,8 @@ import isDarkReducer from './IsDarkSlice'
 import isLoggedReducer from './isLoggedSlice'
 import googleLoginReducer from './GoogleLoginSlice'
 import avatarImageReducer from './avatarImage'
+import recoverPasswordReducer from './RecoverPasswordSlice'
+import emailSentReducer from './EmailSentSlice'
 
 
 export default configureStore({
@@ -15,5 +17,7 @@ export default configureStore({
         isLoggedRedux: isLoggedReducer,
         googleLoginRedux: googleLoginReducer,
         avatarImageRedux: avatarImageReducer,
+        recoverPasswordRedux: recoverPasswordReducer,
+        emailSentRedux: emailSentReducer,
     }
 })

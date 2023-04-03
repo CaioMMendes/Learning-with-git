@@ -21,9 +21,6 @@ export const UserApi = () => ({
     login: async (email, password, isChecked, linkAccount, googleId, picture) => {
         const response = await api.post('/login', {
 
-
-
-
             email,
             password,
             isChecked,
@@ -34,13 +31,14 @@ export const UserApi = () => ({
         return response
     },
 
-    register: async (email, password, name, googleId, picture) => {
+    register: async (email, password, name, googleId, picture, ) => {
         const response = await api.post('/register', {
             email,
             password,
             name,
             googleId,
-            picture
+            picture,
+
         })
         return response
     },
@@ -110,6 +108,17 @@ export const UserApi = () => ({
             email,
             googleId,
             isChecked
+        })
+        return response
+    },
+
+    recoverPassword: async (email) => {
+        const response = await api.post('/recover-password', {
+
+
+
+
+            email
         })
         return response
     }

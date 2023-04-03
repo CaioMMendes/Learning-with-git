@@ -31,6 +31,8 @@ import { useSelector } from "react-redux";
 import { UserApi } from "./hooks/UserApi";
 import { localStorageToken } from "./components/smallComponents/LocalStorage";
 import ProfileLogado from "./pages/ProfileLogado";
+import RecoverPasswordSent from "./pages/RecoverPasswordSent";
+import EmailVerificated from "./pages/EmailVerificated";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -255,7 +257,17 @@ function App() {
             exact
             element={<RecoverPassword />}
           ></Route>
+          <Route
+            path="/account/recover-password/sent"
+            exact
+            element={<RecoverPasswordSent />}
+          ></Route>
           <Route path="/account/profile" exact element={<ProfileLogado />} />
+          <Route
+            path="/account/register/email-verificated"
+            exact
+            element={<EmailVerificated />}
+          />
         </Routes>
         <ScrollToTop />
         <Footer isDark={isDark} />

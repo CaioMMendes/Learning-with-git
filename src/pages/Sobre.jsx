@@ -1,10 +1,12 @@
 import React from "react";
+import { useState } from "react";
 import styles from "../css/pagesStyles/Sobre.module.css";
 import { useSelector } from "react-redux";
 import PageTitle from "../components/PageTitle";
 
 const Sobre = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
+
   return (
     <div className="containerCss">
       <PageTitle pageTitle="Sobre" />
