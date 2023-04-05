@@ -68,7 +68,7 @@ const UploadUserImg = () => {
       setImg(googleLogin.picture);
     }
   }, [isLogged, googleLogin]);
-  console.log(img);
+  // console.log(img);
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles[0]) {
       return alert("Envie um arquivo válido");
@@ -149,7 +149,7 @@ const UploadUserImg = () => {
           ) : (
             <>
               <img src={`${img}`} alt="" className={styles.avatarImage} />
-              {img}
+              {/* {img} */}
               {/* <img
                 src={`https://lh3.googleusercontent.com/a/AGNmyxb4_naCnnb4yPCF5hVfnRdkyeaCJktRLHDYexGG9g=s96-c`}
                 alt=""

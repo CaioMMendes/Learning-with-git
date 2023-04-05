@@ -9,7 +9,7 @@ const api = axios.create({
 export const apiPrivate = axios.create({
     withCredentials: true,
     headers: {
-        'content-Type': 'aplication/json'
+        'content-Type': 'application/json'
     },
     credentials: 'include',
     //Sempre tem que usar o vite_ para ele puxar o valor
@@ -47,13 +47,7 @@ export const UserApi = () => ({
     },
 
     userInfo: async (token) => {
-        const response = await api.post('/userinfo', {
-            token
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
+        const response = await api.post('/userinfo')
         return response
     },
     refresh: async () => {
@@ -129,6 +123,17 @@ export const UserApi = () => ({
 
     // apiPrivate: async () => {
     //     const response = await apiPrivateToken.post('/userinfo')
+    //     return response
+    // }
+    // testeUpdateUser: async (name, email) => {
+    //     const response = await apiPrivate.post('/update-user-info', {
+
+
+
+
+    //         name,
+    //         email
+    //     })
     //     return response
     // }
 

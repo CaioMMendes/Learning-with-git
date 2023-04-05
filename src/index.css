@@ -42,7 +42,8 @@ body {
   color: rgba(255, 255, 255, 0.87);
   background-image: url(./img/brick-wall.svg);
 
-  background-color: #fffafa;
+  /* background-color: #fffafa; */
+  background-color: #242424;
 
   /* min-height: calc(100vh - 124px ); */
 

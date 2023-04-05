@@ -43,11 +43,17 @@ function App() {
     const getData = async () => {
       const token = localStorageToken();
       const api = UserApi();
+
       try {
         await apiPrivate
-          .post("userinfo")
+          .post("/userinfo")
           .then((response) => {
             console.log(response.data);
+            if (response.data.avatarId === null) {
+              localStorage.setItem("userImg", response.data.picture);
+            } else {
+              localStorage.setItem("userImg", response.data.avatarId);
+            }
 
             dispatch(changeIsLogged({ ...response.data, logado: true }));
           })

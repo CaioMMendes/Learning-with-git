@@ -17,7 +17,15 @@ module.exports = {
         '--alturaFooter': '60px',
         '--totalFooter': '60px',
         '--alturaContainer': 'calc(100vh - (var(--totalNavbar) + var(--totalFooter)))',
-      }
+      },
+      backgroundImage: {
+        'password-hide': 'url("../src/img/login/hide.svg")',
+        'password-show': 'url("../src/img/login/show.svg")'
+      },
+      backgroundSize: {
+        '85%': '85%'
+      },
+
     },
   },
   plugins: [],
