@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const avatarImage = createSlice({
   name: "avatarImage",
   initialState: {
-    image: null,
+    image: "",
   },
   reducers: {
     changeAvatarImage(state, { payload }) {

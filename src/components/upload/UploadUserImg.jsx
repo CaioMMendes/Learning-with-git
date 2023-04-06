@@ -11,13 +11,16 @@ import { FiEdit } from "react-icons/fi";
 import Button from "../smallComponents/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { changeAvatarImage } from "../../redux/avatarImage";
+import useApiPrivate from "../../hooks/useApiPrivate";
 
 import { useEffect } from "react";
+import { changeIsLogged } from "../../redux/isLoggedSlice";
 
 const UploadUserImg = () => {
   const dispatch = useDispatch();
   const { googleLogin } = useSelector((state) => state.googleLoginRedux);
   const location = useLocation();
+  const apiPrivate = useApiPrivate();
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const editorRef = useRef(null);
   const [file, setFile] = useState([]);
@@ -67,6 +70,9 @@ const UploadUserImg = () => {
       console.log(googleLogin.picture);
       setImg(googleLogin.picture);
     }
+    if (isLogged.avatarId !== null || isLogged !== null) {
+      setAjustPositionOpen(true);
+    }
   }, [isLogged, googleLogin]);
   // console.log(img);
   const onDrop = useCallback((acceptedFiles) => {
@@ -112,7 +118,12 @@ const UploadUserImg = () => {
   //   }
   //   setNumbers(newNumbers.join(""));
   // };
-
+  const removeImage = () => {
+    apiPrivate.post("/remove-user-img");
+    dispatch(changeAvatarImage(""));
+    setImg(undefined);
+    dispatch(changeIsLogged({ ...isLogged, avatarId: null }));
+  };
   const handleSave = () => {
     // numberGenerator();
 
@@ -171,9 +182,16 @@ const UploadUserImg = () => {
             {/* {renderDragMessage(isDragActive, isDragReject)} */}
           </div>
         </div>
-        <span className={ajustPositionOpen ? "" : styles.sizeAdjustHide}>
-          <Button onClick={sizeAdjust}>Ajustar posição</Button>
-        </span>
+        <div className="flex flex-row">
+          <span
+            className={ajustPositionOpen ? "" : `${styles.sizeAdjustHide} `}
+          >
+            <Button onClick={sizeAdjust}>Adjust position</Button>
+          </span>
+          <span className={ajustPositionOpen ? "" : styles.sizeAdjustHide}>
+            <Button onClick={removeImage}>Remove image</Button>
+          </span>
+        </div>
       </div>
 
       {/* {...getRootProps()}

@@ -75,8 +75,8 @@ const ProfileLogado = () => {
   const sucesso = () => {
     SwalFire("Os dados foram atualizados", "success", 2000, false);
   };
-  const erro = () => {
-    SwalFire("Ocorreu um erro", "error", 2000, false);
+  const erro = (error) => {
+    SwalFire(error, "error", 2000, false);
   };
   const debounceLoading = debounce(() => {
     setLoading(false);
@@ -136,7 +136,7 @@ const ProfileLogado = () => {
 
       if (imageFile != "" && imageFile != undefined) {
         console.log("enviou a imagem");
-        apiPrivate.post("update-user-img", form, {
+        return apiPrivate.post("update-user-img", form, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -187,24 +187,29 @@ const ProfileLogado = () => {
         .then(async ([updateUserInfo, updateUserImg]) => {
           const updateUserInfoResponse = await updateUserInfo.value.data;
           console.log(updateUserInfo);
-          console.log(updateUserImg);
-          const updateUserImgResponse = await updateUserImg.value;
-
-          sucesso(), console.log(updateUserImgResponse);
+          const updateUserImgResponse = await updateUserImg.value.data;
+          console.log(updateUserImgResponse);
+          if (updateUserImgResponse.error === "Arquivo inválido") {
+            return erro(updateUserImgResponse.error);
+          }
+          //todo ta restornando undefined no updateuserimgresponse
+          sucesso();
+          console.log(updateUserImgResponse);
           dispatch(
             changeIsLogged({
               ...isLogged,
               name: updateUserInfoResponse.name,
               email: updateUserInfoResponse.email,
+              avatarId: updateUserImgResponse.avatarId,
             }),
-            changeAvatarImage(updateUserImgResponse)
+            changeAvatarImage(updateUserImgResponse.avatarId)
           );
           setIsDisabled({ email: true, name: true });
         })
         .then((res) => console.log(res))
         .catch((err) => {
           console.log(err);
-          erro();
+          erro("Ocorreu um erro");
         });
     } catch (err) {
       console.log(err);

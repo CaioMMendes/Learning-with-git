@@ -24,7 +24,7 @@ export const isLoggedSlice = createSlice({
           name: "",
 
           email: "",
-          img: null,
+          img: "",
         },
       };
     },
