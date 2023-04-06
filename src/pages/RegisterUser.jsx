@@ -42,7 +42,7 @@ const RegisterUser = ({ isDark }) => {
   useEffect(() => {
     setImagem(image);
     dispatch(changeAvatarImage(""));
-    console.log("useefect");
+
     focusPassword();
     if (googleLogin.email) {
       setDados({ ...dados, email: googleLogin.email, name: googleLogin.name });
@@ -135,7 +135,6 @@ const RegisterUser = ({ isDark }) => {
       //     name: dados.name,
       //   })
       if (googleLogin.email && googleLogin.name != null) {
-        console.log(googleLogin);
         await api
           .register(
             googleLogin.email,
@@ -146,8 +145,6 @@ const RegisterUser = ({ isDark }) => {
           )
           .then((response) => {
             const userId = response.data;
-
-            console.log(userId);
 
             // redirect();
             if (imageFile != "" && imageFile != undefined) {
@@ -160,7 +157,7 @@ const RegisterUser = ({ isDark }) => {
                     .then((response) => {
                       sucesso();
                       navigate("/account/profile");
-                      console.log(response.data);
+
                       dispatch(
                         changeIsLogged({ ...response.data, logado: true })
                       );
@@ -210,34 +207,14 @@ const RegisterUser = ({ isDark }) => {
           .catch((error) => {
             console.log(error);
           });
-        //  api
-        //   .login(googleLogin.email, dados.password, true)
-        //   .then((response) => {
-        //     sucesso();
-        //     navigate("/account/profile");
-        //     console.log(response.data);
-        //     dispatch(changeIsLogged({ ...response.data, logado: true }));
-        //     dispatch(changeGoogleLogin(""));
-        //     localStorage.setItem("token", JSON.stringify(response.data.token));
-        //     window.removeEventListener("beforeunload", beforeUnloadCallback);
-        //   })
-
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
       } else {
-        console.log(dados.name);
         await api
           .register(dados.email, dados.password, dados.name)
           .then((response) => {
             const userId = response.data;
 
-            console.log(userId);
             sucessoEnvioEmail(), redirect(dados.email);
             if (imageFile != "" && imageFile != undefined) {
-              console.log(imageFile);
-              console.log(imageFile instanceof File);
-
               api
                 // .avatar(imageFile, userId)
                 .avatar(imageFile, userId)
@@ -256,7 +233,7 @@ const RegisterUser = ({ isDark }) => {
       }
     }
   };
-  console.log(googleLogin);
+
   const sucesso = () => {
     Swal.fire({
       customClass: `${styles.swal}`,

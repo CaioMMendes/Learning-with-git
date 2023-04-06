@@ -53,3 +53,18 @@
   border: 1px solid var(--colorMenu);
   color: var(--colorMenuHover);
 }
+.swalFireConfirm {
+  color: #242424 !important;
+  background-color: var(--verde) !important;
+  font-weight: bold;
+  border: 1px solid #242424 !important;
+}
+.swalFireConfirm:focus {
+  outline: none !important;
+}
+.swalFireCancel {
+  color: #242424 !important;
+  font-weight: bold;
+  background-color: #d33 !important;
+  border: 1px solid #242424 !important;
+}

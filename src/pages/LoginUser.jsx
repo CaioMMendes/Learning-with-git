@@ -7,7 +7,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { changeIsLogged } from "../redux/isLoggedSlice";
 import PageTitle from "../components/PageTitle";
-import SwalFire from "../components/SwalFire";
+import { SwalFire } from "../components/SwalFire";
 import jwt_decode from "jwt-decode";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import googleSvg from "../img/googleSvg.svg";
@@ -93,8 +93,6 @@ const LoginUser = ({}) => {
           )
 
           .then((response) => {
-            // console.log(response);
-            // limparDados();
             if (response.data.message === "Verifique o e-mail") {
               return alert(response.data.message);
             }
@@ -108,18 +106,16 @@ const LoginUser = ({}) => {
               return alert("Usuário ou senha inválidos");
             }
 
-            console.log(response.data);
             dispatch(changeIsLogged({ ...response.data, logado: true }));
             sucesso();
             // handdleKeepLogged(response);
-            console.log(response);
+
             setIsLoading(false);
             localStorage.setItem("token", JSON.stringify(response.data.token));
 
             navigate("/account/profile", { replace: true });
           })
           .catch((error) => {
-            console.error(error);
             alert(`Ocorreu um erro no sistema`);
             setIsLoading(false);
           })
@@ -159,13 +155,11 @@ const LoginUser = ({}) => {
                 })
               );
               setIsLoading(false);
-              console.log(googleLogin);
             } else if (response.data.redirect === true) {
               dispatch(changeGoogleLogin({ ...res.data, disabled: true }));
               return navigate("/account/register", { replace: true });
               setIsLoading(false);
             } else {
-              console.log(response.data);
               dispatch(changeIsLogged({ ...response.data, logado: true }));
               sucesso();
 
@@ -183,7 +177,6 @@ const LoginUser = ({}) => {
             setIsLoading(false);
           });
 
-        console.log(res.data);
         //todo buscar o email e o googleId
         //todo se ja tiver o googleId cadastrado logar
         //todo se já tiver o email mas não tiver o google id perguntar se ele é o dono da conta e pedir pra logar se for
@@ -192,7 +185,6 @@ const LoginUser = ({}) => {
         //enviar os dados, se não for cadastrado,cadastrar, se já for, fazer update dos dados e retornar
         // verificar se o email já esta cadastrado
       } catch (err) {
-        console.log(err);
         setIsLoading(false);
       }
     },
@@ -299,17 +291,6 @@ const LoginUser = ({}) => {
               <img src={googleSvg} alt="" /> Sign in with Google
             </button>
           </div>
-          {/* <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              console.log(credentialResponse.credential);
-              var decoded = jwt_decode(credentialResponse.credential);
-
-              console.log(decoded);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          /> */}
         </div>
       </div>
     </div>

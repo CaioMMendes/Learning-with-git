@@ -67,7 +67,6 @@ const UploadUserImg = () => {
       setImg(isLogged.picture);
     }
     if (location.pathname === "/account/register") {
-      console.log(googleLogin.picture);
       setImg(googleLogin.picture);
     }
     if (isLogged.avatarId !== null || isLogged !== null) {
@@ -188,7 +187,14 @@ const UploadUserImg = () => {
           >
             <Button onClick={sizeAdjust}>Adjust position</Button>
           </span>
-          <span className={ajustPositionOpen ? "" : styles.sizeAdjustHide}>
+
+          <span
+            className={
+              ajustPositionOpen && location.pathname === "/account/profile"
+                ? ""
+                : styles.sizeAdjustHide
+            }
+          >
             <Button onClick={removeImage}>Remove image</Button>
           </span>
         </div>

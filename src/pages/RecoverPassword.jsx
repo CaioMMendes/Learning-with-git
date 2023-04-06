@@ -8,7 +8,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { changeIsLogged } from "../redux/isLoggedSlice";
 import PageTitle from "../components/PageTitle";
-import SwalFire from "../components/SwalFire";
+import { SwalFire, SwalFireConfirm } from "../components/SwalFire";
 import jwt_decode from "jwt-decode";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import googleSvg from "../img/googleSvg.svg";
