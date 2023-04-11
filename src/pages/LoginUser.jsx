@@ -116,7 +116,11 @@ const LoginUser = ({}) => {
             navigate("/account/profile", { replace: true });
           })
           .catch((error) => {
-            alert(`Ocorreu um erro no sistema`);
+            if (error.response.status == 418) {
+              alert("Usuário e/ou senha inválidos");
+            } else {
+              alert(`Ocorreu um erro no sistema`);
+            }
             setIsLoading(false);
           })
       : alert("Digite um email valido");

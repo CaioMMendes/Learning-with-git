@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import styles from "../css/pagesStyles/RegisterUser.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+
 import validator from "validator";
 import PageTitle from "../components/PageTitle";
 import { UserApi } from "../hooks/UserApi";
@@ -17,6 +18,7 @@ import { changeEmailSent } from "../redux/EmailSentSlice";
 // const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const inputRef = useRef(null);
   const { image } = useSelector((state) => state.avatarImageRedux);
   const { googleLogin } = useSelector((state) => state.googleLoginRedux);
@@ -44,6 +46,7 @@ const RegisterUser = ({ isDark }) => {
     dispatch(changeAvatarImage(""));
 
     focusPassword();
+    // if (dados.email && location.pathname === "/account/register" ) {
     if (googleLogin.email) {
       setDados({ ...dados, email: googleLogin.email, name: googleLogin.name });
       window.addEventListener("beforeunload", beforeUnloadCallback);

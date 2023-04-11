@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useContext } from "react";
 // import Dropzone from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 
@@ -12,12 +12,15 @@ import Button from "../smallComponents/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { changeAvatarImage } from "../../redux/avatarImage";
 import useApiPrivate from "../../hooks/useApiPrivate";
+import { debounce, result } from "lodash";
+import { SwalFireConfirm } from "../SwalFire";
 
 import { useEffect } from "react";
 import { changeIsLogged } from "../../redux/isLoggedSlice";
-
+import { IsOpenAvatarContext } from "../../contexts/IsOpenAvatarContext";
 const UploadUserImg = () => {
   const dispatch = useDispatch();
+  const { isOpenAvatar, setIsOpenAvatar } = useContext(IsOpenAvatarContext);
   const { googleLogin } = useSelector((state) => state.googleLoginRedux);
   const location = useLocation();
   const apiPrivate = useApiPrivate();
@@ -38,7 +41,7 @@ const UploadUserImg = () => {
       googleLogin.picture;
     }
   });
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [ajustPositionOpen, setAjustPositionOpen] = useState(false);
   const [zoomValue, setZoomValue] = useState(1);
   const [numbers, setNumbers] = useState();
@@ -69,17 +72,19 @@ const UploadUserImg = () => {
     if (location.pathname === "/account/register") {
       setImg(googleLogin.picture);
     }
-    if (isLogged.avatarId !== null || isLogged !== null) {
-      setAjustPositionOpen(true);
+    if (isLogged.avatarId !== null || isLogged.picture !== null) {
+      // setAjustPositionOpen(true);
+    } else {
+      setAjustPositionOpen(false);
     }
   }, [isLogged, googleLogin]);
-  // console.log(img);
+
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles[0]) {
       return alert("Envie um arquivo válido");
     }
     setFile(acceptedFiles);
-    setIsOpen(true);
+    setIsOpenAvatar(true);
   }, []);
 
   const {
@@ -109,6 +114,7 @@ const UploadUserImg = () => {
   const onChangeZoom = (e) => {
     setZoomValue(e.target.value);
   };
+
   // const numberGenerator = () => {
   //   const newNumbers = [];
   //   for (let i = 0; i < 5; i++) {
@@ -118,10 +124,14 @@ const UploadUserImg = () => {
   //   setNumbers(newNumbers.join(""));
   // };
   const removeImage = () => {
-    apiPrivate.post("/remove-user-img");
-    dispatch(changeAvatarImage(""));
-    setImg(undefined);
-    dispatch(changeIsLogged({ ...isLogged, avatarId: null }));
+    SwalFireConfirm("remove").then((result) => {
+      if (result.isConfirmed) {
+        apiPrivate.post("/remove-user-img");
+        dispatch(changeAvatarImage(""));
+        setImg(undefined);
+        dispatch(changeIsLogged({ ...isLogged, avatarId: null }));
+      }
+    });
   };
   const handleSave = () => {
     // numberGenerator();
@@ -141,8 +151,9 @@ const UploadUserImg = () => {
     }
   };
   const sizeAdjust = () => {
-    setIsOpen(true);
+    setIsOpenAvatar(true);
   };
+  console.log(isOpenAvatar);
   return (
     <div className={styles.container}>
       <div className={styles.avatarContainer} title="Change Avatar">
@@ -174,7 +185,8 @@ const UploadUserImg = () => {
           <div
             className={styles.dropContainer}
             onClick={() => {
-              setIsOpen(true);
+              setIsOpenAvatar(true);
+              setAjustPositionOpen(true);
             }}
           >
             {" "}
@@ -190,7 +202,9 @@ const UploadUserImg = () => {
 
           <span
             className={
-              ajustPositionOpen && location.pathname === "/account/profile"
+              isLogged.avatarId !== null ||
+              (isLogged.picture !== null &&
+                location.pathname === "/account/profile")
                 ? ""
                 : styles.sizeAdjustHide
             }
@@ -211,13 +225,13 @@ const UploadUserImg = () => {
       </Dropzone> */}
       <div
         className={`${styles.avatarEditorContainer} ${
-          isOpen ? styles.open : styles.close
+          isOpenAvatar === true ? styles.open : styles.close
         }`}
       >
         <IoIosClose
           className={styles.closeIcon}
           onClick={() => {
-            setIsOpen(false);
+            setIsOpenAvatar(false);
           }}
         />{" "}
         <AvatarEditor

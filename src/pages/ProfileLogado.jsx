@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "../css/pagesStyles/profileLogado.module.css";
 import { FiEdit } from "react-icons/fi";
 import Button from "../components/smallComponents/Button";
 import { Link } from "react-router-dom";
+import validator from "validator";
 import UploadUserImg from "../components/upload/UploadUserImg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { debounce } from "lodash";
@@ -18,9 +19,11 @@ import { SwalFire, SwalFireConfirm } from "../components/SwalFire";
 import Swal from "sweetalert2";
 import { changeAvatarImage } from "../redux/avatarImage";
 import Cookies from "js-cookie";
+import { IsOpenAvatarContext } from "../contexts/IsOpenAvatarContext";
 
 const ProfileLogado = () => {
   const { image } = useSelector((state) => state.avatarImageRedux);
+  const { isOpenAvatar, setIsOpenAvatar } = useContext(IsOpenAvatarContext);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const dispatch = useDispatch();
@@ -33,7 +36,9 @@ const ProfileLogado = () => {
   const [isLoading, setLoading] = useState(true);
   const [dados, setDados] = useState(isLogged);
   const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [showPasswordNew, setShowPasswordNew] = useState(false);
+  const [showPasswordNewConfirm, setShowPasswordNewConfirm] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [userImgLocalStorage, setUserImgLocalStorage] = useState(
     localStorage.getItem("userImg")
   );
@@ -92,6 +97,14 @@ const ProfileLogado = () => {
     setLoading(false);
   }, 2000);
   const onchangeEmail = (e) => {
+    if (
+      e.target.value === "" ||
+      (validator.isEmail(e.target.value) && e.target.value.length <= 100)
+    ) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
     setDados({ ...dados, email: e.target.value });
   };
   const onchangeName = (e) => {
@@ -101,6 +114,16 @@ const ProfileLogado = () => {
     let password = e.target.value.replace(/\s+/g, "");
 
     setDados({ ...dados, password: password });
+  };
+  const onchangePasswordNew = (e) => {
+    let password = e.target.value.replace(/\s+/g, "");
+
+    setDados({ ...dados, newPassword: password });
+  };
+  const onchangePasswordNewConfirm = (e) => {
+    let password = e.target.value.replace(/\s+/g, "");
+
+    setDados({ ...dados, newPasswordConfirm: password });
   };
   const onBlurEmail = () => {
     let trimEmail;
@@ -123,8 +146,11 @@ const ProfileLogado = () => {
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
-  const togglePasswordConfirm = () => {
-    setShowPasswordConfirm(!showPasswordConfirm);
+  const togglePasswordNew = () => {
+    setShowPasswordNew(!showPasswordNew);
+  };
+  const togglePasswordNewConfirm = () => {
+    setShowPasswordNewConfirm(!showPasswordNewConfirm);
   };
   const deleteAccount = async () => {
     try {
@@ -146,7 +172,12 @@ const ProfileLogado = () => {
   };
   const handdleUpdateInfo = async (event) => {
     event.preventDefault();
-
+    if (isValid === false || dados.email === "") {
+      return alert("Digite um e-mail válido");
+    }
+    if (dados.newPassword !== dados.newPasswordConfirm) {
+      return alert("As senhas estão diferentes");
+    }
     const number = numberGenerator();
 
     const imageFile = dataURItoFile(image, `${number}`);
@@ -163,11 +194,17 @@ const ProfileLogado = () => {
       //  return response;
 
       if (imageFile != "" && imageFile != undefined) {
-        return apiPrivate.post("update-user-img", form, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        console.log("aaaaaaaa");
+        return apiPrivate
+          .post("update-user-img", form, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            return res.data.avatarId;
+          });
       }
     };
 
@@ -191,6 +228,9 @@ const ProfileLogado = () => {
               apiPrivate.post("/update-user-info", {
                 name: dados.name,
                 email: dados.email,
+                password: dados.password,
+                newPassword: dados.newPassword,
+                newPasswordConfirm: dados.newPasswordConfirm,
               }),
               imageUpdate(),
             ])
@@ -198,21 +238,30 @@ const ProfileLogado = () => {
               .then(async ([updateUserInfo, updateUserImg]) => {
                 const updateUserInfoResponse = await updateUserInfo.value?.data;
 
-                const updateUserImgResponse = await updateUserImg.value?.data;
-
+                const updateUserImgResponse = await updateUserImg?.value;
+                console.log(updateUserImgResponse);
                 if (updateUserImgResponse?.error === "Arquivo inválido") {
                   return erro(updateUserImgResponse.error);
                 }
                 //todo ta restornando undefined no updateuserimgresponse
                 sucesso();
+                setIsOpenAvatar(false);
+                if (updateUserImgResponse !== undefined) {
+                  dispatch(
+                    changeIsLogged({
+                      ...isLogged,
+
+                      avatarId: updateUserImgResponse,
+                    }),
+                    changeAvatarImage(updateUserImgResponse)
+                  );
+                }
                 dispatch(
                   changeIsLogged({
                     ...isLogged,
                     name: updateUserInfoResponse.name,
                     email: updateUserInfoResponse.email,
-                    avatarId: updateUserImgResponse?.avatarId,
-                  }),
-                  changeAvatarImage(updateUserImgResponse?.avatarId)
+                  })
                 );
                 setIsDisabled({ email: true, name: true });
               })
@@ -289,7 +338,7 @@ const ProfileLogado = () => {
               }`}
             >
               <label
-                className="flex flex-row w-[150px] justify-end text-right"
+                className="flex flex-row w-[170px] justify-end text-right"
                 htmlFor="nameInput"
               >
                 <p className="flex flex-col jusify-center items-center text-right">
@@ -318,12 +367,12 @@ const ProfileLogado = () => {
               </div>
             </div>
             <div
-              className={`flex flex-row items-center p-[10px] justify-center  ${
+              className={`flex flex-row items-center p-[10px] justify-center relative ${
                 isDisabled.email ? styles.disabledInput : ""
               }`}
             >
               <label
-                className="flex flex-row w-[150px] text-right justify-end"
+                className="flex flex-row w-[170px] text-right justify-end"
                 htmlFor="emailInput"
               >
                 <p className="flex flex-col jusify-center items-center ">
@@ -331,17 +380,23 @@ const ProfileLogado = () => {
                   E-mail:
                 </p>
               </label>
-
-              <input
-                type="text"
-                value={dados.email}
-                onChange={onchangeEmail}
-                onBlur={onBlurEmail}
-                disabled={isDisabled.email}
-                id="emailInput"
-                className="pl-1.5 text-left border -border--colorMenu -text--colorMenuHover !mb-0"
-                ref={emailRef}
-              />
+              <div className="flex flex-col">
+                <input
+                  type="text"
+                  value={dados.email}
+                  onChange={onchangeEmail}
+                  onBlur={onBlurEmail}
+                  disabled={isDisabled.email}
+                  id="emailInput"
+                  className="pl-1.5 text-left border -border--colorMenu -text--colorMenuHover !mb-0"
+                  ref={emailRef}
+                />
+                {!isValid && (
+                  <div className="text-[red] -bg--navbarBackground w-fit ml-2 mt-1">
+                    <p>Invalid e-mail</p>
+                  </div>
+                )}
+              </div>
               <div
                 className={styles.editEmail}
                 onClick={() => {
@@ -356,7 +411,7 @@ const ProfileLogado = () => {
               className={`${styles.profileEmail}  flex justify-center items-center`}
             >
               <label
-                className="flex flex-row w-[150px] text-right justify-end"
+                className="flex flex-row w-[170px] text-right justify-end"
                 htmlFor="passwordInput"
               >
                 <p className="flex flex-col jusify-center items-center ">
@@ -382,15 +437,68 @@ const ProfileLogado = () => {
                 ></div>
               </div>
               <div className="w-[57.8px]"></div>
-              {/* <div
-                className={styles.editEmail}
-                onClick={() => {
-                  emailRef.current.focus();
-                  setIsDisabled({ ...isDisabled, email: false });
-                }}
+            </div>
+            <div
+              className={`${styles.profileEmail}  flex justify-center items-center`}
+            >
+              <label
+                className="flex flex-row w-[170px] text-right justify-end"
+                htmlFor="passwordInput"
               >
-                <FiEdit className={styles.editIcon} /> Editar
-              </div> */}
+                <p className="flex flex-col jusify-center items-center ">
+                  {" "}
+                  New password:
+                </p>
+              </label>
+              <div className="relative">
+                <input
+                  type={`${showPasswordNew ? "text" : "password"}`}
+                  value={dados.newPassword}
+                  id="passwordInput"
+                  onChange={onchangePasswordNew}
+                  className="pl-1.5 text-left  border -border--colorMenu -text--colorMenuHover !mb-0"
+                />
+                <div
+                  className={`${
+                    showPasswordNew
+                      ? "absolute top-0 w-8 h-8 bg-password-hide bg-85% right-[5px]  bg-no-repeat"
+                      : "absolute top-0 w-8 h-8 bg-password-show bg-85% right-[5px]  bg-no-repeat"
+                  } `}
+                  onClick={togglePasswordNew}
+                ></div>
+              </div>
+              <div className="w-[57.8px]"></div>
+            </div>
+            <div
+              className={`${styles.profileEmail}  flex justify-center items-center`}
+            >
+              <label
+                className="flex flex-row w-[170px] text-right justify-end"
+                htmlFor="passwordInput"
+              >
+                <p className="flex flex-col jusify-center items-center ">
+                  {" "}
+                  Confirm New password:
+                </p>
+              </label>
+              <div className="relative">
+                <input
+                  type={`${showPasswordNewConfirm ? "text" : "password"}`}
+                  value={dados.newPasswordConfirm}
+                  id="passwordInput"
+                  onChange={onchangePasswordNewConfirm}
+                  className="pl-1.5 text-left  border -border--colorMenu -text--colorMenuHover !mb-0"
+                />
+                <div
+                  className={`${
+                    showPasswordNewConfirm
+                      ? "absolute top-0 w-8 h-8 bg-password-hide bg-85% right-[5px]  bg-no-repeat"
+                      : "absolute top-0 w-8 h-8 bg-password-show bg-85% right-[5px]  bg-no-repeat"
+                  } `}
+                  onClick={togglePasswordNewConfirm}
+                ></div>
+              </div>
+              <div className="w-[57.8px]"></div>
             </div>
 
             <div className={styles.button}>

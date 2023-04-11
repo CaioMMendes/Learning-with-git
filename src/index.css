@@ -54,7 +54,9 @@ body {
   -webkit-text-size-adjust: 100%;
   /* -webkit-print-color-adjust:exact; */
 }
-
+body.swal2-shown {
+  overflow-y: auto !important;
+}
 :root {
   --bg-color: #808080;
   --verde: #7fff00;
