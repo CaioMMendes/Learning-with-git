@@ -202,9 +202,8 @@ const UploadUserImg = () => {
 
           <span
             className={
-              isLogged.avatarId !== null ||
-              (isLogged.picture !== null &&
-                location.pathname === "/account/profile")
+              location.pathname === "/account/profile" &&
+              (isLogged.avatarId !== null || isLogged.picture !== null)
                 ? ""
                 : styles.sizeAdjustHide
             }

@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import styles from "../css/pagesStyles/RegisterUser.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
 import validator from "validator";
 import PageTitle from "../components/PageTitle";
 import { UserApi } from "../hooks/UserApi";
@@ -15,11 +14,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
 import { changeIsLogged } from "../redux/isLoggedSlice";
 import { changeEmailSent } from "../redux/EmailSentSlice";
+
 // const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const inputRef = useRef(null);
+  const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const { image } = useSelector((state) => state.avatarImageRedux);
   const { googleLogin } = useSelector((state) => state.googleLoginRedux);
   const [imagem, setImagem] = useState();
@@ -138,11 +139,13 @@ const RegisterUser = ({ isDark }) => {
       //     name: dados.name,
       //   })
       if (googleLogin.email && googleLogin.name != null) {
+        console.log(isLogged);
         await api
           .register(
             googleLogin.email,
             dados.password,
             dados.name,
+            isLogged.logado,
             googleLogin.sub,
             googleLogin.picture
           )
@@ -212,7 +215,7 @@ const RegisterUser = ({ isDark }) => {
           });
       } else {
         await api
-          .register(dados.email, dados.password, dados.name)
+          .register(dados.email, dados.password, dados.name, isLogged.logado)
           .then((response) => {
             const userId = response.data;
 

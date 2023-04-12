@@ -34,13 +34,14 @@ export const UserApi = () => ({
         return response
     },
 
-    register: async (email, password, name, googleId, picture, ) => {
+    register: async (email, password, name, logado, googleId, picture, ) => {
         const response = await api.post('/register', {
             email,
             password,
             name,
             googleId,
             picture,
+            logado
 
         })
         return response

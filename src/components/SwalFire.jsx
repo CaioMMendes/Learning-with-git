@@ -30,9 +30,44 @@ export const SwalFireConfirm = (confirmButtonText) => {
     scrollbarPadding: false,
   });
 };
-// .swalFireConfirm {
-//   color: #242424 !important;
-//   background-color: var(--verde) !important;
-//   font-weight: bold;
-//   border: 1px solid #242424 !important;
-// }
+
+export const SwalFireTextInput = (confirmButtonText) => {
+  return Swal.fire({
+    title: "Are you sure?",
+    html: "<span>You won't be able to revert this!</span></br><span>Write <strong>delete</strong> to delete your account!</span>",
+    icon: "warning",
+    input: "text",
+    inputAttributes: {
+      autocapitalize: "off",
+      autofocus: true,
+    },
+    showCancelButton: true,
+    confirmButtonColor: "#7fff00",
+    cancelButtonColor: "#d33",
+    confirmButtonText: `<span class=" !font-bold !-bg--verde !-text--navbarBackground !w-full !h-full ">${confirmButtonText}</span>`,
+    cancelButtonText: `<span class="  !font-bold !-text--navbarBackground">Cancel</span>`,
+    //todo não consegui colocar borda no input, só sei fazer se não for com tailwind
+    // customClass: {
+    //   input: "swal2-input border-black",
+    // },
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      if (login !== "delete") {
+        // return alert("Palavra incorreta");
+        return Swal.showValidationMessage("Palavra incorreta");
+      }
+    },
+    allowOutsideClick: () => !Swal.isLoading(),
+  });
+};
+
+// fetch(`//api.github.com/users/${login}`)
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error(response.statusText);
+//     }
+//     return response.json();
+//   })
+//   .catch((error) => {
+//     Swal.showValidationMessage(`Request failed: ${error}`);
+//   });

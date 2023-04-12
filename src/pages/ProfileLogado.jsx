@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import { changeAvatarImage } from "../redux/avatarImage";
 import Cookies from "js-cookie";
 import { IsOpenAvatarContext } from "../contexts/IsOpenAvatarContext";
+import { SwalFireTextInput } from "../components/SwalFire";
 
 const ProfileLogado = () => {
   const { image } = useSelector((state) => state.avatarImageRedux);
@@ -33,8 +34,14 @@ const ProfileLogado = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [imagem, setImagem] = useState();
-  const [isLoading, setLoading] = useState(true);
-  const [dados, setDados] = useState(isLogged);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingApi, setIsLoadingApi] = useState(false);
+  const [dados, setDados] = useState({
+    ...isLogged,
+    password: "",
+    newPassword: "",
+    newPasswordConfirm: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordNew, setShowPasswordNew] = useState(false);
   const [showPasswordNewConfirm, setShowPasswordNewConfirm] = useState(false);
@@ -51,13 +58,18 @@ const ProfileLogado = () => {
     const controller = new AbortController();
 
     // getUser();
-    setDados(isLogged);
+    setDados({
+      ...isLogged,
+      password: "",
+      newPassword: "",
+      newPasswordConfirm: "",
+    });
     // return () => {
     //   isMounted = false;
     //   controller.abort();
     // };
     // debounceLoading();
-    setLoading(false);
+    setIsLoading(false);
   }, [isLogged]);
   useEffect(() => {
     setImagem(image);
@@ -94,7 +106,7 @@ const ProfileLogado = () => {
     SwalFire(error, "error", 2000, false);
   };
   const debounceLoading = debounce(() => {
-    setLoading(false);
+    setIsLoading(false);
   }, 2000);
   const onchangeEmail = (e) => {
     if (
@@ -153,30 +165,50 @@ const ProfileLogado = () => {
     setShowPasswordNewConfirm(!showPasswordNewConfirm);
   };
   const deleteAccount = async () => {
-    try {
-      await apiPrivate
-        .post("/delete-user-account")
-        .then((response) => {
-          console.log(response.data);
-          localStorage.removeItem("token");
-          Cookies.remove("jwt");
-          dispatch(logout());
-          navigate("/account/login", { replace: true });
-        })
-        .catch((error) => {
+    SwalFireTextInput("Delete").then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await apiPrivate
+            .post("/delete-user-account")
+            .then((response) => {
+              console.log(response.data);
+              localStorage.removeItem("token");
+              Cookies.remove("jwt");
+              dispatch(logout());
+              navigate("/account/login", { replace: true });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } catch (error) {
           console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+        }
+      }
+    });
   };
   const handdleUpdateInfo = async (event) => {
     event.preventDefault();
-    if (isValid === false || dados.email === "") {
-      return alert("Digite um e-mail válido");
-    }
-    if (dados.newPassword !== dados.newPasswordConfirm) {
-      return alert("As senhas estão diferentes");
+    {
+      //ifs
+      if (isValid === false || dados.email === "") {
+        return alert("Digite um e-mail válido");
+      }
+      if (
+        dados.password === "" &&
+        (dados.newPassword !== "" || dados.newPasswordConfirm !== "")
+      ) {
+        return alert("Digite a senha atual");
+      }
+      if (
+        dados.password !== "" &&
+        dados.newPassword === "" &&
+        dados.newPasswordConfirm === ""
+      ) {
+        return alert("Digite uma nova senha válida");
+      }
+      if (dados.newPassword !== dados.newPasswordConfirm) {
+        return alert("As senhas estão diferentes");
+      }
     }
     const number = numberGenerator();
 
@@ -194,7 +226,6 @@ const ProfileLogado = () => {
       //  return response;
 
       if (imageFile != "" && imageFile != undefined) {
-        console.log("aaaaaaaa");
         return apiPrivate
           .post("update-user-img", form, {
             headers: {
@@ -222,6 +253,7 @@ const ProfileLogado = () => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
+        setIsLoadingApi(true);
         if (dados.name != "") {
           try {
             Promise.allSettled([
@@ -241,10 +273,17 @@ const ProfileLogado = () => {
                 const updateUserImgResponse = await updateUserImg?.value;
                 console.log(updateUserImgResponse);
                 if (updateUserImgResponse?.error === "Arquivo inválido") {
+                  setIsLoadingApi(false);
                   return erro(updateUserImgResponse.error);
                 }
-                //todo ta restornando undefined no updateuserimgresponse
+                if (updateUserInfoResponse?.error) {
+                  setIsLoadingApi(false);
+
+                  return erro(updateUserInfoResponse.error);
+                }
                 sucesso();
+                setIsLoadingApi(false);
+
                 setIsOpenAvatar(false);
                 if (updateUserImgResponse !== undefined) {
                   dispatch(
@@ -265,13 +304,20 @@ const ProfileLogado = () => {
                 );
                 setIsDisabled({ email: true, name: true });
               })
-              .then((res) => console.log(res))
+              .then((res) => {
+                console.log(res);
+                setIsLoadingApi(false);
+              })
               .catch((err) => {
                 console.log(err);
+                setIsLoadingApi(false);
+
                 erro("Ocorreu um erro");
               });
           } catch (err) {
             console.log(err);
+            setIsLoadingApi(false);
+
             erro("Ocorreu um erro");
           }
 
@@ -320,6 +366,16 @@ const ProfileLogado = () => {
 
   return (
     <div className="containerCss">
+      <div
+        className={
+          isLoadingApi
+            ? `fixed inset-0 bg-gray-500 opacity-75 z-50 flex items-center justify-center`
+            : "hidden"
+        }
+      >
+        {" "}
+        <Loading />
+      </div>
       {isLoading ? (
         <div className={styles.loading}>
           <Loading />
@@ -443,7 +499,7 @@ const ProfileLogado = () => {
             >
               <label
                 className="flex flex-row w-[170px] text-right justify-end"
-                htmlFor="passwordInput"
+                htmlFor="newPasswordInput"
               >
                 <p className="flex flex-col jusify-center items-center ">
                   {" "}
@@ -454,7 +510,7 @@ const ProfileLogado = () => {
                 <input
                   type={`${showPasswordNew ? "text" : "password"}`}
                   value={dados.newPassword}
-                  id="passwordInput"
+                  id="newPasswordInput"
                   onChange={onchangePasswordNew}
                   className="pl-1.5 text-left  border -border--colorMenu -text--colorMenuHover !mb-0"
                 />
@@ -474,7 +530,7 @@ const ProfileLogado = () => {
             >
               <label
                 className="flex flex-row w-[170px] text-right justify-end"
-                htmlFor="passwordInput"
+                htmlFor="newPasswordInputConfirm"
               >
                 <p className="flex flex-col jusify-center items-center ">
                   {" "}
@@ -485,7 +541,7 @@ const ProfileLogado = () => {
                 <input
                   type={`${showPasswordNewConfirm ? "text" : "password"}`}
                   value={dados.newPasswordConfirm}
-                  id="passwordInput"
+                  id="newPasswordInputConfirm"
                   onChange={onchangePasswordNewConfirm}
                   className="pl-1.5 text-left  border -border--colorMenu -text--colorMenuHover !mb-0"
                 />
