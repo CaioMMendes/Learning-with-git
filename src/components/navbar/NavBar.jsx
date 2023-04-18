@@ -84,6 +84,9 @@ const NavBar = ({ mudarTema, isDark }) => {
             <Link to="/siteFlexbox" className={styles.menuDrop}>
               <button>Site Flexbox</button>
             </Link>
+            <Link to="/testando-react-form" className={styles.menuDrop}>
+              <button>React form</button>
+            </Link>
           </div>
         </div>
         <div className={styles.dropdown}>
@@ -92,6 +95,9 @@ const NavBar = ({ mudarTema, isDark }) => {
             <IoIosArrowBack className={styles.arrow} />
           </button>
           <div className={styles.dropdownMenu}>
+            <Link to="/qr-code" className={styles.menuDrop}>
+              <button>QR Code Generator </button>
+            </Link>
             <Link to="/animation" className={styles.menuDrop}>
               <button>Animation</button>
             </Link>

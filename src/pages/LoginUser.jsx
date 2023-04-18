@@ -229,7 +229,7 @@ const LoginUser = ({}) => {
               <div className={styles.userBox}>
                 <input
                   // onKeyUp={handleKeypress}
-                  className={styles.inputPassword}
+                  className={`${styles.inputPassword}`}
                   type={`${showPassword ? "text" : "password"}`}
                   value={dados.password}
                   onChange={onchangePassword}

@@ -12,6 +12,7 @@ import Loading from "../components/Loading";
 import { useSelector, useDispatch } from "react-redux";
 import { dataURItoFile } from "../components/smallComponents/Base64ToFile";
 import { numberGenerator } from "../components/smallComponents/NumberGenerator";
+import PageTitle from "../components/PageTitle";
 import useApiPrivate from "../hooks/useApiPrivate";
 
 import { localStorageToken } from "../components/smallComponents/LocalStorage";
@@ -291,17 +292,22 @@ const ProfileLogado = () => {
                       ...isLogged,
 
                       avatarId: updateUserImgResponse,
+                      name: updateUserInfoResponse.name,
+                      email: updateUserInfoResponse.email,
                     }),
                     changeAvatarImage(updateUserImgResponse)
                   );
+                } else {
+                  dispatch(
+                    changeIsLogged({
+                      ...isLogged,
+                      name: updateUserInfoResponse.name,
+                      email: updateUserInfoResponse.email,
+                    })
+                  );
                 }
-                dispatch(
-                  changeIsLogged({
-                    ...isLogged,
-                    name: updateUserInfoResponse.name,
-                    email: updateUserInfoResponse.email,
-                  })
-                );
+                console.log(isLogged);
+                console.log(image);
                 setIsDisabled({ email: true, name: true });
               })
               .then((res) => {
@@ -366,10 +372,11 @@ const ProfileLogado = () => {
 
   return (
     <div className="containerCss">
+      <PageTitle pageTitle="Profile" />
       <div
         className={
           isLoadingApi
-            ? `fixed inset-0 bg-gray-500 opacity-75 z-50 flex items-center justify-center`
+            ? `fixed inset-0 bg-gray-600 opacity-75 z-50 flex items-center justify-center`
             : "hidden"
         }
       >

@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "../css/pagesStyles/Animation.module.css";
+import PageTitle from "../components/PageTitle";
 
 const OutroEstilo = () => {
   return (
     <div className="containerCss">
+      <PageTitle pageTitle="Animation" />
       <div className={styles.video}>
         <div className={styles.videoArea}>
           <div className={styles.holdsIframe}>

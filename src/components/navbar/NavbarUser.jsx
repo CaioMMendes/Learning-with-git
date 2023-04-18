@@ -19,9 +19,10 @@ const NavbarUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const random = Math.floor(Math.random() * 1000000000);
   const [image, setImage] = useState(
     isLogged.avatarId != null
-      ? `https://docs.google.com/uc?id=${isLogged?.avatarId}`
+      ? `https://docs.google.com/uc?id=${isLogged?.avatarId}&random=${random}`
       : isLogged.picture != null
       ? isLogged.picture
       : "https://docs.google.com/uc?id=undefined"
@@ -30,7 +31,9 @@ const NavbarUser = () => {
   const ref = useRef(null);
   useEffect(() => {
     if (isLogged.avatarId != null) {
-      setImage(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
+      setImage(
+        `https://docs.google.com/uc?id=${isLogged?.avatarId}&random=${random}`
+      );
     } else if (isLogged.picture != null) {
       setImage(isLogged.picture);
     } else {
@@ -72,7 +75,12 @@ const NavbarUser = () => {
         ) : isLogged && isLogged.logado ? (
           <div className={styles.userLogado}>
             {image && image != `https://docs.google.com/uc?id=undefined` ? (
-              <img src={image} alt="" className={styles.avatarImage} />
+              <img
+                src={image}
+                alt=""
+                referrerPolicy="no-referrer"
+                className={styles.avatarImage}
+              />
             ) : (
               <div className={`${styles.userBackground}`}>
                 <FaUser className={styles.userIcon} />

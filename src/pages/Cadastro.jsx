@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Button from "../components/smallComponents/Button";
 import Swal from "sweetalert2";
 import { IoIosArrowBack } from "react-icons/io";
+import PageTitle from "../components/PageTitle";
 
 const Cadastro = ({ cadastrarLivro }) => {
   const success = () => {
@@ -105,6 +106,7 @@ const Cadastro = ({ cadastrarLivro }) => {
 
   return (
     <div className="containerCss">
+      <PageTitle pageTitle="Cadastro" />
       <div className={styles.tudo}>
         <div className={styles.content}>
           <div id="cadastro" className={styles.cadastro}>

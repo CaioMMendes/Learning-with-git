@@ -4,6 +4,7 @@ import Itens from "../components/Itens";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import Loading from "../components/Loading";
+import PageTitle from "../components/PageTitle";
 
 const ExercicioUm = () => {
   const [itens, setItens] = useState([]);
@@ -83,6 +84,7 @@ const ExercicioUm = () => {
 
   return (
     <div className="containerCss">
+      <PageTitle pageTitle="Exercicio Um" />
       {itens.map((itens) => (
         <Itens key={uuidv4()} itens={itens} excluirLivro={excluirLivro} />
       ))}

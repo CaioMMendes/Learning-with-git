@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../css/pagesStyles/EmailVerificated.module.css";
 import { Link, useNavigate } from "react-router-dom";
+import PageTitle from "../components/PageTitle";
 
 import { useSelector } from "react-redux";
 const EmailVerificated = () => {
@@ -13,6 +14,7 @@ const EmailVerificated = () => {
 
   return (
     <div className="containerCss flex justify-center items-center">
+      <PageTitle pageTitle="Email Verificated" />
       {emailSent.redirect === false ? (
         navigate("/account/login", { replace: true })
       ) : (

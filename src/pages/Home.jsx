@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useRef } from "react";
 import styles from "../css/pagesStyles/Home.module.css";
+import PageTitle from "../components/PageTitle";
 
 const Home = ({ isDark }) => {
   const [tecla, setTecla] = useState();
@@ -27,6 +28,7 @@ const Home = ({ isDark }) => {
 
   return (
     <div className="containerCss">
+      <PageTitle pageTitle="Home" />
       <input type="text" id="key" onKeyUp={qualTecla} value={nomeTecla} />
       <p>{nomeTecla}</p>
       <p>{tecla}</p>

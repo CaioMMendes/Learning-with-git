@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../components/smallComponents/Button";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "../css/pagesStyles/RecoverPassword.module.css";
+import PageTitle from "../components/PageTitle";
 
 import { useNavigate } from "react-router-dom";
 const RecoverPasswordSent = () => {
@@ -15,6 +16,7 @@ const RecoverPasswordSent = () => {
   }
   return (
     <div className="containerCss flex justify-center items-center relative bottom-2">
+      <PageTitle pageTitle="Recover password sent" />
       {recoverPassword.redirect === true ? (
         <div
           className={`-bg--navbarBackground flex  items-center flex-col  w-4/5 h-56 ${styles.boxShadow}`}

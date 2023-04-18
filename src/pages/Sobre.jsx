@@ -10,6 +10,13 @@ const Sobre = () => {
   return (
     <div className="containerCss">
       <PageTitle pageTitle="Sobre" />
+      <p className="-bg--navbarBackground text-2xl indent-20 p-8 text-justify">
+        Este site foi criado com o objetivo de aprender algumas tecnologias. Na
+        minha opinião, é mais conveniente ter todas as informações em um só
+        lugar, facilitando o acesso às soluções já implementadas. Dessa forma,
+        decidi centralizar tudo neste site, organizando-o em páginas distintas e
+        permitindo a navegação por meio da barra de navegação.
+      </p>
 
       {isLogged.logado && <p>logado</p>}
       <h1 className="text-3xl font-bold underline bg-blue-700">Hello world!</h1>

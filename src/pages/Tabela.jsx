@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "../css/pagesStyles/Tabela.module.css";
 import Button from "../components/smallComponents/Button";
+import PageTitle from "../components/PageTitle";
 
 import { BsSortNumericDown, BsSortNumericUp } from "react-icons/bs";
 import {
@@ -38,6 +39,7 @@ const Home = ({
   return (
     <main>
       <div className={styles.tudo}>
+        <PageTitle pageTitle="Tabela" />
         <div className={styles.tabela}>
           <div>
             <h1 className={styles.titulo}>Tabela de Livros</h1>

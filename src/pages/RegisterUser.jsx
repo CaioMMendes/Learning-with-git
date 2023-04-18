@@ -4,7 +4,7 @@ import styles from "../css/pagesStyles/RegisterUser.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import validator from "validator";
-import PageTitle from "../components/PageTitle";
+
 import { UserApi } from "../hooks/UserApi";
 import UploadUserImg from "../components/upload/UploadUserImg";
 import { dataURItoFile } from "../components/smallComponents/Base64ToFile";
@@ -14,12 +14,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
 import { changeIsLogged } from "../redux/isLoggedSlice";
 import { changeEmailSent } from "../redux/EmailSentSlice";
+import Loading from "../components/Loading";
+import PageTitle from "../components/PageTitle";
 
 // const imageFile = dataURItoFile(img, `${numbers}`);
 const RegisterUser = ({ isDark }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const inputRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const { image } = useSelector((state) => state.avatarImageRedux);
   const { googleLogin } = useSelector((state) => state.googleLoginRedux);
@@ -132,12 +135,7 @@ const RegisterUser = ({ isDark }) => {
     if (dados.password != dados.confirmPassword) {
       return alert("As senhas estão diferentes");
     } else if (dados.email != "" && dados.name != null) {
-      // await axios
-      //   .post("http://localhost:3003/register", {
-      //     email: dados.email,
-      //     password: dados.password,
-      //     name: dados.name,
-      //   })
+      setIsLoading(true);
       if (googleLogin.email && googleLogin.name != null) {
         console.log(isLogged);
         await api
@@ -161,6 +159,8 @@ const RegisterUser = ({ isDark }) => {
                   api
                     .login(googleLogin.email, dados.password, true)
                     .then((response) => {
+                      setIsLoading(false);
+
                       sucesso();
                       navigate("/account/profile");
 
@@ -180,16 +180,21 @@ const RegisterUser = ({ isDark }) => {
 
                     .catch((error) => {
                       console.log(error);
+                      setIsLoading(false);
                     });
                   console.log(response);
                 })
                 .catch((error) => {
+                  setIsLoading(false);
+
                   console.log(error);
                 });
             } else {
               api
                 .login(googleLogin.email, dados.password, true)
                 .then((response) => {
+                  setIsLoading(false);
+
                   sucesso();
                   navigate("/account/profile");
                   console.log(response.data);
@@ -206,11 +211,15 @@ const RegisterUser = ({ isDark }) => {
                 })
 
                 .catch((error) => {
+                  setIsLoading(false);
+
                   console.log(error);
                 });
             }
           })
           .catch((error) => {
+            setIsLoading(false);
+
             console.log(error);
           });
       } else {
@@ -218,6 +227,7 @@ const RegisterUser = ({ isDark }) => {
           .register(dados.email, dados.password, dados.name, isLogged.logado)
           .then((response) => {
             const userId = response.data;
+            setIsLoading(false);
 
             sucessoEnvioEmail(), redirect(dados.email);
             if (imageFile != "" && imageFile != undefined) {
@@ -225,14 +235,20 @@ const RegisterUser = ({ isDark }) => {
                 // .avatar(imageFile, userId)
                 .avatar(imageFile, userId)
                 .then((response) => {
+                  setIsLoading(false);
+
                   console.log(response);
                 })
                 .catch((error) => {
+                  setIsLoading(false);
+
                   console.log(error);
                 });
             }
           })
           .catch((error) => {
+            setIsLoading(false);
+
             alert(`O usuário ${error.response.data.email} já está cadastrado`);
             console.log(error);
           });
@@ -272,6 +288,16 @@ const RegisterUser = ({ isDark }) => {
   return (
     <div className="containerCss">
       <PageTitle pageTitle="Register" />
+      <div
+        className={
+          isLoading
+            ? `fixed inset-0 bg-gray-600 opacity-75 z-50 flex items-center justify-center`
+            : "hidden"
+        }
+      >
+        {" "}
+        <Loading />
+      </div>
       <div className={`${styles.loginBox} ${!isDark && styles.loginBoxLight} `}>
         <div className={styles.registerContainer}>
           <h1>Register</h1>

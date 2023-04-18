@@ -2,10 +2,12 @@ import React from "react";
 import styles from "../css/pagesStyles/SiteFlexbox.module.css";
 import { BsArrowLeft } from "react-icons/bs";
 import logo from "../img/logoSite.svg";
+import PageTitle from "../components/PageTitle";
 
 const SiteFlexbox = () => {
   return (
     <div className={styles.tudo}>
+      <PageTitle pageTitle="Site flexbox" />
       <div className={styles.navbar}>
         <div className={styles.logo}>
           <img src={logo} alt="" />

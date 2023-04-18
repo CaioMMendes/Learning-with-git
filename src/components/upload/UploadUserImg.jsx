@@ -27,9 +27,10 @@ const UploadUserImg = () => {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const editorRef = useRef(null);
   const [file, setFile] = useState([]);
+  const random = Math.floor(Math.random() * 1000000000);
   const [img, setImg] = useState(() => {
     if (location.pathname === "/account/profile" && isLogged.avatarId != null) {
-      `https://docs.google.com/uc?id=${isLogged?.avatarId}`;
+      `https://docs.google.com/uc?id=${isLogged?.avatarId}&random=${random}`;
     } else if (
       isLogged.avatarId == null &&
       isLogged.picture != null &&
@@ -61,7 +62,9 @@ const UploadUserImg = () => {
   // }
   useEffect(() => {
     if (location.pathname === "/account/profile" && isLogged.avatarId != null) {
-      setImg(`https://docs.google.com/uc?id=${isLogged?.avatarId}`);
+      setImg(
+        `https://docs.google.com/uc?id=${isLogged?.avatarId}&random=${random}`
+      );
     } else if (
       isLogged.avatarId == null &&
       isLogged.picture != null &&
@@ -169,7 +172,12 @@ const UploadUserImg = () => {
             <FaUser className={`${styles.avatarImage} ${styles.avatarIcon}`} />
           ) : (
             <>
-              <img src={`${img}`} alt="" className={styles.avatarImage} />
+              <img
+                src={`${img}`}
+                alt=""
+                referrerpolicy="no-referrer"
+                className={styles.avatarImage}
+              />
               {/* {img} */}
               {/* <img
                 src={`https://lh3.googleusercontent.com/a/AGNmyxb4_naCnnb4yPCF5hVfnRdkyeaCJktRLHDYexGG9g=s96-c`}

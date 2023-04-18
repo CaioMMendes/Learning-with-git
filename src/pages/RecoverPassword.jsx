@@ -7,7 +7,7 @@ import Button from "../components/smallComponents/Button";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { changeIsLogged } from "../redux/isLoggedSlice";
-import PageTitle from "../components/PageTitle";
+
 import { SwalFire, SwalFireConfirm } from "../components/SwalFire";
 import jwt_decode from "jwt-decode";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
@@ -18,6 +18,7 @@ import { changeGoogleLogin } from "../redux/GoogleLoginSlice";
 import Loading from "../components/Loading";
 import { GiPadlock } from "react-icons/gi";
 import { changeRecoverPassword } from "../redux/RecoverPasswordSlice";
+import PageTitle from "../components/PageTitle";
 
 const RecoverPassword = ({}) => {
   const { isDark } = useSelector((state) => state.isDarkRedux);

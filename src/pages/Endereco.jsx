@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import TabelaProdutos from "../components/TabelaProdutos";
 import { UserApi } from "../hooks/UserApi";
 import { EnderecoApi } from "../hooks/EnderecoApi";
+import PageTitle from "../components/PageTitle";
 
 const Endereco = ({ isDark }) => {
   const [isValid, setIsValid] = useState(true);
@@ -385,6 +386,7 @@ const Endereco = ({ isDark }) => {
 
   return (
     <div className="containerCss">
+      <PageTitle pageTitle="Endereço" />
       {location && (
         <div>
           <p>Latitude: {location.latitude}</p>

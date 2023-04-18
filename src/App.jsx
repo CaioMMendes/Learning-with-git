@@ -34,6 +34,8 @@ import ProfileLogado from "./pages/ProfileLogado";
 import RecoverPasswordSent from "./pages/RecoverPasswordSent";
 import EmailVerificated from "./pages/EmailVerificated";
 import useApiPrivate from "./hooks/useApiPrivate";
+import TestandoReactForm from "./pages/TestandoReactForm";
+import QrCode from "./pages/QRCode";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -245,7 +247,7 @@ function App() {
           <Route path="/exercicioUm" exact element={<ExercicioUm />}></Route>
           <Route path="/jogos" exact element={<Jogos />}></Route>
           <Route path="/sobre" element={<Sobre />}></Route>
-          <Route path="*" element={<PageNotFound />}></Route>
+
           <Route
             path="/news/:id"
             exact
@@ -278,6 +280,13 @@ function App() {
             exact
             element={<EmailVerificated />}
           />
+          <Route
+            path="/testando-react-form"
+            exact
+            element={<TestandoReactForm />}
+          />
+          <Route path="/qr-code" exact element={<QrCode />} />
+          <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
         <ScrollToTop />
         <Footer isDark={isDark} />
