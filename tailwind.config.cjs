@@ -25,6 +25,10 @@ module.exports = {
       backgroundSize: {
         '85%': '85%'
       },
+      dropShadow: {
+        'teste': '2px 2px 4px rgba(0, 0, 0, 0.5)'
+
+      }
 
     },
   },

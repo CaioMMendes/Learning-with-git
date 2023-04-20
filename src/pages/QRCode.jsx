@@ -11,28 +11,38 @@ const QrCode = () => {
   const onChangeQrCodeInput = (e) => {
     setQrCodeInput(e.target.value);
   };
-  const handdleQrCode = (event) => {
+
+  const handdleQrCode = async (event) => {
     event.preventDefault();
-    setGenerateQr(qrCodeInput);
-    QrCodeLink.toDataURL(
-      qrCodeInput,
-      {
-        width: 600,
-        margin: 3,
-      },
-      function (err, url) {
-        setQrCodeLink(url);
+    if (qrCodeInput === "") {
+      return alert("Insira uma Url");
+    }
+    try {
+      setGenerateQr(qrCodeInput);
+      try {
+        QrCodeLink.toDataURL(
+          qrCodeInput,
+          {
+            width: 600,
+            margin: 3,
+            errorCorrectionLevel: "H",
+          },
+          function (err, url) {
+            setQrCodeLink(url);
+          }
+        );
+      } catch (error) {
+        console.log(error);
       }
-    );
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handdleDownload = () => {
-    qrCodeLink === "" ? (
-      alert("Gere um QrCode primeiro")
-    ) : (
-      <a href={qrCodeLink} download={`Qrcode.png`}>
-        Baixar QrCode
-      </a>
-    );
+    if (qrCodeLink === "") {
+      return alert("Gere um QrCode primeiro");
+    }
+    window.location.href = qrCodeLink;
   };
 
   return (
@@ -60,6 +70,8 @@ const QrCode = () => {
               className="w-5/12 h-10 text-2xl pl-2 outline-none border rounded-1xl -border--verde -text--colorMenuHover"
               type="text"
               name="Link"
+              autoComplete="off"
+              maxLength={1000}
               autoFocus
               value={qrCodeInput}
               placeholder="Insira um link"
@@ -72,9 +84,19 @@ const QrCode = () => {
             <Button className={"!w-44 !h-7"} onClick={handdleQrCode}>
               Gerar QRCode
             </Button>
-            <Button className={"!w-44 !h-7"} onClick={handdleDownload}>
-              Baixar QrCode
-            </Button>
+
+            <a
+              href={qrCodeLink === "" ? undefined : qrCodeLink}
+              download={`Qrcode.png`}
+            >
+              <Button
+                className={`${generateQr !== "" ? "" : "!hidden"} !w-44 !h-7`}
+                onClick={handdleDownload}
+                typeButton="button"
+              >
+                Baixar QrCode
+              </Button>
+            </a>
           </div>
         </div>
       </form>

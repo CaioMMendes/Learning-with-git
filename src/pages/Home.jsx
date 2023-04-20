@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useRef } from "react";
 import styles from "../css/pagesStyles/Home.module.css";
 import PageTitle from "../components/PageTitle";
+import logo from "../img/icon.png";
 
 const Home = ({ isDark }) => {
   const [tecla, setTecla] = useState();
@@ -29,6 +30,14 @@ const Home = ({ isDark }) => {
   return (
     <div className="containerCss">
       <PageTitle pageTitle="Home" />
+      <div className="flex flex-row justify-center items-center drop-shadow-md ">
+        <img src={logo} alt="Logo" className="w-56 flex justify-end " />
+        <h1
+          className={`drop-shadow-teste flex !justify=start w-fit pl-8 text-7xl !pb-0 !pt-0 items-center`}
+        >
+          Learning
+        </h1>
+      </div>
       <input type="text" id="key" onKeyUp={qualTecla} value={nomeTecla} />
       <p>{nomeTecla}</p>
       <p>{tecla}</p>

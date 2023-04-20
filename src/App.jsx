@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import styles from "./App.module.css";
@@ -36,11 +36,13 @@ import EmailVerificated from "./pages/EmailVerificated";
 import useApiPrivate from "./hooks/useApiPrivate";
 import TestandoReactForm from "./pages/TestandoReactForm";
 import QrCode from "./pages/QRCode";
+import { isDarkContext } from "./contexts/IsDarkContext";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
   const apiPrivate = useApiPrivate();
   const dispatch = useDispatch();
+  const { isDark, setIsDark } = useContext(isDarkContext);
   useEffect(() => {
     const getData = async () => {
       const token = localStorageToken();
@@ -107,15 +109,25 @@ function App() {
   useEffect(() => {
     dispatch(changeLivros(livros));
   }, [livros]);
-  const [isDark, setIsDark] = useState(!!Cookies.get("dark"));
+  // const [isDark, setIsDark] = useState(!!Cookies.get("dark"));
 
   // const currentMode = localStorage.getItem("darkMode");
   const mudarTema = () => {
-    setIsDark(!isDark);
+    console.log(isDark);
+    const novoIsDark = !isDark;
+    setIsDark(novoIsDark);
 
-    isDark
-      ? (setIsDark(false), Cookies.remove("dark"))
-      : (setIsDark(true), Cookies.set("dark", true));
+    if (novoIsDark) {
+      Cookies.set("dark", true);
+    } else {
+      Cookies.remove("dark");
+    }
+
+    // setIsDark(!isDark);
+
+    // isDark
+    //   ? (setIsDark(false), Cookies.remove("dark"))
+    //   : (setIsDark(true), Cookies.set("dark", true));
   };
 
   // Se não usar dentro do useEffect da warning
