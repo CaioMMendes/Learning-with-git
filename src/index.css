@@ -48,6 +48,8 @@ body {
   color: rgba(255, 255, 255, 0.87);
   background-image: url(./img/brick-wall.svg);
 
+  /* background-image: url(./img/2.svg); */
+
   /* background-color: #fffafa; */
   background-color: #242424;
 
@@ -110,12 +112,14 @@ body:has(.light) h1 {
   background-color: #fffafa !important;
   color-scheme: light !important;
   color: #000 !important;
+  /* background-image: url(./img/2.svg); */
+  background: url(./img/2.svg) no-repeat center/cover #fffafa;
 }
 body {
   min-height: 100vh;
 }
 body:has(.light) {
-  background-color: #fffafa !important;
+  /* background-color: #fffafa !important; */
   color-scheme: light !important;
   color: #000 !important;
   background-image: none;

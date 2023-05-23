@@ -3,6 +3,7 @@ import axios from "axios";
 const api = axios.create({
     withCredentials: true,
     credentials: 'include',
+
     //Sempre tem que usar o vite_ para ele puxar o valor
     baseURL: import.meta.env.VITE_APIURL
 })

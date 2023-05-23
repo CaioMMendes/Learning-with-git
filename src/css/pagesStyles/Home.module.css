@@ -15,5 +15,5 @@
   background-color: #fffafa;
 }
 .dropShadowTeste {
-  filter: drop-shadow(-4px -4px yellow);
+  filter: drop-shadow(-4px -4px rgb(255, 217, 0));
 }

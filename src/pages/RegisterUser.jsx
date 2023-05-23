@@ -249,7 +249,9 @@ const RegisterUser = ({ isDark }) => {
           .catch((error) => {
             setIsLoading(false);
 
-            alert(`O usuário ${error.response.data.email} já está cadastrado`);
+            alert(
+              `O usuário ${error.response?.data?.email} já está cadastrado`
+            );
             console.log(error);
           });
       }
