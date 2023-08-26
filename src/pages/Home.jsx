@@ -1,8 +1,9 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "../css/pagesStyles/Home.module.css";
 import PageTitle from "../components/PageTitle";
 import logo from "../img/icon.png";
+import { useLocation } from "react-router-dom";
 
 const Home = ({ isDark }) => {
   const [tecla, setTecla] = useState();
@@ -15,12 +16,23 @@ const Home = ({ isDark }) => {
   const [numeros, setNumeros] = useState([0, -1, -2, 3, 5, 10]);
 
   const myElement = useRef(null);
+
+  useEffect(() => {
+    setTimeout(teste, 100);
+    function teste() {
+      if (localStorage.getItem("scroll") === "true" && myElement.current) {
+        scrollToMyElement();
+      }
+    }
+  }, []);
+
   function scrollToMyElement() {
     myElement.current.scrollIntoView({
       behavior: "smooth",
       block: "center",
       inline: "start",
     });
+    localStorage.setItem("scroll", false);
   }
 
   const numerosPositivos = (numeros) => {

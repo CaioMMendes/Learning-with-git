@@ -37,6 +37,7 @@ import useApiPrivate from "./hooks/useApiPrivate";
 import TestandoReactForm from "./pages/TestandoReactForm";
 import QrCode from "./pages/QRCode";
 import { isDarkContext } from "./contexts/IsDarkContext";
+import Estudando from "./pages/Estudando";
 
 function App() {
   const { isLogged } = useSelector((state) => state.isLoggedRedux);
@@ -298,6 +299,7 @@ function App() {
             element={<TestandoReactForm />}
           />
           <Route path="/qr-code" exact element={<QrCode />} />
+          <Route path="/estudando" exact element={<Estudando />} />
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
         <ScrollToTop />

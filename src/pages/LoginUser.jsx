@@ -32,13 +32,6 @@ const LoginUser = ({}) => {
     password: "",
   });
 
-  // if (iframe[0]) {
-  //   iframe[0].body.style.backgroundColor = "red";
-  // }
-
-  // var innerDoc = iframe[0].contentDocument || iframe[0].contentWindow.document;
-  // innerDoc.body.style.backgroundColor = "red";
-
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };

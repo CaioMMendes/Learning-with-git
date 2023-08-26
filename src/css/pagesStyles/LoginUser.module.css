@@ -41,7 +41,6 @@
   height: 60px;
 }
 .loginBox .userBox input:not([type="checkbox"]) {
-  /* background-color: aqua; */
   position: relative;
   width: 100%;
   padding: 10px 0;
