@@ -8,7 +8,7 @@ const Estudando = () => {
   const [name, setName] = useState("lucao");
   const setNameCallback = useCallback(() => {
     setName((prevCall) => prevCall + "a");
-  }, [name]);
+  }, []);
 
   const handleA = () => {
     setA(!a);

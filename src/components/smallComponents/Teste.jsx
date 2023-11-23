@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 const Teste = ({ namee }) => {
   //   const [name, setName] = useState();
   // const [numero, setNumero] = useState(4);
-  let a = 2;
   const handleClick = () => {
-    namee("ls");
+    namee();
     // console.log(a);
   };
   console.log("renderizou o Teste");

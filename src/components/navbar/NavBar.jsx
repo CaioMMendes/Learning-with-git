@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import styles from "../../css/componentsStyles/navbarCss/Navbar.module.css";
+import styles from "../../css/componentsStyles/navbarCss/NavBar.module.css";
 import { BsFillGearFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosArrowBack, IoIosClose } from "react-icons/io";
