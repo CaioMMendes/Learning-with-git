@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import styles from "../css/pagesStyles/profileLogado.module.css";
+import styles from "../css/pagesStyles/ProfileLogado.module.css";
 import { FiEdit } from "react-icons/fi";
 import Button from "../components/smallComponents/Button";
 import { Link } from "react-router-dom";
